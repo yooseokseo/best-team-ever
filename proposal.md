@@ -1,7 +1,7 @@
 Team Name: Best Team Ever
 
 Team Members:
-Yooseok Seo,
+Yooseok Seo,<br/>
 Mayreni Abajian,
 Lindy Wong,
 Peem Takoonsawat
