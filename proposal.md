@@ -1,16 +1,17 @@
 Team Name: Best Team Ever
 
-Team Members:
+Team Members:<br/>
 Yooseok Seo,<br/>
 Mayreni Abajian,<br/>
 Lindy Wong,<br/>
 Peem Takoonsawat<br/>
   
-Team project proposal<br/>
+Team project proposal ideas: <br/>
   1.Productivity<br/>
-    A. Record self productivity levels and correlation with grade levels<br/>
-    B. Something along the lines of inputting different study sessions and recording individual productivity times<br/>
-    C. Can extend to different types of productivity: homework, self-care, work<br/><br/>
+    A. Record self productivity levels and potentially correlate with student's grades<br/>
+    B. Something along the lines of self-inputting study times and recording productivity sessions<br/>
+    C. Analyze whether productivity increases/decreases over long (year) or short-term (week) intervals<br/>
+    D. Can extend to different types of productivity: homework, self-care, work<br/><br/>
   2.Crime rates <br/>
     A. E.g. people want to hike, app shows surrounding crime rate<br/>
     B. Using government data to showcase previous recorded crimes in public/residential areas <br/>
