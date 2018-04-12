@@ -1,10 +1,10 @@
 Team Name: Best Team Ever
 
 Team Members:
-  Yooseok Seo,
-  Mayreni Abajian,
-  Lindy Wong,
-  Peem Takoonsawat
+Yooseok Seo,
+Mayreni Abajian,
+Lindy Wong,
+Peem Takoonsawat
   
 Team project proposal
   1.Productivity
