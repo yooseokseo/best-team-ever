@@ -21,4 +21,9 @@ Prototype 2:
 ![Image of Prototype2Pg3](Prototype2Pg3.jpg)
 - Pg 4:
 ![Image of Prototype2Pg4](Prototype2Pg4.PNG)
+- Pg 5:
+![Image of Prototype2Pg4](Prototype2Pg5.PNG)
+- Pg 6:
+![Image of Prototype2Pg4](Prototype2Pg6.PNG)
+
 
