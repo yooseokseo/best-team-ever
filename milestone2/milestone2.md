@@ -13,4 +13,7 @@ Prototype 1:
 ![Image of Prototype1Pg2](Prototype1Pg2.JPG)
 
 Prototype 2:
-![Image of Prototype2](Prototype1.JPG)
+- Pg 1:
+![Image of Prototype2Pg1](Prototype2Pg1.PNG)
+- Pg 2:
+![Image of Prototype2Pg2](Prototype2Pg2.PNG)
