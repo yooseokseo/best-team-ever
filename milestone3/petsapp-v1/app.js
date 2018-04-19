@@ -6,6 +6,7 @@ const userRoutes = require("./rest_api/routes/users");
 
 app.use(express.static('static_files'));
 
+// Header (don't worry about this)
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -19,18 +20,25 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes which should handle requests
-// PUT STUFF HERE
+// Routes to handle requests
+// This is all that really matters
+// In Guo's server.js file, he gets list of all users and individual user by doing this:
+// app.get('/users', (req, res) => { ... });
+// app.get('/users/:userid', (req, res) => { ... });
+//
+// I'm doing the same thing with the code here, except that I send everything with /users 
+// to a route file that handles it. The code will be in rest_api/routes/users.js
 app.use("/users", userRoutes);
 
 
-//for error handling
+// For error handling (don't worry about this)
 app.use((req, res, next) => {
   const error = new Error("Not found");
   error.status = 404;
   next(error);
 });
 
+// For error handling (don't worry about this)
 app.use((error, req, res, next) => {
   res.status(error.status || 500);
   res.json({
