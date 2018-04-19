@@ -1,0 +1,5 @@
+{
+  "Philip": {"job": "professor", "pet": "cat.jpg"}, 
+  "John": {"job": "student",   "pet": "dog.jpg"},
+  "Carol": {"job": "engineer",  "pet": "bear.jpg"} 
+} 
