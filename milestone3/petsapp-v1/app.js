@@ -1,5 +1,14 @@
 const express = require("express");
+const exphbs  = require('express-handlebars');
 const app = express();
+
+//register a Handlebars - Seo
+// views/layouts/main.handlebars will be default Layout
+// all partial layouts will be at views/partials
+// in order to use partial layout in main.Handlebars
+// use {{>partial_layout_file_name_here}}
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
 
 // Variables for linking to route files
 const userRoutes = require("./rest_api/routes/users");
@@ -26,8 +35,24 @@ app.use((req, res, next) => {
 // app.get('/users', (req, res) => { ... });
 // app.get('/users/:userid', (req, res) => { ... });
 //
-// I'm doing the same thing with the code here, except that I send everything with /users 
+// I'm doing the same thing with the code here, except that I send everything with /users
 // to a route file that handles it. The code will be in rest_api/routes/users.js
+
+// Add new router for Home page - Seo
+app.get('/', function (req, res) {
+    res.render('home');
+});
+
+// Add new router for Add New page - Seo
+// Add a flag value so that it tells whether it should generate '<-' button in navigation or not'
+app.get('/addNewMed', function (req, res) {
+    res.render('addNewMed', {
+      backbuttonShow: true,
+      pageTitle: "Add New Medicine"
+    });
+});
+
+
 app.use("/users", userRoutes);
 
 
