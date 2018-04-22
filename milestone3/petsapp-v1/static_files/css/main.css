@@ -76,7 +76,7 @@ nav {
 
 #med-list-container {
   height: 57vh;
-  background-color: #78D5F2;
+  background-color: gray;
   overflow-y: scroll;
 }
 
@@ -88,7 +88,7 @@ nav {
   grid-template-rows: 1fr;
   grid-template-areas:
     "icon name time";
-  background-color: gray;
+  background-color: white;
 }
 .pill-icon-img{
   width: 7vh;
