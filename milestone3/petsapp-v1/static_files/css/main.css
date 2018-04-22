@@ -164,12 +164,27 @@ nav {
   height: 100%;
 }
 
-#add-new-med-btns-container {
+#btns-container{
   height: 10vh;
   background-color: gray;
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr;
+}
+
+.view-history-date-month-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  height: 70vh;
+  overflow-y: scroll;
+}
+
+.pill-day-box {
+  width: 30vw;
+  height: 30vw;
+  margin-top: 1vh;
 }
 
 /*************3. Module Rule *************/
@@ -259,6 +274,10 @@ nav {
   border-radius: 1.5vh;
 }
 
+.page-title-nav {
+
+}
+
 /*************4. State Rule *************/
 .med-taken-done {
   grid-template-columns: 1fr 1fr 2fr 2fr;
@@ -283,9 +302,10 @@ nav {
 
 
 
-.home-btn , .add-new-med-btn{
+.home-btn , .btn{
   background-color: gray;
   font-size: 2rem;
+  height: 100%;
 }
 
 .home-title {

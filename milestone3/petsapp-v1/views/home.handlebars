@@ -1,86 +1,102 @@
 <title>Home</title>
 </head>
+
 <body>
-  {{>navigation}}
-  {{>nonscript}}
+  {{>navigation}} {{>nonscript}}
 
   <div id="home-content-container">
     <div id="home-content-title" class="home-title">
       Today
     </div>
     <div id="med-list-container">
-      <div class="med-item-box med-taken-done">
-        <div class="med-item-check flex-center">
-          <img class="checked-icon-img " src="/images/icons/checked-480.png" alt="">
+      <a href="/viewPillDetail">
+        <div class="med-item-box med-taken-done">
+          <div class="med-item-check flex-center">
+            <img class="checked-icon-img " src="/images/icons/checked-480.png" alt="">
+          </div>
+          <div class="med-item-icon flex-center">
+            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+          </div>
+          <div class="med-item-name flex-center med-name">
+            Aspirin
+          </div>
+          <div class="med-item-time flex-center med-time">
+            10:00 AM
+          </div>
         </div>
-        <div class="med-item-icon flex-center">
-          <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+      </a>
+      <a href="/viewPillDetail">
+        <div class="med-item-box">
+          <div class="med-item-icon flex-center">
+            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+          </div>
+          <div class="med-item-name flex-center med-name">
+            C Complex
+          </div>
+          <div class="med-item-time flex-center med-time">
+            11:00 AM
+          </div>
         </div>
-        <div class="med-item-name flex-center med-name">
-          Aspirin
+      </a>
+      <a href="/viewPillDetail">
+        <div class="med-item-box">
+          <div class="med-item-icon flex-center">
+            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+          </div>
+          <div class="med-item-name flex-center med-name">
+            D3-2000
+          </div>
+          <div class="med-item-time flex-center med-time">
+            03:00 PM
+          </div>
         </div>
-        <div class="med-item-time flex-center med-time">
-          10:00 AM
+      </a>
+      <a href="/viewPillDetail">
+        <div class="med-item-box">
+          <div class="med-item-icon flex-center">
+            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+          </div>
+          <div class="med-item-name flex-center med-name">
+            K2 Plus D3
+          </div>
+          <div class="med-item-time flex-center med-time">
+            05:00 PM
+          </div>
         </div>
-      </div>
-      <div class="med-item-box">
-        <div class="med-item-icon flex-center">
-          <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+      </a>
+      <a href="/viewPillDetail">
+        <div class="med-item-box">
+          <div class="med-item-icon flex-center">
+            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+          </div>
+          <div class="med-item-name flex-center med-name">
+            D3-2000
+          </div>
+          <div class="med-item-time flex-center med-time">
+            03:00 PM
+          </div>
         </div>
-        <div class="med-item-name flex-center med-name">
-          C Complex
+      </a>
+      <a href="/viewPillDetail">
+        <div class="med-item-box">
+          <div class="med-item-icon flex-center">
+            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+          </div>
+          <div class="med-item-name flex-center med-name">
+            K2 Plus D3
+          </div>
+          <div class="med-item-time flex-center med-time">
+            05:00 PM
+          </div>
         </div>
-        <div class="med-item-time flex-center med-time">
-          11:00 AM
-        </div>
-      </div>
-      <div class="med-item-box">
-        <div class="med-item-icon flex-center">
-          <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-        </div>
-        <div class="med-item-name flex-center med-name">
-          D3-2000
-        </div>
-        <div class="med-item-time flex-center med-time">
-          03:00 PM
-        </div>
-      </div>
-      <div class="med-item-box">
-        <div class="med-item-icon flex-center">
-          <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-        </div>
-        <div class="med-item-name flex-center med-name">
-          K2 Plus D3
-        </div>
-        <div class="med-item-time flex-center med-time">
-          05:00 PM
-        </div>
-      </div>
-      <div class="med-item-box">
-        <div class="med-item-icon flex-center">
-          <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-        </div>
-        <div class="med-item-name flex-center med-name">
-          D3-2000
-        </div>
-        <div class="med-item-time flex-center med-time">
-          03:00 PM
-        </div>
-      </div>
-      <div class="med-item-box">
-        <div class="med-item-icon flex-center">
-          <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-        </div>
-        <div class="med-item-name flex-center med-name">
-          K2 Plus D3
-        </div>
-        <div class="med-item-time flex-center med-time">
-          05:00 PM
-        </div>
-      </div>
+      </a>
+
+
+
     </div>
     <div id="home-btns-container">
-      <div id="view-all-btn" class="home-btn home-btns flex-center">View All</div>
+      <div id="view-all-btn" class="home-btn home-btns flex-center">
+        <a href="/viewAllMed">View All</a></div>
       <div id="add-new-btn" class="home-btn home-btns flex-center">
         <a href="/addNewMed">Add New</a>
       </div>
