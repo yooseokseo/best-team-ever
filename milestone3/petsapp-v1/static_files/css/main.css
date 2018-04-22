@@ -1,0 +1,495 @@
+/*Followed by the rule set from https://smacss.com*/
+/*blue color :  #78D5F2 */
+/*************1. Base Rule *************/
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:visited {
+  color:inherit;
+}
+
+/*************2. Layout Rule *************/
+
+html, body {
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 100vh;
+  font-family: "Avenir Next", "Avenir", sans-serif;
+}
+
+nav {
+  width: 100vw;
+  height: 10vh;
+  background-color: gray;
+}
+
+#home-content-container {
+  margin: 2.5vh 5vw;
+  position: relative;
+  height: 75vh;
+}
+
+#add-new-med-content-container {
+  margin: 2.5vh 5vw;
+  position: relative;
+  height: auto;
+}
+
+#date-container {
+  position: absolute;
+  bottom : 0;
+  background-color: gray;
+  height: 10vh;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "prev today next";
+}
+
+#home-btns-container {
+  position: absolute;
+  bottom: 0;
+  height: 10vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-btns {
+  width: 43vw;
+  height: 10vh;
+}
+#home-content-title {
+  height: 5vh;
+}
+
+#med-list-container {
+  height: 57vh;
+  background-color: #78D5F2;
+  overflow-y: scroll;
+}
+
+.med-item-box {
+  margin: 1vh;
+  height: 10vh;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "icon name time";
+  background-color: gray;
+}
+.pill-icon-img{
+  width: 7vh;
+}
+
+.checked-icon-img{
+  width: 7vh;
+}
+
+.nav-btn-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.nav-container{
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "btn pageTitle dropDown";
+  margin: auto;
+}
+
+.add-new-med-box {
+  margin-bottom: 3vh;
+}
+
+.med-dosage-container {
+  width: 95%;
+  display: grid;
+  grid-template-columns: 9fr 1fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "input dropDown";
+}
+
+.med-frequency-container, .med-duration-container, .med-shape-container, .med-note-container{
+  width: 95%;
+}
+
+.med-frequency-option {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.med-duration-box{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+.med-shape-box{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  height: 100%;
+}
+.med-shape {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+}
+
+.med-color {
+  display: grid;
+  grid-template-columns:  1fr 1fr 1fr;
+  grid-template-rows:  1fr 1fr 1fr;
+}
+
+.med-shape-container {
+  height: 100%;
+}
+
+#add-new-med-btns-container {
+  height: 10vh;
+  background-color: gray;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+/*************3. Module Rule *************/
+
+#view-all-btn {
+  grid-area: viewAll;
+}
+
+#add-new-btn {
+  grid-area: addNew;
+}
+
+.med-item-icon {
+  grid-area: icon;
+}
+
+.med-item-name {
+  grid-area: name;
+}
+
+.med-item-time {
+  grid-area: time;
+}
+
+#date-prev {
+  grid-area: prev;
+}
+
+#date-today {
+  grid-area: today;
+}
+
+#date-next {
+  grid-area: next;
+}
+
+.med-name-input {
+  width: 95%;
+  height: 3vh;
+  border: 1px solid black;
+}
+
+
+
+.med-frequency-input {
+  width: 20%;
+}
+
+.med-dosage-input , .med-frequency-input{
+  border: 1px solid black;
+  height: 3vh;
+}
+
+#divider-hr{
+  margin: 1vh 0;
+}
+
+.box-content-frequency{
+  border: 1px solid black;
+  height: 10vh;
+}
+
+.box-content-duration {
+  border: 1px solid black;
+  height: 15vh;
+}
+
+.box-content-shape, .box-content-note {
+  border: 1px solid black;
+  height: 15vh;
+}
+
+.med-frequency-every-input{
+  border: 1px solid black;
+  width: 2.5vh;
+  height: 3vh;
+}
+
+.duration-input {
+  width: 20vh;
+  text-align-last: center;
+}
+.color{
+  width: 3vh;
+  height: 3vh;
+  border: 1px solid black;
+  border-radius: 1.5vh;
+}
+
+/*************4. State Rule *************/
+.med-taken-done {
+  grid-template-columns: 1fr 1fr 2fr 2fr;
+  grid-template-areas:
+    "check icon name time";
+}
+
+.med-taken-done .med-time{
+  font-size: 1.5rem;
+}
+
+.current-day {
+  border: 1px solid red;
+}
+/*************5. Theme Rule *************/
+.flex-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.home-btn , .add-new-med-btn{
+  background-color: gray;
+  font-size: 2rem;
+}
+
+.home-title {
+  display: flex;
+  flex-direction: row;
+  align-items:flex-end;
+  font-size: 2rem;
+}
+
+.med-name {
+  font-size: 1.5rem;
+}
+
+.med-time {
+  font-size: 1.9rem;
+}
+
+.date {
+  font-size: 2rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+}
+.box-content{
+  border: 1px solid black;
+  height: 5vh;
+}
+.amount-select{
+  border: 1px solid black;
+  text-align-last:center;
+  height: 3vh;
+  margin-left: 1vh;
+}
+.border-black {
+  border: 1px solid black;
+}
+
+.border-right-black {
+  border-right: 1px solid black;
+}
+
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+.blue {
+  background-color: blue;
+}
+
+.purple {
+  background-color: purple;
+}
+
+.black {
+  background-color: black;
+}
+
+.gray {
+  background-color: gray;
+}
+
+/* navigation */
+
+a:hover
+{
+  color: tomato;
+}
+
+#menuToggle
+{
+  display: block;
+  position: relative;
+  top: 4vh;
+  left: 3vh;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menuToggle input
+{
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+
+  -webkit-touch-callout: none;
+}
+
+/*
+ * Just a quick hamburger
+ */
+#menuToggle span
+{
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: #cdcdcd;
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+              opacity 0.55s ease;
+}
+
+#menuToggle span:first-child
+{
+  transform-origin: 0% 0%;
+}
+
+#menuToggle span:nth-last-child(2)
+{
+  transform-origin: 0% 100%;
+}
+
+/*
+ * Transform all the slices of hamburger
+ * into a crossmark.
+ */
+#menuToggle input:checked ~ span
+{
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: #232323;
+}
+
+/*
+ * But let's hide the middle one.
+ */
+#menuToggle input:checked ~ span:nth-last-child(3)
+{
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+#menuToggle input:checked ~ span:nth-last-child(2)
+{
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+#menu
+{
+  position: absolute;
+  width: 100vw;
+  margin: -100px 0 0 -50px;
+  padding: 50px;
+  padding-top: 125px;
+
+  background: #ededed;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+#menu li
+{
+  padding: 10px 0;
+  font-size: 22px;
+}
+
+/*
+ * And let's slide it in from the left
+ */
+#menuToggle input:checked ~ ul
+{
+  transform: none;
+}

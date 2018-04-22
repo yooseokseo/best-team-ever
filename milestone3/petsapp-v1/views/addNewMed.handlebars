@@ -1,0 +1,196 @@
+<title>Add New Medication</title>
+</head>
+<body>
+  {{>navigation}}
+  {{>nonscript}}
+  <div id="add-new-med-content-container">
+    <div class="add-new-med-box">
+      <div class="box-title">
+        Medicine Name
+      </div>
+      <div class="box-content flex-center">
+        <!-- it should fetch all medicine info -->
+
+        <input class="med-name-input" type="text" name="" placeholder="Search(Autofill functionality will be here)">
+      </div>
+    </div>
+    <div class="add-new-med-box">
+      <div class="box-title">
+        Dosage per pill
+      </div>
+      <div class="box-content flex-center">
+        <div class="med-dosage-container">
+          <input class="med-dosage-input" type="text" name="" placeholder="Dosage">
+          <select class="amount-select" name="">
+            <option value="mg">mg</option>
+            <option value="g">g</option>
+          </select>
+        </div>
+
+      </div>
+    </div>
+    <div class="add-new-med-box">
+      <div class="box-title">
+        Frequency
+      </div>
+      <div class="box-content-frequency flex-center">
+        <div class="med-frequency-container">
+          <input class="med-frequency-input" type="text" name="" placeholder="# of pills"> Pills
+          <hr id="divider-hr">
+          <div class="med-frequency-option">
+            <div>
+              Every
+              <input class="med-frequency-every-input" type="text" name="" value=""> Hours
+            </div>
+            <div>
+              <input class="med-frequency-every-input" type="text" name="" value=""> Times a day
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+    <div class="add-new-med-box">
+      <div class="box-title">
+        Duration
+      </div>
+      <div class="box-content-duration flex-center">
+        <div class="med-duration-container">
+          <div class="med-duration-box">
+            <div class="">
+              Start Date
+            </div>
+             <input class="border-black duration-input" type="date" name="" value="">
+          </div>
+          <div class="med-duration-box">
+            <div class="">
+              Start Time
+            </div>
+             <input class="border-black duration-input" type="time" name="" value="">
+          </div>
+          <hr id="divider-hr">
+          <div class="med-duration-box">
+            <div class="">
+              End Date
+            </div>
+             <input class="border-black duration-input" type="date" name="" value="">
+          </div>
+          <div class="med-duration-box">
+            <div class="">
+              End Time
+            </div>
+             <input class="border-black duration-input" type="time" name="" value="">
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+    <div class="add-new-med-box">
+      <div class="box-title">
+        Shape & Color
+      </div>
+      <div class="box-content-shape flex-center">
+        <div class="med-shape-container">
+          <div class="med-shape-box">
+            <div class="med-shape">
+              <div class="flex-center">
+                A-type
+              </div>
+              <div class="flex-center">
+                B-type
+              </div>
+              <div class="flex-center">
+                C-type
+              </div>
+              <div class="flex-center">
+                D-type
+              </div>
+            </div>
+            <div class="med-color">
+              <div class="flex-center">
+                <div class="color red">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color orange">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color yellow">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color green">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color blue">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color purple">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color black">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color gray">
+
+                </div>
+              </div>
+              <div class="flex-center">
+                <div class="color white">
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+      </div>
+    </div>
+    <div class="add-new-med-box">
+      <div class="box-title">
+        Note
+      </div>
+      <div class="box-content-note flex-center">
+        <div class="med-note-container">
+          <textarea name="name" rows="6" cols="52"></textarea>
+
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div id="add-new-med-btns-container">
+    <div class="add-new-med-btn flex-center border-right-black">
+      DELETE
+    </div>
+    <div class="add-new-med-btn flex-center">
+      SAVE
+    </div>
+  </div>
+
+</body>
