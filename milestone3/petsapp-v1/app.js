@@ -40,7 +40,9 @@ app.use((req, res, next) => {
 
 // Add new router for Home page - Seo
 app.get('/', function (req, res) {
-    res.render('home');
+    res.render('home', {
+      pageTitle: "Firstname Last"
+    });
 });
 
 // Add new router for Add New page - Seo
@@ -52,6 +54,80 @@ app.get('/addNewMed', function (req, res) {
     });
 });
 
+// Add new router for View All med page - Seo
+app.get('/viewAllMed', function (req, res) {
+    res.render('viewAllMed', {
+      backbuttonShow: true,
+      pageTitle: "Current Medications"
+    });
+});
+
+// Add new router for View pill detail page - Seo
+app.get('/viewPillDetail', function (req, res) {
+    res.render('viewPillDetail', {
+      backbuttonShow: true,
+      pageTitle: "Medication Detail"
+    });
+});
+
+// Add new router for View History page - Seo
+app.get('/viewHistory', function (req, res) {
+    res.render('viewHistory', {
+      pageTitle: "View History"
+    });
+});
+
+// Add new router for View History Date page - Seo
+app.get('/viewHistoryDate', function (req, res) {
+    res.render('viewHistoryDate', {
+      pageTitle: "View History Date"
+    });
+});
+
+// Add new router for View History Date Detail page - Seo
+app.get('/viewHistoryDateDetail', function (req, res) {
+    res.render('viewHistoryDateDetail', {
+      backbuttonShow: true,
+      pageTitle: "View Date Detail"
+    });
+});
+
+// Add new router for View Pill History page - Seo
+app.get('/viewPillHistory', function (req, res) {
+    res.render('viewPillHistory', {
+      backbuttonShow: true,
+      pageTitle: "View Medicine History"
+    });
+});
+
+// Add new router for View Profiles page - Seo
+app.get('/viewProfiles', function (req, res) {
+    res.render('viewProfiles', {
+      pageTitle: "Manage Profiles"
+    });
+});
+
+// Add new router for Add a new profile page - Seo
+app.get('/addNewProfile', function (req, res) {
+    res.render('addNewProfile', {
+      backbuttonShow: true,
+      pageTitle: "Add a New Profile"
+    });
+});
+
+// Add new router for settings page - Seo
+app.get('/settings', function (req, res) {
+    res.render('settings', {
+      pageTitle: "Settings"
+    });
+});
+
+// Add new router for help page - Seo
+app.get('/help', function (req, res) {
+    res.render('help', {
+      pageTitle: "Help"
+    });
+});
 
 app.use("/users", userRoutes);
 

@@ -1,0 +1,35 @@
+<title>View Medication Detail</title>
+</head>
+<body>
+  {{>navigation}}
+  {{>nonscript}}
+  <p>Pill name</p>
+  <p>140mg / pill</p>
+  <div class="">
+      Direction
+      <div class="border-black">
+        1 pill 2 times a day
+      </div>
+  </div>
+  <div class="">
+      Notes
+      <div class="border-black">
+        Take on an empty stomach
+      </div>
+  </div>
+
+  <div class="border-right-black gray">
+    <a href="/viewPillHistory">View Pill History</a>
+  </div>
+
+
+
+  <div id="btns-container">
+    <div class="btn flex-center border-right-black">
+      <a href="/addNewMed">Edit</a>
+    </div>
+    <div class="btn flex-center" onclick="backtopage();">
+      Delete
+    </div>
+  </div>
+</body>
