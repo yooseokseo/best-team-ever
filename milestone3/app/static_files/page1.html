@@ -12,7 +12,7 @@
       type: "POST", //GET, POST, PUT
       url: 'users/testauth',  //the url to call
       data: {'data': 'data'},     //Data sent to server
-      contentType: 'json',           
+      contentType: 'json',
       beforeSend: function (xhr) {   //Include the bearer token in header
         xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
       }
@@ -42,10 +42,9 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
 
-        if (data.job && data.pet) {
+        if (data.age && data.medication) {
           $('#status').html('Successfully fetched data at URL: ' + requestURL);
-          $('#jobDiv').html('My job is ' + data.job);
-          $('#petImage').attr('src', 'images/'+data.pet).attr('width', '300px');
+          $('#jobDiv').html('Name: ' +$('#nameBox').val()+'; age: '+data.age+'; med: '+data.medication);
         } else {
           $('#status').html('Error: could not find user at URL: ' + requestURL);
           // clear the display
@@ -87,7 +86,7 @@ $(document).ready(() => {
 
     var body = {
                  'username' : $('#username').val(),
-                 'email': $('#email').val(), 
+                 'email': $('#email').val(),
                  'password' : $('#password').val()
                };
     $.post('users/signup', body, (data) => {
@@ -96,7 +95,7 @@ $(document).ready(() => {
       $('#loginStatus').text("Signed in: true (username: "+$('#username').val()+")");
       window.localStorage.setItem("token", data.token); //store authorization token
 
-    });  
+    });
 
   });
 
@@ -107,7 +106,7 @@ $(document).ready(() => {
   });
 
 
-  
+
 
   // define a generic Ajax error handler:
   // http://api.jquery.com/ajaxerror/
@@ -133,7 +132,7 @@ $(document).ready(() => {
   <button id="getUser">Get user</button>
   <button id="allUsersButton">Get all users</button>
   <br>
-  
+
   <hr>
   <h4> Sign up </h4>
 
