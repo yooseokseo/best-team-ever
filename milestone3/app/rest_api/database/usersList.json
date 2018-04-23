@@ -1,0 +1,44 @@
+[
+  {
+  	"email" : "a@b", 
+  	"password" : "123",
+  	"username" : "user1",
+  	"profiles" : 
+  	[
+  	  {
+  	    "name" : "John",
+  		"info" : {"age": "30", "medication": "Ibuprofen"}
+  	  },
+      {
+        "name" : "Doe",
+        "info" : {"age" : 50, "medication" : "VitaminC"}
+      }
+  	]
+  }, 
+
+  {
+  	"email" : "c@d", 
+   	"password" : "456",
+   	"username" : "user2",
+   	"profiles" :
+   	[ 
+   	  {
+   	  	"name" : "Jane",
+   	    "info" : {"age": "45",   "medication": "Tylenol"} 
+   	  }
+   	]
+  },
+
+  {
+  	"email" : "e@f", 
+   	"password" : "789", 
+   	"username" : "user3",
+   	"profiles" :
+   	[
+   	  {
+   	  	"name" : "Johnny",
+   		"info" : {"age": "20",  "medication": "NyQuil"} 
+   	  }
+    ]
+  } 
+] 
