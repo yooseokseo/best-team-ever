@@ -111,6 +111,8 @@ nav {
   grid-template-areas:
     "btn pageTitle dropDown";
   margin: auto;
+  position: relative;
+  z-index: 3;
 }
 
 .add-new-med-box {
@@ -274,111 +276,6 @@ nav {
   border-radius: 1.5vh;
 }
 
-.page-title-nav {
-
-}
-
-/*************4. State Rule *************/
-.med-taken-done {
-  grid-template-columns: 1fr 1fr 2fr 2fr;
-  grid-template-areas:
-    "check icon name time";
-}
-
-.med-taken-done .med-time{
-  font-size: 1.5rem;
-}
-
-.current-day {
-  border: 1px solid red;
-}
-/*************5. Theme Rule *************/
-.flex-center {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-
-
-.home-btn , .btn{
-  background-color: gray;
-  font-size: 2rem;
-  height: 100%;
-}
-
-.home-title {
-  display: flex;
-  flex-direction: row;
-  align-items:flex-end;
-  font-size: 2rem;
-}
-
-.med-name {
-  font-size: 1.5rem;
-}
-
-.med-time {
-  font-size: 1.9rem;
-}
-
-.date {
-  font-size: 2rem;
-}
-
-.page-title {
-  font-size: 1.5rem;
-}
-.box-content{
-  border: 1px solid black;
-  height: 5vh;
-}
-.amount-select{
-  border: 1px solid black;
-  text-align-last:center;
-  height: 3vh;
-  margin-left: 1vh;
-}
-.border-black {
-  border: 1px solid black;
-}
-
-.border-right-black {
-  border-right: 1px solid black;
-}
-
-.red {
-  background-color: red;
-}
-
-.orange {
-  background-color: orange;
-}
-
-.yellow {
-  background-color: yellow;
-}
-
-.green {
-  background-color: green;
-}
-.blue {
-  background-color: blue;
-}
-
-.purple {
-  background-color: purple;
-}
-
-.black {
-  background-color: black;
-}
-
-.gray {
-  background-color: gray;
-}
-
 /* navigation */
 
 a:hover
@@ -515,14 +412,24 @@ a:hover
 }
 
 /* */
-#user-profile-container {
+.user-profile-container {
   width: 100vw;
-  height: 0vh;
+  height: 90vh;
   background-color: #cdcdcd;
   position:absolute;
-  top: 10vh;
+  top: -80vh;
   left: 0;
-  z-index: 2;
+  z-index: 1;
+
+}
+
+.user-profile-content-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 6fr 1fr 1fr;
+  height: 90vh;
+  width: 90%;
+  grid-row-gap: 1vh;
 }
 
 #dropDownToggle {
@@ -530,10 +437,124 @@ a:hover
   user-select: none;
 }
 
-
-
-
-
 .tri-svg {
   position: absolute;
+}
+.profile-list-container{
+  overflow-y:scroll;
+}
+.user-profile-name-box{
+  margin-top: 1vh;
+  display: grid;
+  grid-template-columns: 1fr 9fr;
+  grid-template-rows:1fr;
+}
+/*************4. State Rule *************/
+.med-taken-done {
+  grid-template-columns: 1fr 1fr 2fr 2fr;
+  grid-template-areas:
+    "check icon name time";
+}
+
+.med-taken-done .med-time{
+  font-size: 1.5rem;
+}
+
+.current-day {
+  border: 1px solid red;
+}
+
+.down-nav-clicked {
+  transform: rotate(-180deg);
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+.user-profile-container-down {
+  top: 10vh;
+  transition: all 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+/*************5. Theme Rule *************/
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+.home-btn , .btn{
+  background-color: gray;
+  font-size: 2rem;
+  height: 100%;
+}
+
+.home-title {
+  display: flex;
+  flex-direction: row;
+  align-items:flex-end;
+  font-size: 2rem;
+}
+
+.med-name {
+  font-size: 1.5rem;
+}
+
+.med-time {
+  font-size: 1.9rem;
+}
+
+.date {
+  font-size: 2rem;
+}
+
+.page-title {
+  font-size: 1.5rem;
+}
+.box-content{
+  border: 1px solid black;
+  height: 5vh;
+}
+.amount-select{
+  border: 1px solid black;
+  text-align-last:center;
+  height: 3vh;
+  margin-left: 1vh;
+}
+.border-black {
+  border: 1px solid black;
+}
+
+.border-right-black {
+  border-right: 1px solid black;
+}
+
+.red {
+  background-color: red;
+}
+
+.orange {
+  background-color: orange;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;
+}
+.blue {
+  background-color: blue;
+}
+
+.purple {
+  background-color: purple;
+}
+
+.black {
+  background-color: black;
+}
+
+.gray {
+  background-color: gray;
 }
