@@ -45,6 +45,7 @@ app.use((req, res, next) => {
 // Add new router for Home page - Seo
 app.get('/', function (req, res) {
     res.render('home', {
+      isHomePage : true,
       pageTitle: "Firstname Last"
     });
 });
