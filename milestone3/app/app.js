@@ -120,6 +120,8 @@ app.get('/addNewProfile', function (req, res) {
     });
 });
 
+
+
 // Add new router for settings page - Seo
 app.get('/settings', function (req, res) {
     res.render('settings', {
