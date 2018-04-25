@@ -94,6 +94,10 @@ nav {
   width: 7vh;
 }
 
+.view-pill-icon-img{
+  width: 15vh;
+}
+
 .checked-icon-img{
   width: 7vh;
 }
@@ -187,6 +191,33 @@ nav {
   width: 30vw;
   height: 30vw;
   margin-top: 1vh;
+}
+
+.view-pill-detail-container{
+  height: 90vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3.5fr 1.5fr 1.5fr 1fr 1fr;
+  grid-row-gap: 1vh;
+}
+.view-pill-history-btn{
+  height: 10vh;
+}
+
+.view-pill-detail-btns {
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+}
+
+.view-pill-detail-direction, .view-pill-detail-note{
+  margin: 0 5%;
+}
+.view-pill-detail-icon-box {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3.5fr 1.5fr;
+
 }
 
 /*************3. Module Rule *************/
@@ -445,9 +476,23 @@ a:hover
 }
 .user-profile-name-box{
   margin-top: 1vh;
-  display: grid;
-  grid-template-columns: 1fr 9fr;
-  grid-template-rows:1fr;
+  position: relative;
+  text-align: center;
+}
+
+.med-note-text{
+  width: 100%;
+  height: 10vh;
+}
+
+.view-pill-detail-text {
+  height: 10vh;
+}
+
+.profile-check-box{
+  position: absolute;
+  top: 0;
+  left: 5vh;
 }
 /*************4. State Rule *************/
 .med-taken-done {
@@ -485,7 +530,7 @@ a:hover
 .home-btn , .btn{
   background-color: gray;
   font-size: 2rem;
-  height: 100%;
+
 }
 
 .home-title {
