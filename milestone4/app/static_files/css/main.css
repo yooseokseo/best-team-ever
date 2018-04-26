@@ -204,7 +204,7 @@ nav {
   height: 10vh;
 }
 
-.view-pill-detail-btns {
+.view-pill-detail-btns , .add-new-profile-btn{
   position: absolute;
   bottom: 0;
   width: 100vw;
@@ -216,11 +216,60 @@ nav {
 .view-pill-detail-icon-box {
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 3.5fr 1.5fr;
+  grid-template-rows: 4fr 1fr;
 
 }
 
+.add-new-profile-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5fr 0.5fr 1.5fr 0.5fr;
+  height: 75vh;
+  margin: 2.5vh 5vw;
+  grid-row-gap: 5vh;
+}
+.add-new-profile-name-box{
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+    "image first"
+    "image last";
+  height: 15vh;
+}
+#add-new-profile-first{
+  grid-area: first;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: 1fr;
+  margin: 0 1vh;
+}
+#add-new-profile-last {
+    grid-area: last;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+    margin: 0 1vh;
+}
+
+#add-new-profile-image {
+  grid-area: image;
+}
+
+
+.gender-box{
+  margin: 1vh 1vh;
+}
+
+
 /*************3. Module Rule *************/
+.profile-image-box{
+  margin-top: 5vh;
+}
+
+.profile-image{
+  height: 90%;
+}
 
 #view-all-btn {
   grid-area: viewAll;
@@ -494,6 +543,10 @@ a:hover
   top: 0;
   left: 5vh;
 }
+
+#gender-box{
+  height: 15vh;
+}
 /*************4. State Rule *************/
 .med-taken-done {
   grid-template-columns: 1fr 1fr 2fr 2fr;
@@ -559,6 +612,10 @@ a:hover
   border: 1px solid black;
   height: 5vh;
 }
+
+.box-title{
+  font-size: 1.5rem;
+}
 .amount-select{
   border: 1px solid black;
   text-align-last:center;
@@ -602,4 +659,9 @@ a:hover
 
 .gray {
   background-color: gray;
+}
+
+.border-circle{
+  border: 1px solid black;
+  border-radius: 50%;
 }
