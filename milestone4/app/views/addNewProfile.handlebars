@@ -3,15 +3,51 @@
 <body>
   {{>navigation}}
   {{>nonscript}}
-  <p>Profile Image</p>
-  <p>Firstname</p>
-  <p>Lastname</p>
-  <hr>
-  <p>Date of Birth</p>
-  <p>Gender</p>
-  <p>Set as Default</p>
+  <div class="add-new-profile-container">
+    <div class="add-new-profile-name-box profile-image-box">
+      <div id="add-new-profile-image" class="border-black flex-center">
+        <img class="profile-image" src="/images/icons/user.svg" alt="">
+      </div>
+      <div id="add-new-profile-first" class="flex-center">
+        Firstname
+        <input type="text" class="border-black"/>
+      </div>
+      <div id="add-new-profile-last" class="flex-center">
+        Lastname
+        <input type="text" class="border-black"/>
+      </div>
+    </div>
+    <div class="">
+      <div class="box-title">
+        Date of Birth
+      </div>
+      <div class="box-content flex-center">
+        <input type="date"/>
+      </div>
+    </div>
+    <div class="">
+      <div class="box-title">
+        Gender
+      </div>
+      <div id="gender-box" class="box-content">
+        <div class="gender-box">
+          <input type="checkbox"/> Male
+        </div>
+        <div class="gender-box">
+          <input type="checkbox"/> Female
+        </div>
+        <div class="gender-box">
+          <input type="checkbox"/> Prefer not to say
+        </div>
+      </div>
+    </div>
+    <div class="box-title">
+      <input type="checkbox"/> Set as Default
 
-  <div id="btns-container">
+    </div>
+
+  </div>
+  <div id="btns-container" class="add-new-profile-btn">
     <div class="btn flex-center border-right-black" onclick="backtopage();">
       Cancel
     </div>
@@ -19,4 +55,10 @@
       Save
     </div>
   </div>
+
+
+
+
+
+
 </body>
