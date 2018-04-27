@@ -261,6 +261,71 @@ nav {
   margin: 1vh 1vh;
 }
 
+.login-signup-page-container{
+  position: relative;
+  height: 100vh;
+
+
+}
+
+.login-page-container{
+  position: absolute;
+  height: 100vh;
+  width: 90vw;
+
+  top: 0;
+  z-index: 1;
+}
+.sign-up-page-container{
+  position: absolute;
+  height: 100vh;
+  background-color: white;
+  z-index: 2;
+  top: 0;
+  width: 100vw;
+  transform: translate(100%, 0);
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+#sign-up-btns-container{
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  height: 10vh;
+}
+
+.login-page-container{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 3fr 0.5fr 0.5fr 1fr 0.2fr 1fr 1fr;
+  height: 100vh;
+  grid-row-gap: 5vh;
+}
+
+.login-input-box{
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: 1fr;
+}
+.login-hr-box{
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
+  grid-template-rows: 1fr;
+}
+.sign-up-page-box{
+  width: 90vw;
+  height: 80vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+}
+.sign-up-input-box{
+  width: 100%;
+  height: 5vh;
+}
 
 /*************3. Module Rule *************/
 .profile-image-box{
@@ -578,6 +643,11 @@ a:hover
   align-items: center;
 }
 
+.flex-hr{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 
 
 .home-btn , .btn{
@@ -664,4 +734,12 @@ a:hover
 .border-circle{
   border: 1px solid black;
   border-radius: 50%;
+}
+
+.login-btns-style {
+  height: 7vh;
+}
+.a-box{
+  width: 100%;
+  height: 100%;
 }

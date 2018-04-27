@@ -8,11 +8,15 @@ function backtopage() {
 //also it should indicate current profile page
 //one of them should be a default profile.
 
-$(document).ready(
-  // need Ajax Function1 here
-  $('.tri-svg').click( () => {
-    console.log('clicked');
-    $('.tri-svg').toggleClass('down-nav-clicked');
-    $('.user-profile-container').toggleClass('user-profile-container-down');
-  })
-);
+$('.tri-svg').click(() => {
+  $('.tri-svg').toggleClass('down-nav-clicked');
+  $('.user-profile-container').toggleClass('user-profile-container-down');
+})
+
+$('.sign-up-btn').click(()=> {
+  $('.sign-up-page-container').css('transform', 'none');
+})
+
+$('#sign-up-cancel-btn').click(()=>{
+  $('.sign-up-page-container').css('transform', 'translate(100%, 0)');
+})
