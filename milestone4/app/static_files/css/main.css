@@ -90,9 +90,21 @@ nav {
     "icon name time";
   background-color: white;
 }
+
+.med-item-box-all, .view-profile-box{
+  margin: 1vh;
+  height: 10vh;
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  grid-template-areas:
+    "icon name";
+}
 .pill-icon-img{
   width: 7vh;
 }
+
+
 
 .view-pill-icon-img{
   width: 15vh;
@@ -183,13 +195,13 @@ nav {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  height: 70vh;
+  height: 53vh;
   overflow-y: scroll;
 }
 
 .pill-day-box {
-  width: 30vw;
-  height: 30vw;
+  width: 29vw;
+  height: 29vw;
   margin-top: 1vh;
 }
 
@@ -326,8 +338,150 @@ nav {
   width: 100%;
   height: 5vh;
 }
+.no-user-profile-container{
+  width: 100vw;
+  height: 100vh;
+}
+.no-user-profile-box{
+  width: 80vw;
+  height: 30vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+}
+.view-history-container{
+  width: 100vw;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1.5fr 8.5fr;
+  height: 90vh;
+}
+.pill-date-box{
+  display: grid;
+  grid-template-columns:  1fr 1fr;
+  grid-template-rows: 1fr;
+  width: 30vw;
+  height: 5vh;
+}
+
+.pill-date-box-bottom{
+  display: grid;
+  grid-template-columns:  8.5fr 1.5fr;
+  grid-template-rows: 1fr;
+  position: relative;
+  height: 77vh;
+}
+
+.pill-date-box-bottom-2 {
+  height: 77vh;
+  overflow-y: scroll;
+}
+.pill-date-box-list{
+  overflow-y: scroll;
+}
+.pill-date-box-item{
+  display: grid;
+  grid-template-columns:  2fr 3fr;
+  grid-template-rows: 1fr;
+}
+
+.pill-date-box-list-index{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow-y: scroll;
+  position: relative;
+}
+
+/* need to refactor*/
+.pill-date-item{
+  width: 90vw;
+  margin-bottom: 1vh;
+}
+
+.pill-date-item-march{
+  width: 90vw;
+  margin-bottom: 1vh;
+}
+
+.view-history-date-container, .view-all-med-container, .view-profile-container{
+  height: 90vh;
+  display: grid;
+  grid-template-columns:  1fr;
+  grid-template-rows: 1fr 8fr 1fr;
+}
+
+.view-history-date-arrow-nav {
+  display: grid;
+  grid-template-columns:  3fr 4fr 3fr;
+  grid-template-rows: 1fr;
+}
+.view-history-date-bottom-box{
+  overflow-y: scroll;
+}
+.view-pill-history-container{
+  display: grid;
+  grid-template-columns:  1fr;
+  grid-template-rows: 2fr 8fr;
+  height: 90vh;
+  grid-row-gap:5vh;
+}
+
+.view-pill-history-box{
+  display: grid;
+  grid-template-columns:  1fr 2fr;
+  grid-template-rows: 1fr 1fr;
+  grid-template-areas:
+  "info start"
+  "info end";
+  width: 90vw;
+  margin: auto;
+  margin-bottom: 5vh;
+
+}
+.view-pill-history-box-list{
+  position: relative;
+  overflow-y: scroll;
+}
+.view-all-med-bottom-box{
+  display: grid;
+  grid-template-columns:  8.5fr 1.5fr;
+  grid-template-rows: 1fr;
+  position: relative;
+}
+
+.view-all-med-list {
+  position: relative;
+  overflow-y: scroll;
+  height: 70vh;
+}
+.view-profile-bottom-box{
+  display: grid;
+  grid-template-columns:  8.5fr 1.5fr;
+  grid-template-rows: 1fr;
+  position: relative;
+  overflow-y: scroll;
+
+}
+.view-profile-box-list{
+  overflow-y: scroll;
+}
+
+.add-new-profile-input {
+  height: 3vh;
+}
 
 /*************3. Module Rule *************/
+.view-pill-history-info{
+  grid-area:info;
+}
+.view-pill-history-end{
+  grid-area:end;
+}
+.view-pill-history-start{
+  grid-area:start;
+}
 .profile-image-box{
   margin-top: 5vh;
 }
@@ -612,6 +766,10 @@ a:hover
 #gender-box{
   height: 15vh;
 }
+
+.profile-image-view {
+  height: 10vh;
+}
 /*************4. State Rule *************/
 .med-taken-done {
   grid-template-columns: 1fr 1fr 2fr 2fr;
@@ -634,6 +792,17 @@ a:hover
 .user-profile-container-down {
   top: 10vh;
   transition: all 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+.pill-date-item-close {
+  display: none;
+}
+.pill-date-item-shown {
+  display: block;
+  width: 90vw;
+  overflow-y: scroll;
+  height: 53vh;
+  margin-bottom: 5vh;
 }
 /*************5. Theme Rule *************/
 .flex-center {
@@ -668,7 +837,7 @@ a:hover
 }
 
 .med-time {
-  font-size: 1.9rem;
+  font-size: 1.8rem;
 }
 
 .date {
@@ -742,4 +911,7 @@ a:hover
 .a-box{
   width: 100%;
   height: 100%;
+}
+.index-style{
+  font-size: 0.9rem;
 }
