@@ -85,7 +85,7 @@ app.get('/viewHistory', function (req, res) {
 // Add new router for View History Date page - Seo
 app.get('/viewHistoryDate', function (req, res) {
     res.render('viewHistoryDate', {
-      pageTitle: "View History Date"
+      pageTitle: "View History"
     });
 });
 
@@ -136,10 +136,16 @@ app.get('/help', function (req, res) {
     });
 });
 
-// Add new router for help page - Seo
+// Add new router for login page - Seo
 app.get('/', function (req, res) {
     res.render('login');
 });
+
+// Add new router for no user profile page - Seo
+app.get('/noUserProfile', function (req, res) {
+    res.render('noUserProfile');
+});
+
 
 
 

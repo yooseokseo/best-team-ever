@@ -20,3 +20,8 @@ $('.sign-up-btn').click(()=> {
 $('#sign-up-cancel-btn').click(()=>{
   $('.sign-up-page-container').css('transform', 'translate(100%, 0)');
 })
+
+// need to refactor
+$('.pill-date-item-march').click(()=>{
+  $('.pill-date-item-cal-march').toggleClass('pill-date-item-shown');
+})
