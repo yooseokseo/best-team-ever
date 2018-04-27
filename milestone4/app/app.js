@@ -43,7 +43,7 @@ app.use((req, res, next) => {
 // to a route file that handles it. The code will be in rest_api/routes/users.js
 
 // Add new router for Home page - Seo
-app.get('/', function (req, res) {
+app.get('/home', function (req, res) {
     res.render('home', {
       isHomePage : true,
       pageTitle: "Firstname Last"
@@ -135,6 +135,13 @@ app.get('/help', function (req, res) {
       pageTitle: "Help"
     });
 });
+
+// Add new router for help page - Seo
+app.get('/', function (req, res) {
+    res.render('login');
+});
+
+
 
 app.use("/users", userRoutes);
 
