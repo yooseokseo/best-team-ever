@@ -15,7 +15,8 @@
     "handlebars": "^4.0.11",
     "http": "0.0.0",
     "jsonwebtoken": "^8.2.1",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "sqlite3": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^1.17.3"
