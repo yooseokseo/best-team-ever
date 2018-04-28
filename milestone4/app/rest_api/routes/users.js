@@ -10,10 +10,14 @@ router.get('/', UsersController.getAll);
 // GET profile data for a user
 router.get('/:username', UsersController.getUser);
 
+// GET a list of user Profiles
+
+router.get('/:username/profiles', UsersController.getAllProfiles);
+
 // GET profile data for a user
 router.get('/:username/:profilename', UsersController.getProfile);
 
- 
+
 router.post('/signup', UsersController.signUp);
 
 router.post('/testauth', checkAuth, UsersController.testauth);
