@@ -40,6 +40,29 @@ exports.getUser = (req, res) =>
 }
 
 
+
+exports.getAllProfiles = (req, res) =>
+{
+  const username = req.params.username;
+
+  db.all(
+    'SELECT firstname, lastname, isDefault FROM users, profiles WHERE username=$username AND profiles.userid = users.userid',
+    {
+      $username: username
+    },
+    // callback function to run when the query finishes:
+    (err, rows) => {
+      console.log(rows);
+      if (rows.length > 0) {
+        res.send(rows);
+      } else {
+        res.send({}); // failed, so return an empty object instead of undefined
+      }
+    });
+
+
+}
+
 // GET profile data for a user
 //
 // To test, open these URLs in your browser:
