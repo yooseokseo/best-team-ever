@@ -1,24 +1,32 @@
 {
-  "name": "cogs121_project",
+  "name": "COGS121",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "COGS121 app",
+  "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon server.js"
   },
-  "author": "",
+  "keywords": [
+    "node",
+    "restful",
+    "api"
+  ],
+  "author": "Peem Takoonsawat",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^1.0.3",
     "body-parser": "^1.18.2",
-    "express": "^4.16.3",
+    "express": "^4.16.2",
     "express-handlebars": "^3.0.0",
-    "handlebars": "^4.0.11",
-    "http": "0.0.0",
-    "jsonwebtoken": "^8.2.1",
-    "lodash": "^4.17.5",
+    "jsonwebtoken": "^8.2.0",
+    "mongoose": "^5.0.8",
+    "morgan": "^1.9.0",
+    "multer": "^1.3.0",
     "sqlite3": "^4.0.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.3"
+    "bluebird": "^3.5.1",
+    "nodemon": "^1.17.1"
   }
 }
