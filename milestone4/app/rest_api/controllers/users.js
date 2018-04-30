@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const sqlite3 = require('sqlite3');
 
 // use this library to interface with SQLite databases: https://github.com/mapbox/node-sqlite3
-const db = new sqlite3.Database('users.db');
+const db = new sqlite3.Database('rest_api/database/users.db');
 
 
 // GET a list of all usernames
