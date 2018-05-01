@@ -46,9 +46,10 @@ db.serialize(() => {
     )"
   );
   // insert 3 rows of data: 
-  db.run("INSERT INTO users (username, password, email) VALUES ( 'user1', 'password', 'user1@gmail.com')");
-  db.run("INSERT INTO users (username, password, email) VALUES ( 'user2', 'student', 'user2@gmail.com')");
-  db.run("INSERT INTO users (username, password, email) VALUES ( 'user3', 'engineer', 'user3@gmail.com')");
+  const hashedPassword = '$2a$10$HCwBZYmiL.ukBvVakPtJ6urHm/s7AXszpZRYsHZ.ppD5f8.U0/1Gy';
+  db.run("INSERT INTO users (username, password, email) VALUES ( 'user1', '"+hashedPassword+"', 'user1@gmail.com')");
+  db.run("INSERT INTO users (username, password, email) VALUES ( 'user2', '"+hashedPassword+"', 'user2@gmail.com')");
+  db.run("INSERT INTO users (username, password, email) VALUES ( 'user3', '"+hashedPassword+"', 'user3@gmail.com')");
 
 
   console.log('successfully created the users table in users.db');

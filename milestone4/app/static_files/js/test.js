@@ -27,6 +27,10 @@ function testauth()
 // jQuery convention for running when the document has been fully loaded:
 $(document).ready(() => {
 
+  /*
+   * Show list of all users. Don't need to be signed in
+   * Makes GET request to /users
+   */
   $('#allUsersButton').click(() => {
     $.ajax({
       url: 'users/',
@@ -39,11 +43,16 @@ $(document).ready(() => {
       error: (xhr, textStatus, error) => 
       {
         console.log('sign up error');
+        $('#jobDiv').html('');
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
   });
 
+  /*
+   * Sign up; don't need to be signed in.
+   * Makes POST request to /users/signup
+   */
   $('#signup').click(() => 
   {
     var body = {
@@ -66,12 +75,17 @@ $(document).ready(() => {
       error: (xhr, textStatus, error) => 
       {
         console.log('sign up error');
+        $('#jobDiv').html('');
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
 
   });
 
+  /*
+   * Login
+   * Makes POST request to users/login
+   */
   $('#login').click(() => 
   {
     var body = {
@@ -93,18 +107,27 @@ $(document).ready(() => {
       error: (xhr, textStatus, error) => 
       {
         console.log('sign up error');
+        $('#jobDiv').html('');
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
 
   });
 
+  /*
+   * Sign out. Clears jwt token 
+   */
   $('#signout').click(()=>
   {
     window.localStorage.setItem("token", "");
     window.location.reload();
   });
 
+  /*
+   * Gets user's info (ex. username, email, password)
+   * Needs to be signed in and access correct user
+   * Makes GET request to /users/:username
+   */
   $('#getUserInfo').click(() => {
     const requestURL = 'users/' + $('#userBox').val();
     console.log('making ajax request to:', requestURL);
@@ -123,11 +146,16 @@ $(document).ready(() => {
       error: (xhr, textStatus, error) => 
       {
         console.log('sign up error');
+        $('#jobDiv').html('');
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
   });
 
+  /*
+   * Shows list of all of user's profile. Must be logged in
+   * Makes GET request to /users/:username/profiles
+   */
   $('#getAllProfiles').click(() =>
   {
     const requestURL = 'users/'+$('#userBox').val()+'/profiles';
@@ -151,12 +179,16 @@ $(document).ready(() => {
       error: (xhr, textStatus, error) => 
       {
         console.log('sign up error');
+        $('#jobDiv').html('');
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
   });
 
-
+  /*
+   * View info for a specific profile. Must be logged in
+   * Makes GET request to /users/:username/:profilename
+   */
   $('#getProfile').click(() => {
     const requestURL = 'users/' + $('#userBox').val() + '/' + $('#nameBox').val();
     console.log('making ajax request to:', requestURL);
@@ -182,21 +214,15 @@ $(document).ready(() => {
         if (data.firstName && data.lastName) {
           $('#status').html('Successfully fetched data at URL: ' + requestURL);
           $('#jobDiv').html('First name: ' +data.firstName+'; Last name: '+data.lastName);
-        } else {
-          $('#status').html('Error: could not find profile at URL: ' + requestURL);
-          // clear the display
-          $('#jobDiv').html('');
-          $('#petImage').attr('src', '').attr('width', '0px');
         }
       },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log('sign up error');
+        $('#jobDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
     });
-  });
-
-
-  // define a generic Ajax error handler:
-  // http://api.jquery.com/ajaxerror/
-  $(document).ajaxError(() => {
-    //$('#status').html('Error: unknown ajaxError!');
   });
 
 

@@ -6,6 +6,11 @@ const bcrypt = require('bcrypt');
 const db = new sqlite3.Database('rest_api/database/users.db');
 
 
+/**
+ * Helper function for generating JWT token based on useranme
+ *
+ * @return JWT token
+ */
 function getToken(username)
 {
   const token = jwt.sign(
@@ -15,10 +20,13 @@ function getToken(username)
   return token;
 }
 
-// GET a list of all usernames
-//
-// To test, open this URL in your browser:
-//   http://localhost:3000/users
+/**
+ * GET a list of all users. Only show usernames of user and nothing
+ * else. Obviously only used for debugging (would be a breach if you show
+ * everyone all users in database). Don't need to be signed in.
+ *
+ * @return array of usernames of all users
+ */
 exports.getAllUsers = (req, res) => 
 {
   // db.all() fetches all results from an SQL query into the 'rows' variable:
@@ -30,6 +38,13 @@ exports.getAllUsers = (req, res) =>
 
 }
 
+/**
+ * Signs user up. If the inputted username and email doesn't exist,
+ * create new user with the information and generate JWT token with
+ * username.
+ *
+ * @return token with username if successful signup, error message otherwise
+ */
 exports.signup = (req, res) =>
 {
   console.log('signup');
@@ -103,6 +118,13 @@ exports.signup = (req, res) =>
 }// end of sign up
 
 
+/**
+ * Logs user in. First checks if user with the requested username
+ * exists. If so, check if the password (after hashing it) is correct.
+ * If so, create token with username.
+ *
+ * @return token with username if correct info, error message otherwise
+ */
 exports.login = (req, res) =>
 {
   console.log('login');
@@ -154,6 +176,14 @@ exports.login = (req, res) =>
 } //end of login
 
 
+/**
+ * Gets user's info (username, email, password). Must be logged in
+ * After token is checked, function checks to make sure that
+ * token is valid for the requested user. If so, finds the 
+ * with requested name. 
+ *
+ * @return user's info if requested user exists, error message otherwise
+ */
 exports.getUserInfo = (req, res) =>
 {
   console.log("getUserInfo");
@@ -194,7 +224,14 @@ exports.getUserInfo = (req, res) =>
 }
 
 
-
+/**
+ * GET list of all of user's profile. Must be logged in.
+ * After token is checked, function checks to make sure that
+ * token is valid for the requested user. If so, finds the 
+ * with requested name. 
+ *
+ * @return array of profiles if user is found, error message otherwise
+ */
 exports.getAllProfiles = (req, res) =>
 {
   console.log("GET ALL PROFILES");
@@ -227,16 +264,16 @@ exports.getAllProfiles = (req, res) =>
     console.log('Token and requested username does not match\n---')
     res.status(401).json( {error: 'please log in again'} );
   }
-
-
 }
 
-// GET profile data for a user
-//
-// To test, open these URLs in your browser:
-//   http://localhost:3000/users/Philip
-//   http://localhost:3000/users/Carol
-//   http://localhost:3000/users/invalidusername
+/**
+ * GET profile data for a user. Must be logged in.
+ * After token is checked, function checks to make sure that
+ * token is valid for the requested user. If so, finds the 
+ * with requested name. 
+ *
+ * @return profile information if found, error message otherwise
+ */
 exports.getProfile = (req, res) =>
 {
   console.log("GET PROFILE")
@@ -262,7 +299,8 @@ exports.getProfile = (req, res) =>
         }
         else
         {
-          console.log(rows+'\n---');
+          console.log(rows);
+          console.log('---');
           (rows.length > 0)? res.status(200).json(rows[0]) :
                              res.status(404).json( 
                               {error: '\"'+profilename+'\" does not exist'} )
