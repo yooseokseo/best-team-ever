@@ -40,13 +40,17 @@ $(document).ready(() => {
       type: 'GET',
       dataType : 'json', // this URL returns data in JSON format
       success: (data) => {
-        console.log('You received some data!', data);
 
-        if (data.age && data.medication) {
+        console.log('You received some data!', data);
+        console.log(data);
+        console.log("data.firstName = "+data.firstName);
+        console.log("data.lastName = "+data.lastName);
+
+        if (data.firstName && data.lastName) {
           $('#status').html('Successfully fetched data at URL: ' + requestURL);
-          $('#jobDiv').html('Name: ' +$('#nameBox').val()+'; age: '+data.age+'; med: '+data.medication);
+          $('#jobDiv').html('First name: ' +data.firstName+'; Last name: '+data.lastName);
         } else {
-          $('#status').html('Error: could not find user at URL: ' + requestURL);
+          $('#status').html('Error: could not find profile at URL: ' + requestURL);
           // clear the display
           $('#jobDiv').html('');
           $('#petImage').attr('src', '').attr('width', '0px');
@@ -55,7 +59,7 @@ $(document).ready(() => {
     });
   });
 
-  $('#getUser').click(() => {
+  $('#getUserInfo').click(() => {
     const requestURL = 'users/' + $('#userBox').val();
     console.log('making ajax request to:', requestURL);
 
@@ -70,6 +74,27 @@ $(document).ready(() => {
     });
   });
 
+  $('#getAllProfiles').click(() =>
+  {
+    const requestURL = 'users/'+$('#userBox').val()+'/profiles';
+    console.log('requestURl = '+requestURL);
+    console.log('making ajax request to:', requestURL);
+
+    $.ajax({
+      url: requestURL,
+      type: 'GET',
+      dataType : 'json',
+      //beforeSend: function (xhr) {   //Include the bearer token in header
+        //xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      //},
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html($('#userBox').val()+'\'s profiles: \n' + JSON.stringify(data));
+      },
+    });
+
+  });
+
   $('#allUsersButton').click(() => {
     $.ajax({
       url: 'users/',
@@ -82,21 +107,33 @@ $(document).ready(() => {
     });
   });
 
-  $('#signUp').click(() => {
-
+  $('#signup').click(() => 
+  {
     var body = {
                  'username' : $('#username').val(),
-                 'email': $('#email').val(),
+                 'email': $('#email').val(), 
                  'password' : $('#password').val()
                };
-    $.post('users/signup', body, (data) => {
-      console.log('Sign up');
-      $('#status').html('Sign up with = ' + JSON.stringify(data));
-      $('#loginStatus').text("Signed in: true (username: "+$('#username').val()+")");
-      window.localStorage.setItem("token", data.token); //store authorization token
-
+    $.ajax({
+      url: 'users/signup',
+      type: 'POST',
+      dataType : 'json',
+      data: body,
+      success: (data) => 
+      {
+        console.log('sign up success');
+        $('#status').html(JSON.stringify(data));
+        window.localStorage.setItem("token", data.token); //store authorization token
+        //testauth();
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log('sign up error');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
     });
 
+ 
   });
 
   $('#signout').click(()=>
@@ -111,7 +148,7 @@ $(document).ready(() => {
   // define a generic Ajax error handler:
   // http://api.jquery.com/ajaxerror/
   $(document).ajaxError(() => {
-    $('#status').html('Error: unknown ajaxError!');
+    //$('#status').html('Error: unknown ajaxError!');
   });
 
 
@@ -119,7 +156,7 @@ $(document).ready(() => {
 </script>
 
 </head>
-<body onload="testauth()">
+<body>
   <h1>Welcome to App!</h1>
 
   <h4 id="loginStatus">Signed in: </h4>
@@ -128,8 +165,9 @@ $(document).ready(() => {
   Username: <input id="userBox" type="text" placeholder="Username" size="20"/>
   Name: <input id="nameBox" type="text" placeholder="Profile Name" size="20"/>
   <br>
-  <button id="getProfile">Get profile</button>
-  <button id="getUser">Get user</button>
+  <button id="getProfile">Get a profile</button>
+  <button id="getAllProfiles"> Get all profiles1 </button>
+  <button id="getUserInfo">Get user info</button>
   <button id="allUsersButton">Get all users</button>
   <br>
 
@@ -140,7 +178,7 @@ $(document).ready(() => {
   Email: <input id="email" type="email" placeholder="Email"/>
   Password: <input id="password" type="password" placeholder="Password"/>
 
-  <button id="signUp">Sign Up</button>
+  <button id="signup">Sign Up</button>
   <button id="signout"> Sign out</button>
 
   <hr>

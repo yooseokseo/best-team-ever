@@ -7,11 +7,10 @@ const checkAuth = require('../middleware/check-auth');
 //GET a list of all usernames
 router.get('/', UsersController.getAll);
 
-// GET profile data for a user
-router.get('/:username', UsersController.getUser);
+// GET a certain user's info (ex. username, password, etc.)
+router.get('/:username', UsersController.getUserInfo);
 
-// GET a list of user Profiles
-
+// GET a list all of a user's profile
 router.get('/:username/profiles', UsersController.getAllProfiles);
 
 // GET profile data for a user

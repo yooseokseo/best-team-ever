@@ -1,9 +1,20 @@
 const jwt = require("jsonwebtoken");
 const sqlite3 = require('sqlite3');
+const bcrypt = require('bcrypt');     
 
 // use this library to interface with SQLite databases: https://github.com/mapbox/node-sqlite3
 const db = new sqlite3.Database('rest_api/database/users.db');
 
+
+function getToken(username, email)
+{
+  const token = jwt.sign(
+  {
+    username: username,
+    email: email
+  }, "secret key lel", { expiresIn: "1h" } );
+  return token;
+}
 
 // GET a list of all usernames
 //
@@ -12,7 +23,7 @@ const db = new sqlite3.Database('rest_api/database/users.db');
 exports.getAll = (req, res) => {
   // db.all() fetches all results from an SQL query into the 'rows' variable:
   db.all('SELECT username FROM users', (err, rows) => {
-    console.log(rows);
+    console.log(rows);          
     const allUsernames = rows.map(e => e.username);
     console.log(allUsernames);
     res.send(allUsernames);
@@ -20,8 +31,9 @@ exports.getAll = (req, res) => {
 
 }
 
-exports.getUser = (req, res) =>
+exports.getUserInfo = (req, res) =>
 {
+  console.log("getUserInfo");
   const nameToLookup = req.params.username;
   db.all(
     'SELECT * FROM users WHERE username=$username',
@@ -43,6 +55,7 @@ exports.getUser = (req, res) =>
 
 exports.getAllProfiles = (req, res) =>
 {
+  console.log("GET ALL PROFILES");
   const username = req.params.username;
 
   db.all(
@@ -71,27 +84,31 @@ exports.getAllProfiles = (req, res) =>
 //   http://localhost:3000/users/invalidusername
 exports.getProfile = (req, res) =>
 {
-  const username = req.params.username; // matches ':username' above
+  console.log("GET PROFILE")
   const profilename = req.params.profilename;
 
-  const user = fakeDatabase.find(function(e)
-  {
-    return e.username == username;
-  });
 
-  if (!user) //username not in system
-  {
-    res.send({})
-  }
-
-  const profile = user.profiles.find(e =>
-  {
-    return e.name == profilename;
-  });
-
-  (profile)? res.send(profile.info) : res.send({});
-
-  console.log(username, '->', profile); // for debugging
+  db.all(
+    'SELECT firstname, lastname, isDefault FROM users, \
+     profiles WHERE firstname=$profilename AND profiles.userId = users.userId',
+    {
+      $profilename: profilename
+    },
+    // callback function to run when the query finishes:
+    (err, rows) => 
+    {
+      if (err)
+      {
+        console.log(err);
+        res.status(500).json( {error: err} );
+      }
+      else
+      {
+        console.log(rows);
+        (rows.length > 0)? res.status(200).json(rows[0]) :
+                           res.status(404).json({})
+      }
+    });
 
 };
 
@@ -104,25 +121,83 @@ Token should be testing
 4. need to firgue out how to implement user profiles for each user by using realtive database model in terms of SQL language.
 
 */
-exports.signUp = (req, res) =>
+exports.signUp = (req, res, next) =>
 {
-  db.run(
-    'INSERT INTO users VALUES ($username, $password, $email, "1970-01-01")',
-    // parameters to SQL query:
+  console.log('signUp');
+
+  const username = req.body.username;
+  const email = req.body.email;
+  console.log('email = '+email+'; username = '+username);
+  
+  db.all(
+    'SELECT * FROM users WHERE username=$username OR email=$email',
     {
-      $username: req.body.username,
-      $password: req.body.password,
-      $email: req.body.email,
+      $username: username,
+      $email: email
     },
     // callback function to run when the query finishes:
-    (err) => {
-      if (err) {
-        res.send({message: 'error in app.post(/users)'});
-      } else {
-        res.send({message: 'successfully run app.post(/users)'});
+    (err, rows) => 
+    {
+      if (err)
+      {
+        console.log(err);
+        res.status(500).json( {error: err} );
       }
-    }
-  );
+      else
+      {
+        console.log('rows.length = '+rows.length);
+        console.log(rows);
+
+        if (rows.length == 0) //valid username and email
+        {
+          //attempt to hash password
+          bcrypt.hash(req.body.password, 10, (err, hash) =>
+          {
+            if (!err) //successful hash; store hashed password
+            {
+              const password = hash;
+              db.run(
+                "INSERT INTO users (username, password, email) \
+                 VALUES ($username, $password, $email)",
+                // parameters to SQL query:
+                {
+                  $username: req.body.username,
+                  $password: password,
+                  $email: req.body.email,
+                },
+                // callback function to run when the query finishes:
+                (err) => 
+                {
+                  if (err) 
+                  {
+                    console.log(err);
+                    res.status(500).json( {error: err} );
+                  } 
+                  else 
+                  {
+                    const token = getToken(req.body.username, req.body.email);
+                    res.status(201).json( {message: "user created", token: token} );
+                  }
+                }
+              );  
+
+            } //end of !err
+            else
+            {
+              return res.status(500).json( {error: err} );
+            }
+          }); //end of hash
+        }
+        else //username or email taken
+        {
+          res.status(409).json( {error: 'username and/or email already exists'} );
+        }
+      }
+
+    });
+
+
+  
 
 
 /*

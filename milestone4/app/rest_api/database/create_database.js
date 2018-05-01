@@ -30,31 +30,64 @@ profile-id (NUM) * primary key AUTOINCREMENT | Firstname (TEXT) | lastname (TEXT
 
 */
 db.serialize(() => {
+
+  //----------------------------------------------------------------
+  //user table
+
   // create a new database table:
-  db.run("CREATE TABLE users (userid INTEGER PRIMARY KEY AUTOINCREMENT,username TEXT, password TEXT, email TEXT, dob TEXT)");
-  // insert 3 rows of data:
-  db.run("INSERT INTO users (username, password, email, dob) VALUES ( 'Philip', 'password', 'Philip@gmail.com', '1980-01-10')");
-  db.run("INSERT INTO users (username, password, email, dob) VALUES ( 'John', 'student', 'John@gmail.com', '1985-06-23')");
-  db.run("INSERT INTO users (username, password, email, dob) VALUES ( 'Carol', 'engineer', 'Carol@gmail.com', '1995-08-13')");
+  db.run(
+    "CREATE TABLE users \
+    ( \
+      userId INTEGER PRIMARY KEY AUTOINCREMENT, \
+      username TEXT,  \
+      password TEXT,  \
+      email TEXT, \
+      FOREIGN KEY(userId) REFERENCES profiles(userId) \
+    )"
+  );
+  // insert 3 rows of data: 
+  db.run("INSERT INTO users (username, password, email) VALUES ( 'user1', 'password', 'user1@gmail.com')");
+  db.run("INSERT INTO users (username, password, email) VALUES ( 'user2', 'student', 'user2@gmail.com')");
+  db.run("INSERT INTO users (username, password, email) VALUES ( 'user3', 'engineer', 'user3@gmail.com')");
+
 
   console.log('successfully created the users table in users.db');
   console.log('------------------------------------------------');
   console.log('| user name | password |');
   console.log('------------------------------------------------');
   // print them out to confirm their contents:
-  db.each("SELECT userid, username, password FROM users", (err, row) => {
-
-      console.log( 'userID: '+row.userid + '   username: ' + row.username + '  password: ' + row.password);
+  db.each("SELECT userId, username, password FROM users", (err, row) => {
+    console.log(row);
   });
 
-  db.run("CREATE TABLE profiles (profileId INTEGER PRIMARY KEY AUTOINCREMENT, firstName TEXT, lastName TEXT, dob TEXT, gender TEXT, isDefault INTERGER, userId INTERGER, FOREIGN KEY(userId) REFERENCES users(userId))");
+  //-----------------------------------------------------------------------
+  //profile table
+  db.run(
+    "CREATE TABLE profiles \
+    ( \
+      profileId INTEGER PRIMARY KEY AUTOINCREMENT, \
+      firstName TEXT, \
+      lastName TEXT, \
+      dob TEXT, \
+      gender TEXT, \
+      isDefault INTERGER, \
+      userId INTERGER \
+    )"
+  );
+
   db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'Liam', 'Smith', '1987-02-21', 'male', 1, 2)");
   db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'Philip', 'Johnson', '1980-01-17', 'male', 0, 2)");
   db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'James', 'Brown', '1995-08-13', 'male', 0, 1)");
   db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'Mary', 'Miller', '1975-07-03', 'female', 0, 1)");
-  db.each("SELECT * FROM profiles, users WHERE profiles.userid = users.userid", (err, row) =>{
+  
+
+
+
+  db.all("SELECT * FROM profiles, users WHERE profiles.userId = users.userId", (err, row) =>{
     console.log(row);
+    console.log("--")
   });
+
 
 
 });
