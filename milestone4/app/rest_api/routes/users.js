@@ -5,19 +5,24 @@ const UsersController = require("../controllers/users");
 const checkAuth = require('../middleware/check-auth');
 
 //GET a list of all usernames
-router.get('/', UsersController.getAll);
+router.get('/', UsersController.getAllUsers);
+
+// POST request to signup
+router.post('/signup', UsersController.signup);
+
+// POST request to login
+router.post('/login', UsersController.login);
 
 // GET a certain user's info (ex. username, password, etc.)
-router.get('/:username', UsersController.getUserInfo);
+router.get('/:username', checkAuth, UsersController.getUserInfo);
 
 // GET a list all of a user's profile
-router.get('/:username/profiles', UsersController.getAllProfiles);
+router.get('/:username/profiles', checkAuth, UsersController.getAllProfiles);
 
 // GET profile data for a user
-router.get('/:username/:profilename', UsersController.getProfile);
+router.get('/:username/:profilename', checkAuth, UsersController.getProfile);
 
 
-router.post('/signup', UsersController.signUp);
 
 router.post('/testauth', checkAuth, UsersController.testauth);
 

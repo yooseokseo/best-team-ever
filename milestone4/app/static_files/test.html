@@ -5,185 +5,44 @@
 <script src="js/jquery-3.3.1.min.js"></script>
 
 <script type="text/javascript">
-
-  function testauth()
-  {
-    $.ajax({
-      type: "POST", //GET, POST, PUT
-      url: 'users/testauth',  //the url to call
-      data: {'data': 'data'},     //Data sent to server
-      contentType: 'json',
-      beforeSend: function (xhr) {   //Include the bearer token in header
-        xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-      }
-    }).done(function (response) {
-      $('#loginStatus').text("Signed in: true (username: "+response.username+")");
-    }).fail(function (err)  {
-      $('#loginStatus').text("Signed in: false");
-    });
-  }
-
-// jQuery convention for running when the document has been fully loaded:
-$(document).ready(() => {
-  $('#testauth').click(()=>{testauth()}) ;
-
-  $('#getProfile').click(() => {
-    const requestURL = 'users/' + $('#userBox').val() + '/' + $('#nameBox').val();
-    console.log('making ajax request to:', requestURL);
-
-    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
-    // Using the core $.ajax() method since it's the most flexible.
-    // ($.get() and $.getJSON() are nicer convenience functions)
-    $.ajax({
-      // all URLs are relative to http://localhost:3000/
-      url: requestURL,
-      type: 'GET',
-      dataType : 'json', // this URL returns data in JSON format
-      success: (data) => {
-
-        console.log('You received some data!', data);
-        console.log(data);
-        console.log("data.firstName = "+data.firstName);
-        console.log("data.lastName = "+data.lastName);
-
-        if (data.firstName && data.lastName) {
-          $('#status').html('Successfully fetched data at URL: ' + requestURL);
-          $('#jobDiv').html('First name: ' +data.firstName+'; Last name: '+data.lastName);
-        } else {
-          $('#status').html('Error: could not find profile at URL: ' + requestURL);
-          // clear the display
-          $('#jobDiv').html('');
-          $('#petImage').attr('src', '').attr('width', '0px');
-        }
-      },
-    });
-  });
-
-  $('#getUserInfo').click(() => {
-    const requestURL = 'users/' + $('#userBox').val();
-    console.log('making ajax request to:', requestURL);
-
-    $.ajax({
-      url: requestURL,
-      type: 'GET',
-      dataType : 'json',
-      success: (data) => {
-        console.log('You received some data!', data);
-        $('#status').html($('#userBox').val() + '\'s profiles: ' + JSON.stringify(data));
-      },
-    });
-  });
-
-  $('#getAllProfiles').click(() =>
-  {
-    const requestURL = 'users/'+$('#userBox').val()+'/profiles';
-    console.log('requestURl = '+requestURL);
-    console.log('making ajax request to:', requestURL);
-
-    $.ajax({
-      url: requestURL,
-      type: 'GET',
-      dataType : 'json',
-      //beforeSend: function (xhr) {   //Include the bearer token in header
-        //xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-      //},
-      success: (data) => {
-        console.log('You received some data!', data);
-        $('#status').html($('#userBox').val()+'\'s profiles: \n' + JSON.stringify(data));
-      },
-    });
-
-  });
-
-  $('#allUsersButton').click(() => {
-    $.ajax({
-      url: 'users/',
-      type: 'GET',
-      dataType : 'json',
-      success: (data) => {
-        console.log('You received some data!', data);
-        $('#status').html('All users: ' + JSON.stringify(data));
-      },
-    });
-  });
-
-  $('#signup').click(() => 
-  {
-    var body = {
-                 'username' : $('#username').val(),
-                 'email': $('#email').val(), 
-                 'password' : $('#password').val()
-               };
-    $.ajax({
-      url: 'users/signup',
-      type: 'POST',
-      dataType : 'json',
-      data: body,
-      success: (data) => 
-      {
-        console.log('sign up success');
-        $('#status').html(JSON.stringify(data));
-        window.localStorage.setItem("token", data.token); //store authorization token
-        //testauth();
-      },
-      error: (xhr, textStatus, error) => 
-      {
-        console.log('sign up error');
-        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
-      }
-    });
-
- 
-  });
-
-  $('#signout').click(()=>
-  {
-    window.localStorage.setItem("token", "");
-    window.location.reload();
-  });
-
-
-
-
-  // define a generic Ajax error handler:
-  // http://api.jquery.com/ajaxerror/
-  $(document).ajaxError(() => {
-    //$('#status').html('Error: unknown ajaxError!');
-  });
-
-
-});
 </script>
 
 </head>
-<body>
+<body onload="testauth()">
   <h1>Welcome to App!</h1>
 
   <h4 id="loginStatus">Signed in: </h4>
 
   <h4> Look up </h4>
-  Username: <input id="userBox" type="text" placeholder="Username" size="20"/>
-  Name: <input id="nameBox" type="text" placeholder="Profile Name" size="20"/>
-  <br>
-  <button id="getProfile">Get a profile</button>
-  <button id="getAllProfiles"> Get all profiles1 </button>
-  <button id="getUserInfo">Get user info</button>
+  
   <button id="allUsersButton">Get all users</button>
-  <br>
+  <br>*note: must be signed in to view user's data<br><br>
+
+  <div class="row" id="loginForm">
+    <label for="userBox" id="usernameLabel" style="display:none">Name: </label>
+    <input id="userBox" type="text" placeholder="Username" size="20" style="display:none"/>
+
+    <label for="nameBox" id="profilenameLabel" style="display:none">Name: </label>
+    <input id="nameBox" type="text" placeholder="Profile Name" size="20" style="display:none"/>
+  </div>
+  <button id="getUserInfo" style="display:none">Get user info</button>
+  <button id="getAllProfiles" style="display:none"> Get all profiles </button>
+  <button id="getProfile" style="display:none">Get a profile</button>
+
+
 
   <hr>
   <h4> Sign up </h4>
 
   Username: <input id="username" type="text" placeholder="Username"/>
-  Email: <input id="email" type="email" placeholder="Email"/>
   Password: <input id="password" type="password" placeholder="Password"/>
+  Email: <input id="email" type="email" placeholder="Email"/>
 
+  <br>
   <button id="signup">Sign Up</button>
+  <button id="login">Log in</button> *note: don't need email to log in
+  <br>
   <button id="signout"> Sign out</button>
-
-  <hr>
-  <button id="testauth">test auth</button>
-  <hr>
 
 
   <div id="jobDiv"></div>
@@ -192,5 +51,6 @@ $(document).ready(() => {
   <hr/>
 
   <div id="status"></div>
+  <script src="js/test.js"></script>
 </body>
 </html>

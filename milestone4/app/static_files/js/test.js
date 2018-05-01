@@ -1,4 +1,3 @@
-
 function testauth()
 {
   $.ajax({
@@ -14,7 +13,10 @@ function testauth()
     $('#loginStatus').text("Signed in: true (username: "+response.username+")");
     $('#nameBox').show();
     $('#profilenameLabel').show();
-    $('#getUser').show();
+    $('#usernameLabel').show();
+    $('#userBox').show();
+    $('#getUserInfo').show();
+    $('#getAllProfiles').show();
     $('#getProfile').show();
   }).fail(function (err)  
   {
@@ -23,33 +25,25 @@ function testauth()
 }
 
 // jQuery convention for running when the document has been fully loaded:
-$(document).ready(() => 
-{
-  /*
-   * Test auth token
-   */
-  $('#testauth').click(()=>{ testauth(); });
+$(document).ready(() => {
 
-  /*
-   * Shows all users 
-   */
-  $('#allUsersButton').click(() => 
-  {
+  $('#allUsersButton').click(() => {
     $.ajax({
       url: 'users/',
       type: 'GET',
       dataType : 'json',
-      success: (data) => { 
+      success: (data) => {
         console.log('You received some data!', data);
-
         $('#status').html('All users: ' + JSON.stringify(data));
       },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log('sign up error');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
     });
   });
 
-  /*
-   * Signing up; if successful, creates and store auth token in localStorage
-   */
   $('#signup').click(() => 
   {
     var body = {
@@ -57,79 +51,62 @@ $(document).ready(() =>
                  'email': $('#email').val(), 
                  'password' : $('#password').val()
                };
-    $.post('users/signup', body, (data) => 
-    {
-      console.log('Sign up');
-      $('#status').html('Sign up with = ' + JSON.stringify(data));
-      window.localStorage.setItem("token", data.token); //store authorization token
-      testauth();
-    });  
+    $.ajax({
+      url: 'users/signup',
+      type: 'POST',
+      dataType : 'json',
+      data: body,
+      success: (data) => 
+      {
+        console.log('sign up success');
+        $('#status').html(JSON.stringify(data));
+        window.localStorage.setItem("token", data.token); //store authorization token
+        testauth();
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log('sign up error');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+
   });
 
-
-  /*
-   * Loggin in; if successful, creates and store auth token in localStorage
-   */
   $('#login').click(() => 
   {
     var body = {
                  'username' : $('#username').val(),
                  'password' : $('#password').val()
                };
-    $.post('users/login', body, (data) => 
-    {
-      console.log('Log in');
-      $('#status').html('Sign up with = ' + JSON.stringify(data));
-      window.localStorage.setItem("token", data.token); //store authorization token
-      testauth();
-    });  
+    $.ajax({
+      url: 'users/login',
+      type: 'POST',
+      dataType : 'json',
+      data: body,
+      success: (data) => 
+      {
+        console.log('sign up success');
+        $('#status').html(JSON.stringify(data));
+        window.localStorage.setItem("token", data.token); //store authorization token
+        testauth();
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log('sign up error');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+
   });
 
-
-  /*
-   * When clicking "View a profile." Shows profile after checking auth
-   */
-  $('#getProfile').click(() => {
-    if ($('#nameBox').val() == '')
-    {
-      alert("profilename is blank");
-    }
-    else
-    {
-      const requestURL = 'users/profiles/'+$('#nameBox').val();
-      console.log('making ajax request to:', requestURL);
-
-      $.ajax({
-        // all URLs are relative to http://localhost:3000/
-        url: requestURL,
-        type: 'GET',
-        dataType : 'json', // this URL returns data in JSON format
-        beforeSend: function (xhr) {   //Include the bearer token in header
-          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-        },
-        success: (data) => {
-          console.log('You received some data!', data);
-
-          if (data.job && data.pet) {
-            $('#status').html('Successfully fetched data at URL: ' + requestURL);
-            $('#jobDiv').html('My job is ' + data.job);
-            $('#petImage').attr('src', 'images/'+data.pet).attr('width', '300px');
-          } else {
-            $('#status').html('Error: could not find user at URL: ' + requestURL);
-            // clear the display
-            $('#jobDiv').html('');
-            $('#petImage').attr('src', '').attr('width', '0px');
-          }
-        },
-      });
-    }
+  $('#signout').click(()=>
+  {
+    window.localStorage.setItem("token", "");
+    window.location.reload();
   });
 
-  /*
-   * Shows ALL profiles of the user
-   */
-  $('#getUser').click(() => {
-    const requestURL = 'users/profiles';
+  $('#getUserInfo').click(() => {
+    const requestURL = 'users/' + $('#userBox').val();
     console.log('making ajax request to:', requestURL);
 
     $.ajax({
@@ -137,36 +114,89 @@ $(document).ready(() =>
       type: 'GET',
       dataType : 'json',
       beforeSend: function (xhr) {   //Include the bearer token in header
-        xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
       },
       success: (data) => {
         console.log('You received some data!', data);
-        $('#status').html('\'s profiles: ' + JSON.stringify(data));
+        $('#status').html($('#userBox').val() + '\'s profiles: ' + JSON.stringify(data));
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log('sign up error');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  });
+
+  $('#getAllProfiles').click(() =>
+  {
+    const requestURL = 'users/'+$('#userBox').val()+'/profiles';
+    console.log('requestURl = '+requestURL);
+    console.log('making ajax request to:', requestURL);
+
+    $.ajax({
+      url: requestURL,
+      type: 'GET',
+      dataType : 'json',
+      //beforeSend: function (xhr) {   //Include the bearer token in header
+        //xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      //},
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+        },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html($('#userBox').val()+'\'s profiles: \n' + JSON.stringify(data));
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log('sign up error');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  });
+
+
+  $('#getProfile').click(() => {
+    const requestURL = 'users/' + $('#userBox').val() + '/' + $('#nameBox').val();
+    console.log('making ajax request to:', requestURL);
+
+    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
+    // Using the core $.ajax() method since it's the most flexible.
+    // ($.get() and $.getJSON() are nicer convenience functions)
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'GET',
+      dataType : 'json', // this URL returns data in JSON format
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+
+        console.log('You received some data!', data);
+        console.log(data);
+        console.log("data.firstName = "+data.firstName);
+        console.log("data.lastName = "+data.lastName);
+
+        if (data.firstName && data.lastName) {
+          $('#status').html('Successfully fetched data at URL: ' + requestURL);
+          $('#jobDiv').html('First name: ' +data.firstName+'; Last name: '+data.lastName);
+        } else {
+          $('#status').html('Error: could not find profile at URL: ' + requestURL);
+          // clear the display
+          $('#jobDiv').html('');
+          $('#petImage').attr('src', '').attr('width', '0px');
+        }
       },
     });
   });
 
-  
-
-  /*
-   * Clears token from localStorage when logging out
-   */
-  $('#signout').click(()=> 
-  { 
-    window.localStorage.setItem("token", ""); 
-    window.location.reload(); 
-  });
-
-  
-
-
-
-  
 
   // define a generic Ajax error handler:
   // http://api.jquery.com/ajaxerror/
   $(document).ajaxError(() => {
-    $('#status').html('Error: unknown ajaxError!');
+    //$('#status').html('Error: unknown ajaxError!');
   });
 
 
