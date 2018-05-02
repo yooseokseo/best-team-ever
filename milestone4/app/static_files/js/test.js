@@ -2,7 +2,7 @@ function testauth()
 {
   $.ajax({
     type: "POST", //GET, POST, PUT
-    url: 'users/testauth',  //the url to call
+    url: '/testauth',  //the url to call
     data: {'data': 'data'},     //Data sent to server
     contentType: 'json',           
     beforeSend: function (xhr) {   //Include the bearer token in header
@@ -166,9 +166,6 @@ $(document).ready(() => {
       url: requestURL,
       type: 'GET',
       dataType : 'json',
-      //beforeSend: function (xhr) {   //Include the bearer token in header
-        //xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-      //},
       beforeSend: function (xhr) {   //Include the bearer token in header
           xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
         },

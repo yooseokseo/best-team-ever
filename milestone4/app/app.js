@@ -37,17 +37,13 @@ app.use((req, res, next) => {
   next();
 });
 
-// Routes to handle requests
-// This is all that really matters
-// In Guo's server.js file, he gets list of all users and individual user by doing this:
-// app.get('/users', (req, res) => { ... });
-// app.get('/users/:userid', (req, res) => { ... });
-//
-// I'm doing the same thing with the code here, except that I send everything with /users
-// to a route file that handles it. The code will be in rest_api/routes/users.js
+
+//-----------------------------------------
+//-----------ROUTES FOR MAIN APP-----------
+//-----------------------------------------
 
 // Add new router for Home page - Seo
-app.get('/home', function (req, res) {
+app.get('/home', (req, res) => {
     res.render('home', {
       isHomePage : true,
       pageTitle: "Firstname Last"
@@ -56,7 +52,7 @@ app.get('/home', function (req, res) {
 
 // Add new router for Add New page - Seo
 // Add a flag value so that it tells whether it should generate '<-' button in navigation or not'
-app.get('/addNewMed', function (req, res) {
+app.get('/addNewMed', (req, res) => {
     res.render('addNewMed', {
       backbuttonShow: true,
       pageTitle: "Add New Medicine"
@@ -64,7 +60,7 @@ app.get('/addNewMed', function (req, res) {
 });
 
 // Add new router for View All med page - Seo
-app.get('/viewAllMed', function (req, res) {
+app.get('/viewAllMed', (req, res) => {
     res.render('viewAllMed', {
       backbuttonShow: true,
       pageTitle: "Current Medications"
@@ -72,7 +68,7 @@ app.get('/viewAllMed', function (req, res) {
 });
 
 // Add new router for View pill detail page - Seo
-app.get('/viewPillDetail', function (req, res) {
+app.get('/viewPillDetail', (req, res) => {
     res.render('viewPillDetail', {
       backbuttonShow: true,
       pageTitle: "Medication Detail"
@@ -80,21 +76,21 @@ app.get('/viewPillDetail', function (req, res) {
 });
 
 // Add new router for View History page - Seo
-app.get('/viewHistory', function (req, res) {
+app.get('/viewHistory', (req, res) => {
     res.render('viewHistory', {
       pageTitle: "View History"
     });
 });
 
 // Add new router for View History Date page - Seo
-app.get('/viewHistoryDate', function (req, res) {
+app.get('/viewHistoryDate', (req, res) => {
     res.render('viewHistoryDate', {
       pageTitle: "View History"
     });
 });
 
 // Add new router for View History Date Detail page - Seo
-app.get('/viewHistoryDateDetail', function (req, res) {
+app.get('/viewHistoryDateDetail', (req, res) => {
     res.render('viewHistoryDateDetail', {
       backbuttonShow: true,
       pageTitle: "View Date Detail"
@@ -102,7 +98,7 @@ app.get('/viewHistoryDateDetail', function (req, res) {
 });
 
 // Add new router for View Pill History page - Seo
-app.get('/viewPillHistory', function (req, res) {
+app.get('/viewPillHistory', (req, res) => {
     res.render('viewPillHistory', {
       backbuttonShow: true,
       pageTitle: "View Medicine History"
@@ -110,14 +106,14 @@ app.get('/viewPillHistory', function (req, res) {
 });
 
 // Add new router for View Profiles page - Seo
-app.get('/viewProfiles', function (req, res) {
+app.get('/viewProfiles', (req, res) => {
     res.render('viewProfiles', {
       pageTitle: "Manage Profiles"
     });
 });
 
 // Add new router for Add a new profile page - Seo
-app.get('/addNewProfile', function (req, res) {
+app.get('/addNewProfile', (req, res) => {
     res.render('addNewProfile', {
       backbuttonShow: true,
       pageTitle: "Add a New Profile"
@@ -127,7 +123,7 @@ app.get('/addNewProfile', function (req, res) {
 
 
 // Add new router for settings page - Seo
-app.get('/settings', function (req, res) {
+app.get('/settings', (req, res) => {
     res.render('settings', {
       pageTitle: "Settings"
     });
@@ -153,7 +149,17 @@ app.get('/noUserProfile', function (req, res) {
 
 
 
+ 
+//-----------------------------------------
+//-----------ROUTES FOR DATABASE-----------
+//-----------------------------------------
 app.use("/users", userRoutes);
+
+const checkAuth = require('./rest_api/middleware/check-auth');
+app.use('/testauth', checkAuth, (req, res) => 
+{ 
+  res.send(req.userData); 
+});
 
 
 // For error handling (don't worry about this)
