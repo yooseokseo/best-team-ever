@@ -5,7 +5,7 @@ const sqlite3 = require('sqlite3');
 
 // use this library to interface with SQLite databases: https://github.com/mapbox/node-sqlite3
 const db = new sqlite3.Database('rest_api/database/users.db');
-const app = express();
+const app = express(); 
 
 //register a Handlebars - Seo
 // views/layouts/main.handlebars will be default Layout
@@ -16,7 +16,7 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 // Variables for linking to route files
-const userRoutes = require("./rest_api/routes/users");
+const routes = require("./rest_api/routes/routes");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -167,7 +167,7 @@ app.get('/noUserProfile', (req, res) => {
 //-----------------------------------------
 //-----------ROUTES FOR DATABASE-----------
 //-----------------------------------------
-app.use("/users", userRoutes);
+app.use("/accounts", routes);
 
 const checkAuth = require('./rest_api/middleware/check-auth');
 app.use('/testauth', checkAuth, (req, res) => 

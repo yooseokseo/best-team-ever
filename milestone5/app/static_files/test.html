@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>PetsApp</title>
+<title>AppName</title>
 
 <script src="js/jquery-3.3.1.min.js"></script>
 
@@ -17,20 +17,18 @@
   <button id="allUsersButton">Get all users</button>
   <br>*note: must be signed in to view user's data<br><br>
 
-  <div class="row" id="loginForm">
-    <label for="userBox" id="usernameLabel" style="display:none">Name: </label>
-    <input id="userBox" type="text" placeholder="Username" size="20" style="display:none"/>
+  <div id="lookupInfo_hidden" style="display:none">
+    Username: <input id="userBox" type="text" placeholder="Username"/>
+    Name: <input id="nameBox" type="text" placeholder="Profile Name"/><br>
 
-    <label for="nameBox" id="profilenameLabel" style="display:none">Name: </label>
-    <input id="nameBox" type="text" placeholder="Profile Name" size="20" style="display:none"/>
+    <button id="getUserInfo">Get user info</button>
+    <button id="getAllProfiles"> Get all profiles </button>
+    <button id="getProfile">Get a profile</button>
   </div>
-  <button id="getUserInfo" style="display:none">Get user info</button>
-  <button id="getAllProfiles" style="display:none"> Get all profiles </button>
-  <button id="getProfile" style="display:none">Get a profile</button>
 
 
 
-  <hr>
+  <hr> 
   <h4> Sign up/Log in </h4>
 
   Username: <input id="username" type="text" placeholder="Username"/>
@@ -38,18 +36,39 @@
   Email: <input id="email" type="email" placeholder="Email"/>
 
   <br>
+  <button id="signout"> Sign out</button>
   <button id="signup">Sign Up</button>
   <button id="login">Log in</button> *note: don't need email to log in
   <br>
-  <button id="signout"> Sign out</button>
+
+  <div id="profile-medicine-new" style="display:none">
+    <h4> New profile </h4>
+    Username: <input id="createProfileUsername" placeholder="Username"/> <br>
+    First name: <input id="firstname" placeholder="First name"/>
+    Last name: <input id="lastname" placeholder="Last name"/> <br>
+    Gender: <input id="gender" placeholder="m, f, apache helicopter, etc." size="24"/>
+    DOB:<input id="dob" placeholder="mm/dd/yyyy"/>
+
+    <br>
+    <button id="createProfile"> Create Profile</button>
+
+    <br>
+    <h4> New medicine </h4>
+    Username: <input id="createMedicineUsername" placeholder="Username"/> <br>
+
+  </div>
+
+
+  
 
   <hr>
-  <div id="jobDiv"></div>
-  <img id="petImage"></img>
+  <div id="infoDiv"></div>
 
   <hr/>
 
   <div id="status"></div>
-  <script src="js/test.js"></script>
+  <script src="js/test-user.js"></script>
+  <script src="js/test-profile.js"></script>
+
 </body>
 </html>

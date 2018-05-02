@@ -1,9 +1,3 @@
-// Node.js + Express server backend for petsapp
-// v2 - use SQLite (https://www.sqlite.org/index.html) as a database
-//
-// author : Yooseok seo
-//
-
 // run this once to create the initial database as the users.db file
 //   node create_database.js
 
@@ -16,8 +10,6 @@ const db = new sqlite3.Database('users.db');
 // (if you don't do this, then all statements will run in parallel,
 //  which we don't want)
 /*
-important ! : password should be hasing before it stores
-now, just put text for testing purpose.
 
 users
 --------------------------------------------------------------------------------------------------------
@@ -32,24 +24,23 @@ profile-id (NUM) * primary key AUTOINCREMENT | Firstname (TEXT) | lastname (TEXT
 db.serialize(() => {
 
   //----------------------------------------------------------------
-  //user table
+  //account table
 
   // create a new database table:
   db.run(
-    "CREATE TABLE users \
+    "CREATE TABLE accounts \
     ( \
-      userId INTEGER PRIMARY KEY AUTOINCREMENT, \
+      id INTEGER PRIMARY KEY AUTOINCREMENT, \
       username TEXT,  \
       password TEXT,  \
-      email TEXT, \
-      FOREIGN KEY(userId) REFERENCES profiles(userId) \
+      email TEXT \
     )"
   );
   // insert 3 rows of data: 
   const hashedPassword = '$2a$10$HCwBZYmiL.ukBvVakPtJ6urHm/s7AXszpZRYsHZ.ppD5f8.U0/1Gy';
-  db.run("INSERT INTO users (username, password, email) VALUES ( 'user1', '"+hashedPassword+"', 'user1@gmail.com')");
-  db.run("INSERT INTO users (username, password, email) VALUES ( 'user2', '"+hashedPassword+"', 'user2@gmail.com')");
-  db.run("INSERT INTO users (username, password, email) VALUES ( 'user3', '"+hashedPassword+"', 'user3@gmail.com')");
+  db.run("INSERT INTO accounts (username, password, email) VALUES ( 'user1', '"+hashedPassword+"', 'user1@gmail.com')");
+  db.run("INSERT INTO accounts (username, password, email) VALUES ( 'user2', '"+hashedPassword+"', 'user2@gmail.com')");
+  db.run("INSERT INTO accounts (username, password, email) VALUES ( 'user3', '"+hashedPassword+"', 'user3@gmail.com')");
 
 
   console.log('successfully created the users table in users.db');
@@ -57,7 +48,7 @@ db.serialize(() => {
   console.log('| user name | password |');
   console.log('------------------------------------------------');
   // print them out to confirm their contents:
-  db.each("SELECT userId, username, password FROM users", (err, row) => {
+  db.each("SELECT id, username, password FROM accounts", (err, row) => {
     console.log(row);
   });
 
@@ -66,25 +57,26 @@ db.serialize(() => {
   db.run(
     "CREATE TABLE profiles \
     ( \
-      profileId INTEGER PRIMARY KEY AUTOINCREMENT, \
+      id INTEGER PRIMARY KEY AUTOINCREMENT, \
       firstName TEXT, \
       lastName TEXT, \
       dob TEXT, \
       gender TEXT, \
       isDefault INTERGER, \
-      userId INTERGER \
+      accountname TEXT, \
+      FOREIGN KEY(accountname) REFERENCES accounts(username) \
     )"
   );
 
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'Liam', 'Smith', '1987-02-21', 'male', 1, 2)");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'Philip', 'Johnson', '1980-01-17', 'male', 0, 2)");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'James', 'Brown', '1995-08-13', 'male', 0, 1)");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, userId ) VALUES ( 'Mary', 'Miller', '1975-07-03', 'female', 0, 1)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'Liam', 'Smith', '02/21/1987', 'male', 1, 'user2')");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'Philip', 'Johnson', '01/17/1980', 'male', 0, 'user2')");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'James', 'Brown', '08/13/1995', 'male', 0, 'user1')");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'Mary', 'Miller', '07/03/1975', 'female', 0, 'user1')");
   
 
+ 
 
-
-  db.all("SELECT * FROM profiles, users WHERE profiles.userId = users.userId", (err, row) =>{
+  db.all("SELECT * FROM profiles, accounts WHERE profiles.accountname = accounts.username", (err, row) =>{
     console.log(row);
     console.log("--")
   });

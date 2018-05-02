@@ -22,9 +22,10 @@ exports.getAllProfiles = (req, res) =>
   console.log('request for: '+username+'; token valid for: '+req.userData.username);
   if (req.userData.username === req.params.username)
   {
+
     db.all(
-      'SELECT firstname, lastname, isDefault FROM users, \
-       profiles WHERE username=$username AND profiles.userid = users.userid',
+      'SELECT firstname, lastname, isDefault FROM accounts, \
+       profiles WHERE username=$username AND profiles.accountname = accounts.username',
       {
         $username: username
       },
@@ -38,7 +39,7 @@ exports.getAllProfiles = (req, res) =>
         }
         else 
         {
-          res.status(404).json( {error: '\"'+username+'\" does not exist'} );
+          res.status(404).json( {error: '\"'+username+'\" does not have any profiles'} );
         }
       });
   }
@@ -54,17 +55,14 @@ exports.getAllProfiles = (req, res) =>
  */
 exports.newProfile = (req, res) => 
 {
-  // db.all() fetches all results from an SQL query into the 'rows' variable:
-  db.all('SELECT username FROM users', (err, rows) => {
-    const allUsernames = rows.map(e => e.username);
-    console.log(allUsernames);
-    res.send(allUsernames);
-  });
+  console.log(req.body);
+  
+
 
 }
 
 /**
- * GET profile data for a user. Must be logged in.
+ * GET profile data for an account. Must be logged in.
  * After token is checked, function checks to make sure that
  * token is valid for the requested user. If so, finds the 
  * with requested name. 
@@ -81,8 +79,8 @@ exports.getProfile = (req, res) =>
   if (req.userData.username === req.params.username)
   {
     db.all(
-      'SELECT firstname, lastname, isDefault FROM users, \
-       profiles WHERE firstname=$profilename AND profiles.userId = users.userId',
+      'SELECT firstname, lastname, gender, dob FROM accounts, \
+       profiles WHERE firstname=$profilename AND profiles.accountname = accounts.username',
       {
         $profilename: profilename
       },

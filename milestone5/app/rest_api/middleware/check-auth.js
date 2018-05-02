@@ -8,13 +8,14 @@ module.exports = (req, res, next) =>
     console.log("checking auth..");
     const decoded = jwt.verify(token, "secret key lel");
     req.userData = decoded;
+    console.log("correct auth")
 
     next();
 
   }
   catch (e)
   {
-    console.log("incorrect auth")
+    console.log("incorrect auth~")
     return res.status(401).json( {message: "Auth failed"} );
   }
 

@@ -21,16 +21,16 @@ function getToken(username)
 }
 
 /**
- * GET a list of all users. Only show usernames of user and nothing
+ * GET a list of all accounts. Only show usernames of user and nothing
  * else. Obviously only used for debugging (would be a breach if you show
- * everyone all users in database). Don't need to be signed in.
+ * everyone all accounts in database). Don't need to be signed in.
  *
  * @return array of usernames of all users
  */
-exports.getAllUsers = (req, res) => 
+exports.getAllAccounts = (req, res) => 
 {
   // db.all() fetches all results from an SQL query into the 'rows' variable:
-  db.all('SELECT username FROM users', (err, rows) => {
+  db.all('SELECT username FROM accounts', (err, rows) => {
     const allUsernames = rows.map(e => e.username);
     console.log(allUsernames);
     res.send(allUsernames);
@@ -39,8 +39,8 @@ exports.getAllUsers = (req, res) =>
 }
 
 /**
- * Signs user up. If the inputted username and email doesn't exist,
- * create new user with the information and generate JWT token with
+ * Creates an account. If the inputted username and email doesn't exist,
+ * create new account with the information and generate JWT token with
  * username.
  *
  * @return token with username if successful signup, error message otherwise
@@ -53,7 +53,7 @@ exports.signup = (req, res) =>
   const email = req.body.email;
   
   db.all(
-    'SELECT * FROM users WHERE username=$username OR email=$email',
+    'SELECT * FROM accounts WHERE username=$username OR email=$email',
     {
       $username: username,
       $email: email
@@ -78,7 +78,7 @@ exports.signup = (req, res) =>
             {
               const password = hash;
               db.run(
-                "INSERT INTO users (username, password, email) \
+                "INSERT INTO accounts (username, password, email) \
                  VALUES ($username, $password, $email)",
                 {
                   $username: req.body.username,
@@ -133,7 +133,7 @@ exports.login = (req, res) =>
   const password = req.body.password;
 
   db.all(
-    'SELECT * FROM users WHERE username=$username',
+    'SELECT * FROM accounts WHERE username=$username',
     {
       $username: username
     },
@@ -177,16 +177,16 @@ exports.login = (req, res) =>
 
 
 /**
- * Gets user's info (username, email, password). Must be logged in
+ * Gets account's info (username, email, password). Must be logged in
  * After token is checked, function checks to make sure that
  * token is valid for the requested user. If so, finds the 
  * with requested name. 
  *
  * @return user's info if requested user exists, error message otherwise
  */
-exports.getUserInfo = (req, res) =>
+exports.getAccountInfo = (req, res) =>
 {
-  console.log("getUserInfo");
+  console.log("getAccountInfo");
   const username = req.params.username;
   console.log('request for: '+username+'; token valid for: '+req.userData.username);
 
@@ -197,7 +197,7 @@ exports.getUserInfo = (req, res) =>
   if (req.userData.username === req.params.username)
   {
     db.all(
-      'SELECT * FROM users WHERE username=$username',
+      'SELECT * FROM accounts WHERE username=$username',
       {
         $username: username
       },
