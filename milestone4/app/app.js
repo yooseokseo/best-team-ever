@@ -130,33 +130,33 @@ app.get('/settings', (req, res) => {
 });
 
 // Add new router for Edit Account Info page - Mayreni
-app.get('/editAccountInfo', function (req, res) {
+app.get('/editAccountInfo', (req, res) => {
     res.render('editAccountInfo', {
       pageTitle: "Edit Info"
     });
 });
 
 // Add new router for Change Password page - Mayreni
-app.get('/changePassword', function (req, res) {
+app.get('/changePassword', (req, res) => {
     res.render('changePassword', {
       pageTitle: "Change Password"
     });
 });
 
 // Add new router for help page - Seo
-app.get('/help', function (req, res) {
+app.get('/help', (req, res) => {
     res.render('help', {
       pageTitle: ""
     });
 });
 
 // Add new router for login page - Seo
-app.get('/', function (req, res) {
+app.get('/', (req, res) => {
     res.render('login');
 });
 
 // Add new router for no user profile page - Seo
-app.get('/noUserProfile', function (req, res) {
+app.get('/noUserProfile', (req, res) => {
     res.render('noUserProfile');
 });
 
