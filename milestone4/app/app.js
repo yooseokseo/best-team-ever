@@ -129,14 +129,28 @@ app.get('/addNewProfile', function (req, res) {
 // Add new router for settings page - Seo
 app.get('/settings', function (req, res) {
     res.render('settings', {
-      pageTitle: "Settings"
+      pageTitle: "Account Settings"
+    });
+});
+
+// Add new router for Edit Account Info page - Mayreni
+app.get('/editAccountInfo', function (req, res) {
+    res.render('editAccountInfo', {
+      pageTitle: "Edit Info"
+    });
+});
+
+// Add new router for Change Password page - Mayreni
+app.get('/changePassword', function (req, res) {
+    res.render('changePassword', {
+      pageTitle: "Change Password"
     });
 });
 
 // Add new router for help page - Seo
 app.get('/help', function (req, res) {
     res.render('help', {
-      pageTitle: "Help"
+      pageTitle: ""
     });
 });
 
