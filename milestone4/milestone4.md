@@ -2,11 +2,11 @@
 - In order to protect our users and their information, we want to have users create private accounts tied to their emails. We do not plan on allowing users to access or share another user's personal or medication history. The information that we collect from users are primarily used for identification purposes, age restrictions on consent or other legality issues, and potential medicial properties. The profiles each user creates are accessible only by them, and all the data associated with those profiles also fall under that specific user's domain. Through the settings page, we will provide more details to users about what we do with the information they provide to us. They will also have the option to delete their account, and permanently destroy any information tied to their accounts on the app. We hope to ensure users that their information is safe, and that we value their privacy. 
 - UI Screenshots:
 
-![Image of login](login.png)!
+![Image of login](login.png)
 ![Image of create-account](create-account.png)
 ![Image of no-profile](no-profile.png)
 ![Image of add-profile](add-profile.png)
-[Image of homepage](homepage.png)
+![Image of homepage](homepage.png)
 ![Image of add-pill-1](add-pill-1.png)
 ![Image of add-pill-2](add-pill-2.png)
 ![Image of current-meds](current-meds.png)
