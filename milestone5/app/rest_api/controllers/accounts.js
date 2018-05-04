@@ -11,11 +11,12 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  *
  * @return JWT token
  */
-function getToken(username)
+function getToken(username, id)
 {
   const token = jwt.sign(
   {
-    username: username
+    username: username,
+    id: id
   }, "secret key lel", { expiresIn: "1h" } );
   return token;
 }
@@ -81,12 +82,12 @@ exports.signup = (req, res) =>
                 "INSERT INTO accounts (username, password, email) \
                  VALUES ($username, $password, $email)",
                 {
-                  $username: req.body.username,
+                  $username: username,
                   $password: password,
-                  $email: req.body.email,
+                  $email: email,
                 },
                 // callback function to run when the query finishes:
-                (err) => 
+                (err, rows) => 
                 {
                   if (err) 
                   {
@@ -95,8 +96,14 @@ exports.signup = (req, res) =>
                   } 
                   else 
                   {
-                    const token = getToken(username);
-                    res.status(201).json( {message: "user created", token: token} );
+                    // find id of the newly created user
+                    const query = "SELECT * FROM accounts WHERE username=?";
+                    db.get(query, username, (err, account) =>
+                    {
+                      console.log('created account: ',account);
+                      const token = getToken(username, account.id);
+                      res.status(201).json( {message: "Account created", token: token} );
+                    });
                   }
                 }
               );  
@@ -147,7 +154,7 @@ exports.login = (req, res) =>
       }
       else
       {
-        if (rows != 0) //found user
+        if (rows.length != 0) //found user
         {
           //check if password is correct
           bcrypt.compare(password, rows[0].password, (err, result) =>
@@ -160,7 +167,7 @@ exports.login = (req, res) =>
             if (result)
             {
               console.log("Log in successful");
-              const token = getToken(username);
+              const token = getToken(username, rows[0].id );
               res.status(200).json( {message: "Logged in", token: token} );
             }
 

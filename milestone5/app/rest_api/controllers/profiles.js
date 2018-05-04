@@ -24,7 +24,7 @@ exports.getAllProfiles = (req, res) =>
   {
     db.all(
       'SELECT firstname, lastname, isDefault FROM accounts, \
-       profiles WHERE username=$username AND profiles.accountname = accounts.username',
+       profiles WHERE username=$username AND profiles.account_id = accounts.id',
       {
         $username: username
       },
@@ -57,6 +57,7 @@ exports.newProfile = (req, res) =>
   console.log("CREATE NEW PROFILE");
   console.log(req.body);
 
+
   const username = req.params.username;
 
   console.log('request for: '+username+'; token valid for: '+req.userData.username);
@@ -64,15 +65,15 @@ exports.newProfile = (req, res) =>
   {
 
     db.run(
-      "INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname) \
-       VALUES ($firstName, $lastName, $dob, $gender, $isDefault, $accountname)",
+      "INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id) \
+       VALUES ($firstName, $lastName, $dob, $gender, $isDefault, $account_id)",
       {
         $firstName: req.body.firstName,
         $lastName: req.body.lastName,
         $dob: req.body.dob,
         $gender: req.body.gender,
         $isDefault: 0,
-        $accountname: username
+        $account_id: req.userData.id
       },
       // callback function to run when the query finishes:
       (err) => 
@@ -94,11 +95,6 @@ exports.newProfile = (req, res) =>
     console.log('Token and requested username does not match\n---')
     res.status(401).json( {error: 'please log in again'} );
   }
-
-
-  
-
-
 }
 
 /**
@@ -119,8 +115,8 @@ exports.getProfile = (req, res) =>
   if (req.userData.username === req.params.username)
   {
     db.all(
-      'SELECT firstname, lastname, gender, dob FROM accounts, \
-       profiles WHERE firstname=$profilename AND profiles.accountname = accounts.username',
+      'SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, \
+       profiles WHERE firstname=$profilename AND profiles.account_id = accounts.id',
       {
         $profilename: profilename
       },

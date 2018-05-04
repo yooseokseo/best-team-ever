@@ -94,7 +94,7 @@ $(document).ready(() => {
       data: body,
       success: (data) => 
       {
-        console.log('sign up success');
+        console.log('login success');
         $('#infoDiv').html(JSON.stringify(data));
         $('#status').html('Successfully fetched data (POST request) at URL: accounts/login');
         window.localStorage.setItem("token", data.token); //store authorization token

@@ -63,22 +63,33 @@ db.serialize(() => {
       dob TEXT, \
       gender TEXT, \
       isDefault INTERGER, \
-      accountname TEXT, \
-      FOREIGN KEY(accountname) REFERENCES accounts(username) \
+      account_id INTEGER, \
+      FOREIGN KEY(account_id) REFERENCES accounts(id) \
     )"
   );
 
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'Liam', 'Smith', '02/21/1987', 'male', 1, 'user2')");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'Philip', 'Johnson', '01/17/1980', 'male', 0, 'user2')");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'James', 'Brown', '08/13/1995', 'male', 0, 'user1')");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, accountname ) VALUES ( 'Mary', 'Miller', '07/03/1975', 'female', 0, 'user1')");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'Liam', 'Smith', '02/21/1987', 'male', 1, 2)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'Philip', 'Johnson', '01/17/1980', 'male', 0, 2)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'James', 'Brown', '08/13/1995', 'male', 0, 1)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'Mary', 'Miller', '07/03/1975', 'female', 0, 1)");
   
+  var groupByArray = (xs, key) =>
+  { 
+    return xs.reduce((rv, x) =>
+    { 
+      let v = key instanceof Function ? key(x) : x[key]; 
+      let el = rv.find((r) => r && r[[key]] === v); 
+      if (el) { el.values.push(x); } 
+      else { rv.push({ [key]: v, values: [x] }); } 
+      return rv; 
+    }, []); 
+  }
 
- 
-
-  db.all("SELECT * FROM profiles, accounts WHERE profiles.accountname = accounts.username", (err, row) =>{
-    console.log(row);
-    console.log("--")
+  db.all("SELECT * FROM profiles", (err, rows) => 
+  {
+    console.log(rows);
+    console.log(groupByArray(rows, 'account_id'));
+    //console.log(groupByArray(rows, 'account_id').find(e => e.account_id == 2));
   });
 
 
