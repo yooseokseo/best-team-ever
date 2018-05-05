@@ -56,7 +56,6 @@ exports.newProfile = (req, res) =>
 {
   console.log("CREATE NEW PROFILE");
   console.log(req.body);
-  console.log(req.body.profilename);
 
 
   const username = req.params.username;
@@ -65,61 +64,32 @@ exports.newProfile = (req, res) =>
   console.log('request for: '+username+'; token valid for: '+req.userData.username);
   if (req.userData.username === req.params.username)
   {
-    db.all(
-      `SELECT * FROM accounts,
-       profiles WHERE account_id=$account_id AND profilename=$profilename`,
+    db.run(
+      `INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id) \
+       VALUES ($profilename, $firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
       {
-        $account_id: req.userData.id,
-        $profilename: req.body.profilename.toLowerCase()
+        $profilename: req.body.profilename.toLowerCase(),
+        $firstName: req.body.firstName,
+        $lastName: req.body.lastName,
+        $dob: req.body.dob,
+        $gender: req.body.gender,
+        $isDefault: 0,
+        $account_id: req.userData.id
       },
       // callback function to run when the query finishes:
-      (err, rows) => 
+      (err) => 
       {
-        if (err)
+        if (err) 
         {
           console.log(err);
           res.status(500).json( {error: err} );
-        }
-        else
+        } 
+        else 
         {
-          if (rows.length == 0) //profile does not exist yet
-          {
-            db.run(
-              `INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id) \
-               VALUES ($profilename, $firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
-              {
-                $profilename: req.body.profilename.toLowerCase(),
-                $firstName: req.body.firstName,
-                $lastName: req.body.lastName,
-                $dob: req.body.dob,
-                $gender: req.body.gender,
-                $isDefault: 0,
-                $account_id: req.userData.id
-              },
-              // callback function to run when the query finishes:
-              (err) => 
-              {
-                if (err) 
-                {
-                  console.log(err);
-                  res.status(500).json( {error: err} );
-                } 
-                else 
-                {
-                  res.status(201).json( {message: "profile created", profile: req.body} );
-                }
-              }
-            ); //end of db.run(`INSERT..`) for creating profile 
-          } //end of row.lengt == 0
-          else
-          {
-            res.status(409).json( {error: 'profile already exists'} );
-
-          }
-        } //end of no erorr else
+          res.status(201).json( {message: "profile created", profile: req.body} );
+        }
       }
-    ); //end of db.all(..) checking if profile exists
- 
+    ); //end of db.run(`INSERT..`) for creating profile 
   }
   else
   {
@@ -163,7 +133,7 @@ exports.getProfile = (req, res) =>
         {
           console.log(rows);
           console.log('---');
-          (rows.length > 0)? res.status(200).json(rows[0]) :
+          (rows.length > 0)? res.status(200).json(rows) :
                              res.status(404).json( 
                               {error: '\"'+profilename+'\" does not exist'} )
         }
