@@ -31,7 +31,7 @@ function getToken(username, id)
 exports.getAllAccounts = (req, res) => 
 {
   // db.all() fetches all results from an SQL query into the 'rows' variable:
-  db.all('SELECT username FROM accounts', (err, rows) => {
+  db.all(`SELECT username FROM accounts`, (err, rows) => {
     const allUsernames = rows.map(e => e.username);
     console.log(allUsernames);
     res.send(allUsernames);
@@ -54,7 +54,7 @@ exports.signup = (req, res) =>
   const email = req.body.email;
   
   db.all(
-    'SELECT * FROM accounts WHERE username=$username OR email=$email',
+    `SELECT * FROM accounts WHERE username=$username OR email=$email`,
     {
       $username: username,
       $email: email
@@ -79,8 +79,8 @@ exports.signup = (req, res) =>
             {
               const password = hash;
               db.run(
-                "INSERT INTO accounts (username, password, email) \
-                 VALUES ($username, $password, $email)",
+                `INSERT INTO accounts (username, password, email) 
+                 VALUES ($username, $password, $email)`,
                 {
                   $username: username,
                   $password: password,
@@ -140,7 +140,7 @@ exports.login = (req, res) =>
   const password = req.body.password;
 
   db.all(
-    'SELECT * FROM accounts WHERE username=$username',
+    `SELECT * FROM accounts WHERE username=$username`,
     {
       $username: username
     },
@@ -204,7 +204,7 @@ exports.getAccountInfo = (req, res) =>
   if (req.userData.username === req.params.username)
   {
     db.all(
-      'SELECT * FROM accounts WHERE username=$username',
+      `SELECT * FROM accounts WHERE username=$username`,
       {
         $username: username
       },

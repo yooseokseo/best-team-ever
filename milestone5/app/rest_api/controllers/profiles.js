@@ -23,8 +23,8 @@ exports.getAllProfiles = (req, res) =>
   if (req.userData.username === req.params.username)
   {
     db.all(
-      'SELECT firstname, lastname, isDefault FROM accounts, \
-       profiles WHERE username=$username AND profiles.account_id = accounts.id',
+      `SELECT firstname, lastname, isDefault FROM accounts, 
+       profiles WHERE username=$username AND profiles.account_id = accounts.id`,
       {
         $username: username
       },
@@ -65,8 +65,8 @@ exports.newProfile = (req, res) =>
   {
 
     db.run(
-      "INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id) \
-       VALUES ($firstName, $lastName, $dob, $gender, $isDefault, $account_id)",
+      `INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id) 
+       VALUES ($firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
       {
         $firstName: req.body.firstName,
         $lastName: req.body.lastName,
@@ -115,8 +115,8 @@ exports.getProfile = (req, res) =>
   if (req.userData.username === req.params.username)
   {
     db.all(
-      'SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, \
-       profiles WHERE firstname=$profilename AND profiles.account_id = accounts.id',
+      `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
+       profiles WHERE firstname=$profilename AND profiles.account_id = accounts.id`,
       {
         $profilename: profilename
       },

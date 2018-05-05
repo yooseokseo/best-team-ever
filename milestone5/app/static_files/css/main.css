@@ -472,6 +472,22 @@ nav {
   height: 3vh;
 }
 
+.view-account-info-container{
+  height: 90vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2.15fr 2.15fr 2.15fr 1fr 1fr;
+  grid-row-gap: 1vh;
+}
+
+.view-account-password-container{
+  height: 90vh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 2.5fr 2.5fr 2.5fr 1fr;
+  grid-row-gap: 1vh;
+}
+
 /*************3. Module Rule *************/
 .view-pill-history-info{
   grid-area:info;
@@ -770,6 +786,33 @@ a:hover
 .profile-image-view {
   height: 10vh;
 }
+
+.edit-account-info-btn{
+  height: 10vh;
+}
+
+.edit-account-info-btns, .change-password-btns{
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+}
+
+.view-account-info-email, .view-account-info-username, .view-account-info-dob, .view-account-password-old, .view-account-password-new, .view-account-password-confirm{
+  margin: 0 5%;
+}
+
+.view-account-info-text {
+  height: 10vh;
+}
+
+.view-account-info-email{
+  margin-top: 2vh;
+}
+
+.view-account-password-old, .view-account-password-new, .view-account-password-confirm{
+  margin-top: auto;
+  margin-bottom: auto;
+}
 /*************4. State Rule *************/
 .med-taken-done {
   grid-template-columns: 1fr 1fr 2fr 2fr;
@@ -845,7 +888,7 @@ a:hover
 }
 
 .page-title {
-  font-size: 1.5rem;
+  font-size: 1.5em;
 }
 .box-content{
   border: 1px solid black;
@@ -914,4 +957,9 @@ a:hover
 }
 .index-style{
   font-size: 0.9rem;
+}
+
+.edit-account-inputs{
+  width: 95%;
+  height: 100%;
 }

@@ -28,13 +28,13 @@ db.serialize(() => {
 
   // create a new database table:
   db.run(
-    "CREATE TABLE accounts \
-    ( \
-      id INTEGER PRIMARY KEY AUTOINCREMENT, \
-      username TEXT,  \
-      password TEXT,  \
-      email TEXT \
-    )"
+    `CREATE TABLE accounts 
+    ( 
+      id INTEGER PRIMARY KEY AUTOINCREMENT, 
+      username TEXT,  
+      password TEXT,  
+      email TEXT 
+    )`
   );
   // insert 3 rows of data: 
   const hashedPassword = '$2a$10$HCwBZYmiL.ukBvVakPtJ6urHm/s7AXszpZRYsHZ.ppD5f8.U0/1Gy';
@@ -55,17 +55,17 @@ db.serialize(() => {
   //-----------------------------------------------------------------------
   //profile table
   db.run(
-    "CREATE TABLE profiles \
-    ( \
-      id INTEGER PRIMARY KEY AUTOINCREMENT, \
-      firstName TEXT, \
-      lastName TEXT, \
-      dob TEXT, \
-      gender TEXT, \
-      isDefault INTERGER, \
-      account_id INTEGER, \
-      FOREIGN KEY(account_id) REFERENCES accounts(id) \
-    )"
+    `CREATE TABLE profiles 
+    ( 
+      id INTEGER PRIMARY KEY AUTOINCREMENT, 
+      firstName TEXT, 
+      lastName TEXT, 
+      dob TEXT, 
+      gender TEXT, 
+      isDefault INTERGER, 
+      account_id INTEGER, 
+      FOREIGN KEY(account_id) REFERENCES accounts(id) 
+    )`
   );
 
   db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'Liam', 'Smith', '02/21/1987', 'male', 1, 2)");
