@@ -47,7 +47,7 @@ $(document).ready(() => {
   $('#getProfile').click(() => {
 
   	//check if input fields are blank
-  	if ($('#userBox').val().trim() == '' || $('#nameBox').val().trim() == '') 
+  	if ($('#userBox').val().trim() == '' || $('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
   	{
   		alert('Please enter info');
   		$('#infoDiv').html('');
@@ -55,7 +55,7 @@ $(document).ready(() => {
   		return; 
   	}
 
-    const requestURL = 'accounts/' + $('#userBox').val().trim() + '/' + $('#nameBox').val().trim();
+    const requestURL = 'accounts/' + $('#userBox').val().trim() + '/' + $('#nameBoxFirst').val().trim()+ $('#nameBoxLast').val().trim();
     console.log('making ajax request to:', requestURL);
 
     // From: http://learn.jquery.com/ajax/jquery-ajax-methods/

@@ -116,9 +116,9 @@ exports.getProfile = (req, res) =>
   {
     db.all(
       `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
-       profiles WHERE firstname=$profilename AND profiles.account_id = accounts.id`,
+       profiles WHERE profilename=$profilename AND profiles.account_id = accounts.id`,
       {
-        $profilename: profilename
+        $profilename: profilename.toLowerCase()
       },
       // callback function to run when the query finishes:
       (err, rows) => 
