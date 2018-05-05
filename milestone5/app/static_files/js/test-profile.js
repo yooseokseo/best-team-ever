@@ -97,6 +97,7 @@ $(document).ready(() => {
 
   	var body = {
                  'username' : $('#createProfileUsername').val(),
+                 'profilename' : $('#firstname').val().trim()+$('#lastname').val().trim(),
                  'firstName' : $('#firstname').val(),
                  'lastName': $('#lastname').val(),
                  'gender' : $('#gender').val(),

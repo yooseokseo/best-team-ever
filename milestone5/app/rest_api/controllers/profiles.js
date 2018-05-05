@@ -23,8 +23,8 @@ exports.getAllProfiles = (req, res) =>
   if (req.userData.username === req.params.username)
   {
     db.all(
-      `SELECT firstname, lastname, isDefault FROM accounts, 
-       profiles WHERE username=$username AND profiles.account_id = accounts.id`,
+      'SELECT firstname, lastname, isDefault FROM accounts, \
+       profiles WHERE username=$username AND profiles.account_id = accounts.id',
       {
         $username: username
       },
@@ -56,39 +56,70 @@ exports.newProfile = (req, res) =>
 {
   console.log("CREATE NEW PROFILE");
   console.log(req.body);
+  console.log(req.body.profilename);
 
 
   const username = req.params.username;
 
+
   console.log('request for: '+username+'; token valid for: '+req.userData.username);
   if (req.userData.username === req.params.username)
   {
-
-    db.run(
-      `INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id) 
-       VALUES ($firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
+    db.all(
+      `SELECT * FROM accounts,
+       profiles WHERE account_id=$account_id AND profilename=$profilename`,
       {
-        $firstName: req.body.firstName,
-        $lastName: req.body.lastName,
-        $dob: req.body.dob,
-        $gender: req.body.gender,
-        $isDefault: 0,
-        $account_id: req.userData.id
+        $account_id: req.userData.id,
+        $profilename: req.body.profilename.toLowerCase()
       },
       // callback function to run when the query finishes:
-      (err) => 
+      (err, rows) => 
       {
-        if (err) 
+        if (err)
         {
           console.log(err);
           res.status(500).json( {error: err} );
-        } 
-        else 
-        {
-          res.status(201).json( {message: "profile created", profile: req.body} );
         }
+        else
+        {
+          if (rows.length == 0) //profile does not exist yet
+          {
+            db.run(
+              `INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id) \
+               VALUES ($profilename, $firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
+              {
+                $profilename: req.body.profilename.toLowerCase(),
+                $firstName: req.body.firstName,
+                $lastName: req.body.lastName,
+                $dob: req.body.dob,
+                $gender: req.body.gender,
+                $isDefault: 0,
+                $account_id: req.userData.id
+              },
+              // callback function to run when the query finishes:
+              (err) => 
+              {
+                if (err) 
+                {
+                  console.log(err);
+                  res.status(500).json( {error: err} );
+                } 
+                else 
+                {
+                  res.status(201).json( {message: "profile created", profile: req.body} );
+                }
+              }
+            ); //end of db.run(`INSERT..`) for creating profile 
+          } //end of row.lengt == 0
+          else
+          {
+            res.status(409).json( {error: 'profile already exists'} );
+
+          }
+        } //end of no erorr else
       }
-    ); 
+    ); //end of db.all(..) checking if profile exists
+ 
   }
   else
   {
@@ -109,7 +140,7 @@ exports.getProfile = (req, res) =>
 {
   console.log("GET PROFILE")
   const username = req.params.username;
-  const profilename = req.params.profilename;
+  const profilename = req.params.profilename.toLowerCase();
 
   console.log('request for: '+username+'; token valid for: '+req.userData.username);
   if (req.userData.username === req.params.username)
@@ -118,7 +149,7 @@ exports.getProfile = (req, res) =>
       `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
        profiles WHERE profilename=$profilename AND profiles.account_id = accounts.id`,
       {
-        $profilename: profilename.toLowerCase()
+        $profilename: profilename
       },
       // callback function to run when the query finishes:
       (err, rows) => 
