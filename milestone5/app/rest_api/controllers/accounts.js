@@ -185,47 +185,33 @@ exports.login = (req, res) =>
 
 /**
  * Gets account's info (username, email, password). Must be logged in
- * After token is checked, function checks to make sure that
- * token is valid for the requested user. If so, finds the 
- * with requested name. 
+ * If logged in, find the account info. 
  *
  * @return user's info if requested user exists, error message otherwise
  */
 exports.getAccountInfo = (req, res) =>
 {
   console.log("getAccountInfo");
-  const username = req.params.username;
-  console.log('request for: '+username+'; token valid for: '+req.userData.username);
+  const username = req.userData.username;
 
-  //Check to make sure that token actually corersponds to the requested 
-  //username. If logged previously as another and token is still valid,
-  //check to make sure that data on token matches the request's username
-  //Essentially, you should only be able to view own your account.
-  if (req.userData.username === req.params.username)
-  {
-    db.all(
-      `SELECT * FROM accounts WHERE username=$username`,
+  db.all(
+    `SELECT * FROM accounts WHERE username=$username`,
+    {
+      $username: username
+    },
+    // callback function to run when the query finishes:
+    (err, rows) => 
+    {
+      if (rows.length > 0) 
       {
-        $username: username
-      },
-      // callback function to run when the query finishes:
-      (err, rows) => 
+        console.log(rows[0]);
+        console.log('---');
+        res.status(200).json(rows[0]);
+      } 
+      else 
       {
-        if (rows.length > 0) 
-        {
-          console.log(rows[0]);
-          console.log('---');
-          res.status(200).json(rows[0]);
-        } 
-        else 
-        {
-          res.status(404).json( {error: '\"'+username+'\" does not exist'} );
-        }
-      });
-  }
-  else
-  {
-    console.log('Token and requested username does not match\n---')
-    res.status(401).json( {error: 'please log in again'} );
-  }
+        res.status(404).json( {error: '\"'+username+'\" does not exist'} );
+      }
+    });
+
 }

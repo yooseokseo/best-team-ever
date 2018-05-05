@@ -124,7 +124,7 @@ $(document).ready(() => {
    * Makes GET request to /accounts/:username
    */
   $('#getUserInfo').click(() => {
-    const requestURL = 'accounts/' + $('#userBox').val();
+    const requestURL = 'accounts/info'
     console.log('making ajax request to:', requestURL);
 
     $.ajax({
@@ -136,7 +136,7 @@ $(document).ready(() => {
       },
       success: (data) => {
         console.log('You received some data!', data);
-        $('#infoDiv').html($('#userBox').val() + '\'s profiles: ' + JSON.stringify(data));
+        $('#infoDiv').html(data.username + '\'s profiles: ' + JSON.stringify(data));
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
       },
       error: (xhr, textStatus, error) => 

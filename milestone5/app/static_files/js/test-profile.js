@@ -7,16 +7,9 @@ $(document).ready(() => {
    */
   $('#getAllProfiles').click(() =>
   {
-  	//check if username field  is blank
-  	if ($('#userBox').val().trim() == '') 
-  	{
-  		alert('Please enter username');
-  		$('#infoDiv').html('');
-        $('#status').html('');
-  		return; 
-  	}
 
-    const requestURL = 'accounts/'+$('#userBox').val()+'/profiles';
+
+    const requestURL = '/profiles';
     console.log('requestURl = '+requestURL);
     console.log('making ajax request to:', requestURL);
 
@@ -29,7 +22,7 @@ $(document).ready(() => {
         },
       success: (data) => {
         console.log('You received some data!', data);
-        $('#infoDiv').html($('#userBox').val()+'\'s profiles: \n' + JSON.stringify(data));
+        $('#infoDiv').html(data.username+'\'s profiles: \n' + JSON.stringify(data));
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
       },
       error: (xhr, textStatus, error) => 
@@ -47,7 +40,7 @@ $(document).ready(() => {
   $('#getProfile').click(() => {
 
   	//check if input fields are blank
-  	if ($('#userBox').val().trim() == '' || $('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
+  	if ($('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
   	{
   		alert('Please enter info');
   		$('#infoDiv').html('');
@@ -55,7 +48,7 @@ $(document).ready(() => {
   		return; 
   	}
 
-    const requestURL = 'accounts/' + $('#userBox').val().trim() + '/' + $('#nameBoxFirst').val().trim()+ $('#nameBoxLast').val().trim();
+    const requestURL = 'profiles/' + $('#nameBoxFirst').val().trim()+ $('#nameBoxLast').val().trim();
     console.log('making ajax request to:', requestURL);
 
     // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
@@ -104,7 +97,7 @@ $(document).ready(() => {
                  'dob' : $('#dob').val()
                };
 
-  	const requestURL = 'accounts/' + $('#createProfileUsername').val() + '/profiles/new';
+  	const requestURL = '/profiles/new';
   	$.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,

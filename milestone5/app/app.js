@@ -16,7 +16,8 @@ app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
 // Variables for linking to route files
-const routes = require("./rest_api/routes/routes");
+const accountsRoutes = require("./rest_api/routes/accounts");
+const profilesRoutes = require("./rest_api/routes/profiles");
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -167,7 +168,8 @@ app.get('/noUserProfile', (req, res) => {
 //-----------------------------------------
 //-----------ROUTES FOR DATABASE-----------
 //-----------------------------------------
-app.use("/accounts", routes);
+app.use("/accounts", accountsRoutes);
+app.use("/profiles", profilesRoutes);
 
 const checkAuth = require('./rest_api/middleware/check-auth');
 app.use('/testauth', checkAuth, (req, res) =>
