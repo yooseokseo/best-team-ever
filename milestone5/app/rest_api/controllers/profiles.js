@@ -92,7 +92,8 @@ exports.newProfile = (req, res) =>
       } 
       else 
       {
-        res.status(201).json( {message: "profile created", profile: req.body} );
+        req.body.account_id = req.userData.account_id;
+        res.status(201).json( {message: "Profile Created", profile: req.body} );
       }
     }
   ); //end of db.run(`INSERT..`) for creating profile 
@@ -113,8 +114,11 @@ exports.getProfile = (req, res) =>
 
   db.get(
     `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
-     profiles WHERE profiles.id=$profile_id AND accounts.id = $account_id `,
+     profiles WHERE profilename=$profilename 
+     AND profiles.id=$profile_id 
+     AND accounts.id = $account_id `,
     {
+      $profilename: req.params.profilename,
       $profile_id: req.params.profile_id,
       $account_id: req.userData.account_id
     },
@@ -128,13 +132,18 @@ exports.getProfile = (req, res) =>
       }
       else
       {
-        console.log(row);
+        console.log('profile: ',row);
         console.log('---');
-        row.token = getToken(username, row.account_id, row.id);
-
-        (row)? res.status(200).json(row) :
-                           res.status(404).json( 
-                            {error: '\"'+profilename+'\" does not exist'} )
+        if (row) //found profile
+        {
+          row.token = getToken(username, row.account_id, row.id);
+          res.status(200).json(row);
+        }
+        else
+        {
+          const name_id = '\"'+profilename+'\" (id: '+req.params.profile_id+')';
+          res.status(404).json( {error: name_id + ' does not exist'} );
+        }
       }
     });
  
