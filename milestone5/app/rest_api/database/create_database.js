@@ -86,7 +86,7 @@ db.serialize(() => {
     `CREATE TABLE medicine 
     ( 
       id INTEGER PRIMARY KEY AUTOINCREMENT, 
-      name TEXT,
+      medicinename TEXT,
       account_id INTEGER, 
       profile_id INTEGER,
       FOREIGN KEY(account_id) REFERENCES accounts(id),
@@ -94,9 +94,9 @@ db.serialize(() => {
     )`
   );
 
-  db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminA', 1, 3)`);
-  db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminC', 1, 3)`);
-  db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('NyQuil', 2, 1)`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('vitaminA', 1, 3)`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('vitaminC', 1, 3)`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('NyQuil', 2, 1)`);
 
   db.all(
     `SELECT * FROM medicine

@@ -3,12 +3,10 @@ $(document).ready(() => {
 
 /*
    * Shows list of all of user's profile. Must be logged in
-   * Makes GET request to /accounts/:username/profiles
+   * Makes GET request to /profiles
    */
   $('#getAllProfiles').click(() =>
   {
-
-
     const requestURL = '/profiles';
     console.log('requestURl = '+requestURL);
     console.log('making ajax request to:', requestURL);
@@ -23,6 +21,8 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
 
+        // display list of profiles and make each one clickable
+        // clicking on a profile gets that profile's information
         $('#infoDiv').html('Profiles: ');
         data.forEach(e =>
         {
@@ -31,6 +31,7 @@ $(document).ready(() => {
           info.appendChild( 
             document.createTextNode( e.firstName+' '+e.lastName+' (id: '+e.id+')' ) 
           );
+          // fill out first name, last name, and id fields and click 'getProfile'
           info.addEventListener( 'click', () =>
           {
             $('#nameBoxFirst').val(e.firstName);
@@ -55,10 +56,9 @@ $(document).ready(() => {
 
   /*
    * View info for a specific profile. Must be logged in
-   * Makes GET request to /accounts/:username/:profilename
+   * Makes GET request to /profiles/:profilename/:profile_id
    */
   $('#getProfile').click(() => {
-
 
   	//check if input fields are blank
   	if ($('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
@@ -74,9 +74,7 @@ $(document).ready(() => {
     const requestURL = 'profiles/' + fn+ln + '/' + id;
     console.log('making ajax request to:', requestURL);
 
-    // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
-    // Using the core $.ajax() method since it's the most flexible.
-    // ($.get() and $.getJSON() are nicer convenience functions)
+
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -95,6 +93,7 @@ $(document).ready(() => {
         delete data.token;
         $('#infoDiv').html(JSON.stringify(data));
 
+        $('#new_medicine_text').text('New medicine for '+$('#nameBoxFirst').val()+' '+$('#nameBoxLast').val())
         $('#medicine-new').show();
         $('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
         $('#lookupMedicine_hidden').show();
@@ -108,6 +107,11 @@ $(document).ready(() => {
     });
   });
 
+
+  /*
+   * Create new profile for the currently logged in user.
+   * Makes POST request to /profiles/new
+   */
   $('#createProfile').click(()=>
   {
 
@@ -122,7 +126,6 @@ $(document).ready(() => {
   	}
 
   	var body = {
-                 'username' : $('#createProfileUsername').val(),
                  'profilename' : $('#firstname').val().trim()+$('#lastname').val().trim(),
                  'firstName' : $('#firstname').val(),
                  'lastName': $('#lastname').val(),
@@ -154,7 +157,6 @@ $(document).ready(() => {
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
-
-  });
+  }); // end of create new profile
 
 });

@@ -51,6 +51,8 @@ exports.getAllMedicine = (req, res) =>
 } // end of getAllMedicine()
 
 
+
+
 /**
  * Creates new medicine for the requested profile. Must be logged in.
  * 
@@ -63,14 +65,40 @@ exports.getAllMedicine = (req, res) =>
  */
 exports.newMedicine = (req, res) => 
 {
-  // db.all() fetches all results from an SQL query into the 'rows' variable:
-  db.all('SELECT username FROM users', (err, rows) => {
-    const allUsernames = rows.map(e => e.username);
-    console.log(allUsernames);
-    res.send(allUsernames);
-  });
+  console.log("CREATE NEW MEDICINE");
+  console.log('medicine to create:\n', req.body, '\n');
+
+  const medicinename = req.body.medicinename;
+  const account_id = req.userData.account_id;
+  const profile_id = req.userData.profile_id;
+
+  db.run(
+    `INSERT INTO medicine (medicinename, account_id, profile_id)
+     VALUES ($medicinename, $account_id, $profile_id)`,
+    {
+      $medicinename: medicinename,
+      $account_id: account_id,
+      $profile_id: profile_id
+    },
+    // callback function to run when the query finishes:
+    (err) => 
+    {
+      if (err) 
+      {
+        console.log(err);
+        res.status(500).json( {error: err} );
+      } 
+      else 
+      {
+        console.log('Medicine created\n---');
+        res.status(201).json( {profile: req.body} );
+      }
+    } // end of (err) =>
+  ); // end of db.run(`INSERT..`) for creating medicine 
 
 } // end of newMedicine()
+
+
 
 /**
  * GET medicine data for profile. Must be logged in.
@@ -91,7 +119,7 @@ exports.getMedicine = (req, res) =>
   db.get(
     `SELECT * FROM medicine 
      WHERE id=$medicine_id 
-     AND   name=$medicinename
+     AND   medicinename=$medicinename
      AND   account_id=$account_id
      AND   profile_id=$profile_id`, 
     {

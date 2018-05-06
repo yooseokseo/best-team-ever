@@ -14,9 +14,13 @@
 
   <h4> Look up </h4>
   
-  <button id="allUsersButton">Get all users</button>
+  <!-- Field for viewing all accounts; always present -->
+  <button id="allUsersButton">Get all accounts</button>
   <br>*note: must be signed in to view user's data<br><br>
 
+
+
+  <!-- Field for looking up profiles; shows up after logged in -->
   <div id="lookupInfo_hidden" style="display:none">
     Name: <input id="nameBoxFirst" type="text" placeholder="First Name"/>
     <input id="nameBoxLast" type="text" placeholder="Last Name"/>
@@ -28,6 +32,9 @@
     <button id="getProfile">Get a profile</button>
   </div>
 
+
+
+  <!-- Field for looking up medicine; shows up after selecting profile -->
   <div id='lookupMedicine_hidden' style='display:none'>
     <br>
     Medicine name: <input id='medicineName' placeholder='Medicine name' />
@@ -39,6 +46,7 @@
 
 
 
+  <!-- Field for logging in & signing up; always present -->
   <hr> 
   <h4> Sign up/Log in </h4>
 
@@ -52,8 +60,11 @@
   <button id="login">Log in</button> *note: don't need email to log in
   <br>
 
+
+
+  <!-- Field for creating new profile; shows up after logged in -->
   <div id="profile-new" style="display:none">
-    <h4> New profile </h4>
+    <h4 id='new_profile_text'> New profile </h4>
     First name: <input id="firstname" placeholder="First name"/>
     Last name: <input id="lastname" placeholder="Last name"/> <br>
     Gender: <input id="gender" placeholder="m, f, apache helicopter, etc." size="24"/>
@@ -63,9 +74,14 @@
     <button id="createProfile"> Create Profile</button>
   </div>
 
+
+
+  <!-- Field for creating new medicine; shows up after selecting a profile -->
   <div id='medicine-new' style='display:none'>
-    <h4> New medicine </h4>
-    Username: <input id="createMedicineUsername" placeholder="Username"/> <br>
+    <h4 id='new_medicine_text'> New medicine </h4>
+    Medicine name: <input id="medicinename" placeholder="Medicine name"/> <br>
+
+    <button id='createMedicine'> Create medicine </button>
   </div>
 
 
@@ -73,10 +89,10 @@
 
   <hr>
   <div id="infoDiv"></div>
-
   <hr/>
 
   <div id="status"></div>
+
   <script src="js/test-accounts.js"></script>
   <script src="js/test-profiles.js"></script>
   <script src="js/test-medicine.js"></script>

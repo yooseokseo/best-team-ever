@@ -14,7 +14,9 @@ function testauth()
     $('#getUserInfo').text('Get '+response.username+'\'s info')
     $('#getAllProfiles').text('Get '+response.username+'\'s profiles');
     $('#lookupInfo_hidden').show();
+    $('#new_profile_text').text('New profile for '+response.username);
     $('#profile-new').show();
+
 
   }).fail(function (err)  
   {
@@ -27,7 +29,7 @@ $(document).ready(() => {
 
   /*
    * Show list of all users. Don't need to be signed in
-   * Makes GET request to /users
+   * Makes GET request to /accounts
    */
   $('#allUsersButton').click(() => {
     $.ajax({
@@ -124,7 +126,7 @@ $(document).ready(() => {
   /*
    * Gets user's info (ex. username, email, password)
    * Needs to be signed in and access correct user
-   * Makes GET request to /accounts/:username
+   * Makes GET request to /accounts/info
    */
   $('#getUserInfo').click(() => {
     const requestURL = 'accounts/info'
