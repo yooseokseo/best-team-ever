@@ -95,7 +95,6 @@ $(document).ready(() => {
         delete data.token;
         $('#infoDiv').html(JSON.stringify(data));
 
-        $('#profile-new').show();
         $('#medicine-new').show();
         $('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
         $('#lookupMedicine_hidden').show();
@@ -111,6 +110,7 @@ $(document).ready(() => {
 
   $('#createProfile').click(()=>
   {
+
   	//check if input fields are blank
   	if ($('#firstname').val().trim() == '' || $('#lastname').val().trim() == '' ||
   		$('#gender').val().trim() == '' || $('#dob').val().trim() == '') 
@@ -131,6 +131,7 @@ $(document).ready(() => {
                };
 
   	const requestURL = '/profiles/new';
+    console.log('making ajax request to: '+requestURL);
   	$.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -144,6 +145,8 @@ $(document).ready(() => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
         $('#infoDiv').html(JSON.stringify(data));
+        window.localStorage.setItem("token", data.token); //store authorization token
+
       },
       error: (xhr, textStatus, error) => 
       {

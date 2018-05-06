@@ -14,6 +14,8 @@ function testauth()
     $('#getUserInfo').text('Get '+response.username+'\'s info')
     $('#getAllProfiles').text('Get '+response.username+'\'s profiles');
     $('#lookupInfo_hidden').show();
+    $('#profile-new').show();
+
   }).fail(function (err)  
   {
     $('#loginStatus').text("Signed in: false");

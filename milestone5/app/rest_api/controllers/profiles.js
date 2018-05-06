@@ -74,6 +74,8 @@ exports.getAllProfiles = (req, res) =>
 } // end of getAllProfiles()
 
 
+
+
 /**
  * Creates new profile for the requested account. Must be logged in.
  * 
@@ -87,19 +89,27 @@ exports.getAllProfiles = (req, res) =>
 exports.newProfile = (req, res) => 
 {
   console.log("CREATE NEW PROFILE");
-  console.log(req.body);
+  console.log('profile to create:\n', req.body, '\n');
+
+  const username = req.userData.username;
+  const profilename = req.body.profilename.toLowerCase();
+  const firstName = req.body.firstName;
+  const lastName = req.body.lastName;
+  const dob = req.body.dob;
+  const gender = req.body.gender;
+  const account_id = req.userData.account_id;
 
   db.run(
-    `INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id) \
-     VALUES ($profilename, $firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
+    `INSERT INTO profiles (profilename, firstName, lastName, dob, 
+                           gender, isDefault, account_id)
+     VALUES ($profilename, $firstName, $lastName, $dob, $gender, 0, $account_id)`,
     {
-      $profilename: req.body.profilename.toLowerCase(),
-      $firstName: req.body.firstName,
-      $lastName: req.body.lastName,
-      $dob: req.body.dob,
-      $gender: req.body.gender,
-      $isDefault: 0,
-      $account_id: req.userData.account_id
+      $profilename: profilename,
+      $firstName: firstName,
+      $lastName: lastName,
+      $dob: dob,
+      $gender: gender,
+      $account_id: account_id
     },
     // callback function to run when the query finishes:
     (err) => 
@@ -111,15 +121,26 @@ exports.newProfile = (req, res) =>
       } 
       else 
       {
-        // find id of the newly created profile
-        console.warn("inserted id:", this.lastID);
+        // find ID of the newly created profile to create token from it
+        const query = 'SELECT * FROM profiles WHERE profilename=? AND account_id=?';
+        db.all(query, [profilename, account_id], (err, rows) =>
+        {
+          const allId = rows.map(e => {console.log(e); return e.id});
 
+          // if multiple profiles w/ same name, new one will have highest id
+          const max = Math.max(...allId);
 
-        req.body.account_id = req.userData.account_id;
-        res.status(201).json( {message: "Profile Created", profile: req.body} );
+          console.log('found '+allId.length+' profile(s) with name: '+profilename);
+          console.log('IDs found: ', JSON.stringify(allId));
+          console.log('ID of the new profile = ' + max + '\n---');
+
+          const token = getToken(username, account_id, max);
+          console.log()
+          res.status(201).json( {profile: req.body, token: token} );
+        }); // end of db.all(..) for new profile id
       }
-    }
-  ); //end of db.run(`INSERT..`) for creating profile 
+    } // end of (err) =>
+  ); // end of db.run(`INSERT..`) for creating profile 
 
 } // end of newProfile()
 

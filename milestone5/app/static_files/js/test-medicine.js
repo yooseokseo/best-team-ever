@@ -104,49 +104,49 @@ $(document).ready(() => {
     });
   });
 
-  $('#createProfile').click(()=>
-  {
-  	//check if input fields are blank
-  	if ($('#firstname').val().trim() == '' || $('#lastname').val().trim() == '' ||
-  		$('#gender').val().trim() == '' || $('#dob').val().trim() == '') 
-  	{
-  		alert('Please enter all info');
-  		$('#infoDiv').html('');
-        $('#status').html('');
-  		return; 
-  	}
+  // $('#createProfile').click(()=>
+  // {
+  // 	//check if input fields are blank
+  // 	if ($('#firstname').val().trim() == '' || $('#lastname').val().trim() == '' ||
+  // 		$('#gender').val().trim() == '' || $('#dob').val().trim() == '') 
+  // 	{
+  // 		alert('Please enter all info');
+  // 		$('#infoDiv').html('');
+  //       $('#status').html('');
+  // 		return; 
+  // 	}
 
-  	var body = {
-                 'username' : $('#createProfileUsername').val(),
-                 'profilename' : $('#firstname').val().trim()+$('#lastname').val().trim(),
-                 'firstName' : $('#firstname').val(),
-                 'lastName': $('#lastname').val(),
-                 'gender' : $('#gender').val(),
-                 'dob' : $('#dob').val()
-               };
+  // 	var body = {
+  //                'username' : $('#createProfileUsername').val(),
+  //                'profilename' : $('#firstname').val().trim()+$('#lastname').val().trim(),
+  //                'firstName' : $('#firstname').val(),
+  //                'lastName': $('#lastname').val(),
+  //                'gender' : $('#gender').val(),
+  //                'dob' : $('#dob').val()
+  //              };
 
-  	const requestURL = '/profiles/new';
-  	$.ajax({
-      // all URLs are relative to http://localhost:3000/
-      url: requestURL,
-      type: 'POST',
-      dataType : 'json', // this URL returns data in JSON format
-      data: body,
-      beforeSend: function (xhr) {   //Include the bearer token in header
-          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-      },
-      success: (data) => {
-        console.log('You received some data!', data);
-        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));
-      },
-      error: (xhr, textStatus, error) => 
-      {
-        $('#infoDiv').html('');
-        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
-      }
-    });
+  // 	const requestURL = '/medicine/new';
+  // 	$.ajax({
+  //     // all URLs are relative to http://localhost:3000/
+  //     url: requestURL,
+  //     type: 'POST',
+  //     dataType : 'json', // this URL returns data in JSON format
+  //     data: body,
+  //     beforeSend: function (xhr) {   //Include the bearer token in header
+  //         xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+  //     },
+  //     success: (data) => {
+  //       console.log('You received some data!', data);
+  //       $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+  //       $('#infoDiv').html(JSON.stringify(data));
+  //     },
+  //     error: (xhr, textStatus, error) => 
+  //     {
+  //       $('#infoDiv').html('');
+  //       $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+  //     }
+  //   });
 
-  });
+  // });
 
 });
