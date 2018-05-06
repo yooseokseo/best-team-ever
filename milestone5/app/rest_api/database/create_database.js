@@ -58,6 +58,7 @@ db.serialize(() => {
     `CREATE TABLE profiles 
     ( 
       id INTEGER PRIMARY KEY AUTOINCREMENT, 
+      profilename TEXT,
       firstName TEXT, 
       lastName TEXT, 
       dob TEXT, 
@@ -68,10 +69,10 @@ db.serialize(() => {
     )`
   );
 
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'Liam', 'Smith', '02/21/1987', 'male', 1, 2)");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'Philip', 'Johnson', '01/17/1980', 'male', 0, 2)");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'James', 'Brown', '08/13/1995', 'male', 0, 1)");
-  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'Mary', 'Miller', '07/03/1975', 'female', 0, 1)");
+  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'liamsmith', 'Liam', 'Smith', '02/21/1987', 'male', 1, 2)");
+  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'philipjohnson', 'Philip', 'Johnson', '01/17/1980', 'male', 0, 2)");
+  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'jamesbrown', 'James', 'Brown', '08/13/1995', 'male', 0, 1)");
+  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'marymiller', 'Mary', 'Miller', '07/03/1975', 'female', 0, 1)");
   
   var groupByArray = (xs, key) =>
   { 

@@ -7,16 +7,9 @@ $(document).ready(() => {
    */
   $('#getAllProfiles').click(() =>
   {
-  	//check if username field  is blank
-  	if ($('#userBox').val().trim() == '') 
-  	{
-  		alert('Please enter username');
-  		$('#infoDiv').html('');
-        $('#status').html('');
-  		return; 
-  	}
 
-    const requestURL = 'accounts/'+$('#userBox').val()+'/profiles';
+
+    const requestURL = '/profiles';
     console.log('requestURl = '+requestURL);
     console.log('making ajax request to:', requestURL);
 
@@ -29,7 +22,27 @@ $(document).ready(() => {
         },
       success: (data) => {
         console.log('You received some data!', data);
-        $('#infoDiv').html($('#userBox').val()+'\'s profiles: \n' + JSON.stringify(data));
+
+        $('#infoDiv').html('Profiles: ');
+        data.forEach(e =>
+        {
+          let info = document.createElement('a');
+          info.setAttribute('href', "#");
+          info.appendChild( 
+            document.createTextNode( e.firstName+' '+e.lastName+' (id: '+e.id+')' ) 
+          );
+          info.addEventListener( 'click', () =>
+          {
+            $('#nameBoxFirst').val(e.firstName);
+            $('#nameBoxLast').val(e.lastName);
+            $('#profile_id').val(e.id);
+            $('#getProfile').click();
+            event.preventDefault();
+          });
+          $('#infoDiv').append(info);  
+          $('#infoDiv').append( document.createTextNode(', ') );
+        });
+
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
       },
       error: (xhr, textStatus, error) => 
@@ -46,16 +59,19 @@ $(document).ready(() => {
    */
   $('#getProfile').click(() => {
 
+
   	//check if input fields are blank
-  	if ($('#userBox').val().trim() == '' || $('#nameBox').val().trim() == '') 
+  	if ($('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
   	{
   		alert('Please enter info');
   		$('#infoDiv').html('');
         $('#status').html('');
   		return; 
   	}
-
-    const requestURL = 'accounts/' + $('#userBox').val().trim() + '/' + $('#nameBox').val().trim();
+    const fn = $('#nameBoxFirst').val().trim();
+    const ln = $('#nameBoxLast').val().trim();
+    const id = $('#profile_id').val();
+    const requestURL = 'profiles/' + fn+ln + '/' + id;
     console.log('making ajax request to:', requestURL);
 
     // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
@@ -72,7 +88,16 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));   
+        
+        window.localStorage.setItem("token", data.token); //store authorization token
+
+        // returned data also contains token; delete token so we don't have to display it
+        delete data.token;
+        $('#infoDiv').html(JSON.stringify(data));
+
+        $('#profile-new').show();
+        $('#medicine-new').show();
+
       },
       error: (xhr, textStatus, error) => 
       {
@@ -86,8 +111,7 @@ $(document).ready(() => {
   {
   	//check if input fields are blank
   	if ($('#firstname').val().trim() == '' || $('#lastname').val().trim() == '' ||
-  		$('#gender').val().trim() == '' || $('#dob').val().trim() == '' ||
-  		$('#createProfileUsername').val().trim() == '') 
+  		$('#gender').val().trim() == '' || $('#dob').val().trim() == '') 
   	{
   		alert('Please enter all info');
   		$('#infoDiv').html('');
@@ -97,13 +121,14 @@ $(document).ready(() => {
 
   	var body = {
                  'username' : $('#createProfileUsername').val(),
+                 'profilename' : $('#firstname').val().trim()+$('#lastname').val().trim(),
                  'firstName' : $('#firstname').val(),
                  'lastName': $('#lastname').val(),
                  'gender' : $('#gender').val(),
                  'dob' : $('#dob').val()
                };
 
-  	const requestURL = 'accounts/' + $('#createProfileUsername').val() + '/profiles/new';
+  	const requestURL = '/profiles/new';
   	$.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -116,7 +141,7 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));   
+        $('#infoDiv').html(JSON.stringify(data));
       },
       error: (xhr, textStatus, error) => 
       {

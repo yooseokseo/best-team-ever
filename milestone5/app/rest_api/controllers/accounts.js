@@ -9,16 +9,23 @@ const db = new sqlite3.Database('rest_api/database/users.db');
 /**
  * Helper function for generating JWT token based on useranme
  *
+ * @param {username} username to put in token; used for authentication; REQUIRED
+ * @param {account_id} id to put in token; used for finding account; REQUIRED
+ * @param {profile_id} used for finding profile; OPTIONAL
+ * @param {password} used for resetting password; OPTIONAL
+ *
  * @return JWT token
  */
-function getToken(username, id)
+function getToken(username, account_id, profile_id, password)
 {
-  const token = jwt.sign(
-  {
-    username: username,
-    id: id
-  }, "secret key lel", { expiresIn: "1h" } );
-  return token;
+  const token = { username: username, account_id: account_id };
+  
+  // add profile_id and/or password to token if not undefined
+  (profile_id == undefined)? {} : token.profile_id = profile_id;
+  (password == undefined)? {} : token.password = password;
+
+
+  return jwt.sign(token, "secret key lel", { expiresIn: "1h" } );
 }
 
 /**
@@ -185,47 +192,33 @@ exports.login = (req, res) =>
 
 /**
  * Gets account's info (username, email, password). Must be logged in
- * After token is checked, function checks to make sure that
- * token is valid for the requested user. If so, finds the 
- * with requested name. 
+ * If logged in, find the account info. 
  *
  * @return user's info if requested user exists, error message otherwise
  */
 exports.getAccountInfo = (req, res) =>
 {
   console.log("getAccountInfo");
-  const username = req.params.username;
-  console.log('request for: '+username+'; token valid for: '+req.userData.username);
+  const username = req.userData.username;
 
-  //Check to make sure that token actually corersponds to the requested 
-  //username. If logged previously as another and token is still valid,
-  //check to make sure that data on token matches the request's username
-  //Essentially, you should only be able to view own your account.
-  if (req.userData.username === req.params.username)
-  {
-    db.all(
-      `SELECT * FROM accounts WHERE username=$username`,
+  db.all(
+    `SELECT * FROM accounts WHERE username=$username`,
+    {
+      $username: username
+    },
+    // callback function to run when the query finishes:
+    (err, rows) => 
+    {
+      if (rows.length > 0) 
       {
-        $username: username
-      },
-      // callback function to run when the query finishes:
-      (err, rows) => 
+        console.log(rows[0]);
+        console.log('---');
+        res.status(200).json(rows[0]);
+      } 
+      else 
       {
-        if (rows.length > 0) 
-        {
-          console.log(rows[0]);
-          console.log('---');
-          res.status(200).json(rows[0]);
-        } 
-        else 
-        {
-          res.status(404).json( {error: '\"'+username+'\" does not exist'} );
-        }
-      });
-  }
-  else
-  {
-    console.log('Token and requested username does not match\n---')
-    res.status(401).json( {error: 'please log in again'} );
-  }
+        res.status(404).json( {error: '\"'+username+'\" does not exist'} );
+      }
+    });
+
 }

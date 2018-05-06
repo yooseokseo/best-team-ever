@@ -11,8 +11,9 @@ function testauth()
   }).done(function (response) 
   {
     $('#loginStatus').text("Signed in: true (username: "+response.username+")");
+    $('#getUserInfo').text('Get '+response.username+'\'s info')
+    $('#getAllProfiles').text('Get '+response.username+'\'s profiles');
     $('#lookupInfo_hidden').show();
-    $('#profile-medicine-new').show();
   }).fail(function (err)  
   {
     $('#loginStatus').text("Signed in: false");
@@ -124,7 +125,7 @@ $(document).ready(() => {
    * Makes GET request to /accounts/:username
    */
   $('#getUserInfo').click(() => {
-    const requestURL = 'accounts/' + $('#userBox').val();
+    const requestURL = 'accounts/info'
     console.log('making ajax request to:', requestURL);
 
     $.ajax({
@@ -136,7 +137,7 @@ $(document).ready(() => {
       },
       success: (data) => {
         console.log('You received some data!', data);
-        $('#infoDiv').html($('#userBox').val() + '\'s profiles: ' + JSON.stringify(data));
+        $('#infoDiv').html(data.username + '\'s info: ' + JSON.stringify(data));
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
       },
       error: (xhr, textStatus, error) => 
