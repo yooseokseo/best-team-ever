@@ -6,18 +6,21 @@ const bcrypt = require('bcrypt');
 const db = new sqlite3.Database('rest_api/database/users.db');
 
 /**
- * GET a list of all users. Only show usernames of user and nothing
- * else. Obviously only used for debugging (would be a breach if you show
- * everyone all users in database). Don't need to be signed in.
+ * GET a list of all medicine for a profile. Find medicine belonging to the
+ * correct profile by checking account_id and profile_id.
  *
- * @return array of usernames of all users
+ * Route signature: GET /medicine
+ * Example call: localhost:3000/medicine
+ * Expected: token
+ *
+ * @return erorr 500 if error occured while searching for medicine. Otherwise
+ *         return array of all of profile's medicine if any exists; if none 
+ *         exists, return error 404 (Not Found)
  */
 exports.getAllMedicine = (req, res) => 
 {
   console.log('GET ALL MEDICINE')
-  console.log(req.userData);
 
-  // db.all() fetches all results from an SQL query into the 'rows' variable:
   db.all(
     `SELECT * FROM medicine 
      WHERE account_id=$account_id 
@@ -38,21 +41,25 @@ exports.getAllMedicine = (req, res) =>
         console.log(rows);
         console.log('---');
 
-        if (rows.length > 0)
-        {
-          res.status(200).json(rows);
-        }
-        else
-        {
-          res.status(404).json( {error: 'Profile does not have any medicine'} );
-        }
+        (rows.length > 0)?  
+          res.status(200).json(rows) :
+          res.status(404).json( {error: 'Profile doesn\'t have any medicine'} );
       }
-    });
+    }
+  ); // end of db.all(...)
 
-}
+} // end of getAllMedicine()
+
 
 /**
- * Creates new medicine. 
+ * Creates new medicine for the requested profile. Must be logged in.
+ * 
+ * Route signature: POST /medicine/new
+ * Example call: localhost:3000/medicine/new
+ * Expected: token, body {? ? ?}
+ *
+ * @return 1) error 500 if error occured while creating medicine. Otherwise
+ *         2) created medicine 
  */
 exports.newMedicine = (req, res) => 
 {
@@ -63,14 +70,19 @@ exports.newMedicine = (req, res) =>
     res.send(allUsernames);
   });
 
-}
+} // end of newMedicine()
 
 /**
- * GET a list of all users. Only show usernames of user and nothing
- * else. Obviously only used for debugging (would be a breach if you show
- * everyone all users in database). Don't need to be signed in.
+ * GET medicine data for profile. Must be logged in.
+ * If logged in, find the with requested profile name and account name
  *
- * @return array of usernames of all users
+ * Route signature: GET /medicine/:medicinename/:medicine_id
+ * Example call: localhost:3000/medicine/vitaminC/2
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while searching for medicine. Otherwise
+ *         2) medicine information if found or 
+ *         3) error 404 (Not Found) if medicine not found
  */
 exports.getMedicine = (req, res) => 
 {
@@ -113,4 +125,4 @@ exports.getMedicine = (req, res) =>
     }
   );
 
-}
+} // end of getMedicine()

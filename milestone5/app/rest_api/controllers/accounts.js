@@ -35,27 +35,57 @@ function getToken(username, account_id, profile_id, password)
  *
  * @return array of usernames of all users
  */
+ /**
+ * GET list of all accounts. Only show usernames of user and nothing
+ * else. Obviously only used for debugging (would be a breach if you show
+ * everyone all accounts in database). Don't need to be signed in.
+ *
+ * Route signature: GET /accounts
+ * Example call: localhost:3000/profiles
+ * Expected: none
+ *
+ * @return 1) error 500 if error occured while searching for accounts. Otherwise
+ *         2) array of all accounts
+ */
 exports.getAllAccounts = (req, res) => 
 {
-  // db.all() fetches all results from an SQL query into the 'rows' variable:
-  db.all(`SELECT username FROM accounts`, (err, rows) => {
-    const allUsernames = rows.map(e => e.username);
-    console.log(allUsernames);
-    res.send(allUsernames);
+  console.log('GET ALL ACCOUNTS');
+
+  db.all(`SELECT username FROM accounts`, (err, rows) => 
+  {
+    if (err)
+    {
+      console.log(err);
+      res.status(500).json( {error: err} );
+    }
+    else
+    {
+      const allUsernames = rows.map(e => e.username);
+      console.log(allUsernames);
+      res.status(200).json(allUsernames);
+    }
+    
   });
 
-}
+} // end of getAllAccounts()
 
-/**
+
+ /**
  * Creates an account. If the inputted username and email doesn't exist,
  * create new account with the information and generate JWT token with
  * username.
  *
- * @return token with username if successful signup, error message otherwise
+ * Route signature: POST /accounts/signup
+ * Example call: localhost:3000/accounts/signup
+ * Expected: body {username, email, password}
+ *
+ * @return 1) error 500 if error occured while creating account or hashing password
+ *         2) created account and new token if valid username and/or email
+ *         3) error 409 (Conflict) if username and/or email already taken
  */
 exports.signup = (req, res) =>
 {
-  console.log('signup');
+  console.log('SIGNUP');
 
   const username = req.body.username;
   const email = req.body.email;
@@ -103,7 +133,7 @@ exports.signup = (req, res) =>
                   } 
                   else 
                   {
-                    // find id of the newly created user
+                    // find id of the newly created account
                     const query = "SELECT * FROM accounts WHERE username=?";
                     db.get(query, username, (err, account) =>
                     {
@@ -128,8 +158,9 @@ exports.signup = (req, res) =>
         }
       }
     }
-  ); //end of db.all()
-}// end of sign up
+  ); // end of db.all(...)
+
+} // end of signup()
 
 
 /**
@@ -137,11 +168,18 @@ exports.signup = (req, res) =>
  * exists. If so, check if the password (after hashing it) is correct.
  * If so, create token with username.
  *
- * @return token with username if correct info, error message otherwise
+ * Route signature: POST /accounts/login
+ * Example call: localhost:3000/accounts/login
+ * Expected: body {username, password}
+ *
+ * @return 1) error 500 if error occured while searching for account. Otherwise
+ *         2) token if correct username and password, or 
+ *         3) error error 401 (Unauthorized) if incorrect password, or
+ *         3) error 404 (Not Found) if account with that username doesn't exist
  */
 exports.login = (req, res) =>
 {
-  console.log('login');
+  console.log('LOGIN');
 
   const username = req.body.username;
   const password = req.body.password;
@@ -185,20 +223,28 @@ exports.login = (req, res) =>
           res.status(404).json( {error: '\"'+username+'\" does not exist'} );
         }
       }
-    } //end of (err, row) callback
-  ); //end of db.all()
-} //end of login
+    } // end of (err, row) =>
+  ); // end of db.all(..)
+
+} // end of login()
 
 
 /**
  * Gets account's info (username, email, password). Must be logged in
  * If logged in, find the account info. 
  *
+ * Route signature: GET /accounts/info
+ * Example call: localhost:3000/accounts/info
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while searching for account. Otherwise
+ *         2) account info if found, or
+ *         3) error 404 (Not Found) if account does not exist
  * @return user's info if requested user exists, error message otherwise
  */
 exports.getAccountInfo = (req, res) =>
 {
-  console.log("getAccountInfo");
+  console.log("GET ACCOUNT INFO");
   const username = req.userData.username;
 
   db.all(
@@ -219,6 +265,7 @@ exports.getAccountInfo = (req, res) =>
       {
         res.status(404).json( {error: '\"'+username+'\" does not exist'} );
       }
-    });
+    }
+  ); // end of db.all(..)
 
-}
+} // end of getAccountInfo()

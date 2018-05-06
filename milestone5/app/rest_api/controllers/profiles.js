@@ -32,7 +32,13 @@ function getToken(username, account_id, profile_id, password)
  * GET list of all of user's profile. Must be logged in.
  * If logged in, find the with requested name. 
  *
- * @return array of profiles if user is found, error message otherwise
+ * Route signature: GET /profiles
+ * Example call: localhost:3000/profiles
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while searching for profile. Otherwise
+ *         2) array of profiles if found or 
+ *         3) error 404 (Not Found) if no profiles
  */
 exports.getAllProfiles = (req, res) =>
 {
@@ -47,23 +53,36 @@ exports.getAllProfiles = (req, res) =>
       $username: username
     },
     // callback function to run when the query finishes:
-    (err, rows) => {
-      console.log(rows);
-      console.log('---');
-      if (rows.length > 0) 
+    (err, rows) => 
+    {
+      if (err)
       {
-        res.status(200).json(rows);
+        console.log(err);
+        res.status(500).json( {error: err} );
       }
-      else 
+      else
       {
-        res.status(404).json( {error: '\"'+username+'\" does not have any profiles'} );
-      }
-    });
+        console.log(rows);
+        console.log('---');
+        (rows.length > 0)?
+          res.status(200).json(rows) :
+          res.status(404).json( {error: '\"'+username+'\" doesn\'t have any profiles'} );
+      } 
+    } // end of (err, rows) => {}
+  ); // end of db.all(..)
 
-}
+} // end of getAllProfiles()
+
 
 /**
- * Creates new profile. 
+ * Creates new profile for the requested account. Must be logged in.
+ * 
+ * Route signature: POST /profiles/new
+ * Example call: localhost:3000/profiles/new
+ * Expected: token, body {username, profilename, firstName, lastName, gender, dob}
+ *
+ * @return 1) error 500 if error occured while creating profile. Otherwise
+ *         2) created profile and new token 
  */
 exports.newProfile = (req, res) => 
 {
@@ -92,19 +111,30 @@ exports.newProfile = (req, res) =>
       } 
       else 
       {
+        // find id of the newly created profile
+        console.warn("inserted id:", this.lastID);
+
+
         req.body.account_id = req.userData.account_id;
         res.status(201).json( {message: "Profile Created", profile: req.body} );
       }
     }
   ); //end of db.run(`INSERT..`) for creating profile 
 
-}
+} // end of newProfile()
+
 
 /**
  * GET profile data for an account. Must be logged in.
  * If logged in, find the with requested name. 
  *
- * @return profile information if found, error message otherwise
+ * Route signature: GET /profiles/:profilename/:profile_id
+ * Example call: localhost:3000/profiles/JohnnyTest/2
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while searching for profile. Otherwise
+ *         2) profile information if found or 
+ *         3) error 404 (Not Found) if profile not found
  */
 exports.getProfile = (req, res) =>
 {
@@ -147,8 +177,9 @@ exports.getProfile = (req, res) =>
           res.status(404).json( {error: name_id + ' does not exist'} );
         }
       }
-    });
- 
 
-};
+    } // end of (err, row) =>
+  ); // end of db.get(..)
+
+} // end of getProfile()
 
