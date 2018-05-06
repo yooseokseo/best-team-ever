@@ -37,9 +37,11 @@ function getToken(username, account_id, profile_id, password)
  * Expected: token
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
+ *            -> {keys -> error}
  *         2) array of profiles if found or 
  *            -> [ list of profiles ]
  *         3) error 404 (Not Found) if no profiles
+ *            -> {keys -> error}
  */
 exports.getAllProfiles = (req, res) =>
 {
@@ -85,6 +87,7 @@ exports.getAllProfiles = (req, res) =>
  * Expected: token, body {username, profilename, firstName, lastName, gender, dob}
  *
  * @return 1) error 500 if error occured while creating profile. Otherwise
+ *            -> {keys -> error}
  *         2) created profile and new token 
  *            -> { profile: {profile created}, token: token}
  */
@@ -156,9 +159,11 @@ exports.newProfile = (req, res) =>
  * Expected: token
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
+ *            -> {keys -> error}
  *         2) profile information if found or 
  *            -> {keys -> id, firstName, lastName, gender, dob, account_id}
  *         3) error 404 (Not Found) if profile not found
+ *            -> {keys -> error}
  */
 exports.getProfile = (req, res) =>
 {

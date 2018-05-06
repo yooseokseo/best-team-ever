@@ -105,6 +105,16 @@ $(document).ready(() => {
 
   	var body = {
                  'medicinename' : $('#medicinename').val(),
+                 'dosage' : $('#dosage').val(),
+                 'num_pills' : $('#numPills').val(),
+                 'recurrence_hour' : $('#recurrence_hour').val(),
+                 'times_per_day' : $('#recurrence_day').val(),
+                 'start_date' : $('#startDate').val(),
+                 'start_time' : $('#startTime').val(),
+                 'end_date' : $('#endDate').val(),
+                 'end_time' : $('#endTime').val(),
+                 'med_type' : $('#medType').val(),
+                 'med_color' : $('#medColor').val(),
                };
 
   	const requestURL = '/medicine/new';

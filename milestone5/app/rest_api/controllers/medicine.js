@@ -14,9 +14,11 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  * Expected: token
  *
  * @return 1) erorr 500 if error occured while searching for medicine. Otherwise
+ *            -> {keys -> error}
  *         2) array of all of profile's medicine if any exists, or 
  *            -> [ list of all medicine ]
  *         3) error 404 (Not Found) if none exists
+ *            -> {keys -> error}
  */
 exports.getAllMedicine = (req, res) => 
 {
@@ -59,28 +61,40 @@ exports.getAllMedicine = (req, res) =>
  * 
  * Route signature: POST /medicine/new
  * Example call: localhost:3000/medicine/new
- * Expected: token, body {? ? ?}
+ * Expected: token, body {medicinename, dosage, num_pills, recurrence_hour,
+                          times_per_day, start_date, start_time, end_date,
+                          end_time, med_type, med_color}
  *
  * @return 1) error 500 if error occured while creating medicine. Otherwise
- *         2) created medicine 
- *            -> {keys -> medicinename, ?}
+ *            -> {keys -> error}
+ *         2) message saying medicine has been created 
+ *            -> {keys -> message}
  */
 exports.newMedicine = (req, res) => 
 {
   console.log("CREATE NEW MEDICINE");
   console.log('medicine to create:\n', req.body, '\n');
 
-  const medicinename = req.body.medicinename;
-  const account_id = req.userData.account_id;
-  const profile_id = req.userData.profile_id;
-
   db.run(
-    `INSERT INTO medicine (medicinename, account_id, profile_id)
-     VALUES ($medicinename, $account_id, $profile_id)`,
+    `INSERT INTO medicine
+     VALUES ($id, $medicinename, $dosage, $num_pills, $recurrence_hour, 
+             $times_per_day, $start_date, $start_time, $end_date, 
+             $end_time, $med_type, $med_color, $account_id, $profile_id)`,
     {
-      $medicinename: medicinename,
-      $account_id: account_id,
-      $profile_id: profile_id
+      $id : null,
+      $medicinename : req.body.medicinename,
+      $dosage : req.body.dosage,
+      $num_pills : req.body.num_pills,
+      $recurrence_hour : req.body.recurrence_hour,
+      $times_per_day : req.body.times_per_day,
+      $start_date : req.body.start_date,
+      $start_time : req.body.start_time,
+      $end_date : req.body.end_date,
+      $end_time : req.body.end_time,
+      $med_type : req.body.med_type,
+      $med_color : req.body.med_color,
+      $account_id : req.userData.account_id,
+      $profile_id : req.userData.profile_id
     },
     // callback function to run when the query finishes:
     (err) => 
@@ -93,7 +107,7 @@ exports.newMedicine = (req, res) =>
       else 
       {
         console.log('Medicine created\n---');
-        res.status(201).json(req.body);
+        res.status(201).json( {message: 'Medicine created'} );
       }
     } // end of (err) =>
   ); // end of db.run(`INSERT..`) for creating medicine 
@@ -111,9 +125,13 @@ exports.newMedicine = (req, res) =>
  * Expected: token
  *
  * @return 1) error 500 if error occured while searching for medicine. Otherwise
+ *            -> {keys -> error}
  *         2) medicine information if found or 
- *            ->
+ *            -> {keys -> id, medicinename, dosage, num_pills, recurrence_hour,
+ *                        times_per_day, start_date, start_time, end_date,
+ *                        end_time, med_type, med_color, account_id, profile_id}
  *         3) error 404 (Not Found) if medicine not found
+ *            -> {keys -> error}
  */
 exports.getMedicine = (req, res) => 
 {
