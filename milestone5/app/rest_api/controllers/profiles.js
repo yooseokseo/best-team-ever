@@ -111,8 +111,8 @@ exports.getProfile = (req, res) =>
   console.log("GET PROFILE")
   const username = req.userData.username;
   const profilename = req.params.profilename.toLowerCase();
-
-
+  const profile_id = req.params.profile_id;
+  const account_id = req.userData.account_id;
 
   db.get(
     `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
@@ -120,9 +120,9 @@ exports.getProfile = (req, res) =>
      AND profiles.id = $profile_id  
      AND accounts.id = $account_id`,
     {
-      $profilename: req.params.profilename.toLowerCase(),
-      $profile_id: req.params.profile_id,
-      $account_id: req.userData.account_id
+      $profilename: profilename,
+      $profile_id: profile_id,
+      $account_id: account_id
     },
     // callback function to run when the query finishes:
     (err, row) => 
@@ -138,12 +138,12 @@ exports.getProfile = (req, res) =>
         console.log('---');
         if (row) //found profile
         {
-          row.token = getToken(username, row.account_id, row.id);
+          row.token = getToken(username, account_id, profile_id);
           res.status(200).json(row);
         }
         else
         {
-          const name_id = '\"'+profilename+'\" (id: '+req.params.profile_id+')';
+          const name_id = '\"'+profilename+'\" (id: '+profile_id+')';
           res.status(404).json( {error: name_id + ' does not exist'} );
         }
       }

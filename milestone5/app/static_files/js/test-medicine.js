@@ -33,7 +33,7 @@ $(document).ready(() => {
           {
             $('#medicineName').val(e.name);
             $('#medicine_id').val(e.id);
-            //$('#getProfile').click();
+            $('#getMedicine').click();
             event.preventDefault();
           });
           $('#infoDiv').append(info);  
@@ -54,21 +54,19 @@ $(document).ready(() => {
    * View info for a specific profile. Must be logged in
    * Makes GET request to /accounts/:username/:profilename
    */
-  $('#getProfile').click(() => {
+  $('#getMedicine').click(() => {
 
 
   	//check if input fields are blank
-  	if ($('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
+  	if ($('#medicineName').val().trim() == '' || $('#medicine_id').val().trim() == '') 
   	{
   		alert('Please enter info');
   		$('#infoDiv').html('');
         $('#status').html('');
   		return; 
   	}
-    const fn = $('#nameBoxFirst').val().trim();
-    const ln = $('#nameBoxLast').val().trim();
-    const id = $('#profile_id').val();
-    const requestURL = 'profiles/' + fn+ln + '/' + id;
+
+    const requestURL = 'medicine/' + $('#medicineName').val() + '/' + $('#medicine_id').val();
     console.log('making ajax request to:', requestURL);
 
     // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
@@ -86,16 +84,16 @@ $(document).ready(() => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
         
-        window.localStorage.setItem("token", data.token); //store authorization token
+        //window.localStorage.setItem("token", data.token); //store authorization token
 
         // returned data also contains token; delete token so we don't have to display it
-        delete data.token;
+        //delete data.token;
         $('#infoDiv').html(JSON.stringify(data));
 
-        $('#profile-new').show();
-        $('#medicine-new').show();
-        $('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
-        $('#lookupMedicine_hidden').show();
+        //$('#profile-new').show();
+        //$('#medicine-new').show();
+        //$('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
+        //$('#lookupMedicine_hidden').show();
 
       },
       error: (xhr, textStatus, error) => 

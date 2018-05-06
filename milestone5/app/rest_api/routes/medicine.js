@@ -13,7 +13,7 @@ router.get('/', checkAuth, MedsController.getAllMedicine);
 router.post('/new', checkAuth, MedsController.newMedicine);
 
 // Get specific medicine data (ex. localhost:3000/accounts/mrpeem/peem/nyquil)
-router.get('/:medicinename', checkAuth, MedsController.getMedicine);
+router.get('/:medicinename/:medicine_id', checkAuth, MedsController.getMedicine);
 
 
 
