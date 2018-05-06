@@ -112,13 +112,15 @@ exports.getProfile = (req, res) =>
   const username = req.userData.username;
   const profilename = req.params.profilename.toLowerCase();
 
+
+
   db.get(
     `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
-     profiles WHERE profilename=$profilename 
-     AND profiles.id=$profile_id 
-     AND accounts.id = $account_id `,
+     profiles WHERE profilename=$profilename
+     AND profiles.id = $profile_id  
+     AND accounts.id = $account_id`,
     {
-      $profilename: req.params.profilename,
+      $profilename: req.params.profilename.toLowerCase(),
       $profile_id: req.params.profile_id,
       $account_id: req.userData.account_id
     },
@@ -130,7 +132,7 @@ exports.getProfile = (req, res) =>
         console.log(err);
         res.status(500).json( {error: err} );
       }
-      else
+      else 
       {
         console.log('profile: ',row);
         console.log('---');

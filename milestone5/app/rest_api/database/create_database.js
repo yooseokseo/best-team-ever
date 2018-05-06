@@ -74,24 +74,37 @@ db.serialize(() => {
   db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'jamesbrown', 'James', 'Brown', '08/13/1995', 'male', 0, 1)");
   db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'marymiller', 'Mary', 'Miller', '07/03/1975', 'female', 0, 1)");
   
-  var groupByArray = (xs, key) =>
-  { 
-    return xs.reduce((rv, x) =>
-    { 
-      let v = key instanceof Function ? key(x) : x[key]; 
-      let el = rv.find((r) => r && r[[key]] === v); 
-      if (el) { el.values.push(x); } 
-      else { rv.push({ [key]: v, values: [x] }); } 
-      return rv; 
-    }, []); 
-  }
 
   db.all("SELECT * FROM profiles", (err, rows) => 
   {
     console.log(rows);
-    console.log(groupByArray(rows, 'account_id'));
-    //console.log(groupByArray(rows, 'account_id').find(e => e.account_id == 2));
   });
+
+  //-----------------------------------------------------------------------
+  //medicine table
+  // db.run(
+  //   `CREATE TABLE medicine 
+  //   ( 
+  //     id INTEGER PRIMARY KEY AUTOINCREMENT, 
+  //     name TEXT,
+  //     account_id INTEGER, 
+  //     profile_id INTEGER,
+  //     FOREIGN KEY(account_id) REFERENCES accounts(id),
+  //     FOREIGN KEY(profile_id) REFERENCES profiles(id)
+  //   )`
+  // );
+
+  // db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminA', 1, 3)`);
+  // db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminC', 1, 3)`);
+  // db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('NyQuil', 2, 1)`);
+
+  // db.all(
+  //   `SELECT * FROM medicine
+  //    WHERE medicine.account_id = 1 AND medicine.profile_id = 3`, (err, rows) =>
+  // {
+  //   console.log(rows);
+  // });
+  
 
 
 

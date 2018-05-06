@@ -92,7 +92,7 @@ $(document).ready(() => {
         window.localStorage.setItem("token", data.token); //store authorization token
 
         // returned data also contains token; delete token so we don't have to display it
-        delete data.token;
+        //delete data.token;
         $('#infoDiv').html(JSON.stringify(data));
 
         $('#profile-new').show();
