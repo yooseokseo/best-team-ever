@@ -22,7 +22,24 @@ $(document).ready(() => {
         },
       success: (data) => {
         console.log('You received some data!', data);
-        $('#infoDiv').html(data.username+'\'s profiles: \n' + JSON.stringify(data));
+
+        $('#infoDiv').html('Profiles: ');
+        data.forEach(e =>
+        {
+          let info = document.createElement('a');
+          info.setAttribute('href', "#");
+          info.appendChild( document.createTextNode( e.firstName+' '+e.lastName ) );
+          info.addEventListener( 'click', () =>
+          {
+            $('#nameBoxFirst').val(e.firstName);
+            $('#nameBoxLast').val(e.lastName);
+            $('#getProfile').click();
+            event.preventDefault();
+          });
+          $('#infoDiv').append(info);  
+          $('#infoDiv').append( document.createTextNode(', ') );
+        });
+
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
       },
       error: (xhr, textStatus, error) => 
@@ -66,6 +83,9 @@ $(document).ready(() => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
         $('#infoDiv').html(JSON.stringify(data));   
+        $('#profile-new').show();
+        $('#medicine-new').show();
+
       },
       error: (xhr, textStatus, error) => 
       {
@@ -79,8 +99,7 @@ $(document).ready(() => {
   {
   	//check if input fields are blank
   	if ($('#firstname').val().trim() == '' || $('#lastname').val().trim() == '' ||
-  		$('#gender').val().trim() == '' || $('#dob').val().trim() == '' ||
-  		$('#createProfileUsername').val().trim() == '') 
+  		$('#gender').val().trim() == '' || $('#dob').val().trim() == '') 
   	{
   		alert('Please enter all info');
   		$('#infoDiv').html('');
@@ -110,7 +129,7 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));   
+        $('#infoDiv').html(JSON.stringify(data));
       },
       error: (xhr, textStatus, error) => 
       {

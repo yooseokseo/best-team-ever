@@ -18,6 +18,9 @@ app.set('view engine', 'handlebars');
 // Variables for linking to route files
 const accountsRoutes = require("./rest_api/routes/accounts");
 const profilesRoutes = require("./rest_api/routes/profiles");
+const medicineRoutes = require("./rest_api/routes/medicine");
+const checkAuth      = require('./rest_api/middleware/check-auth');
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -25,7 +28,8 @@ app.use(bodyParser.json());
 app.use(express.static('static_files'));
 
 // Header (don't worry about this)
-app.use((req, res, next) => {
+app.use((req, res, next) => 
+{
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
@@ -170,8 +174,7 @@ app.get('/noUserProfile', (req, res) => {
 //-----------------------------------------
 app.use("/accounts", accountsRoutes);
 app.use("/profiles", profilesRoutes);
-
-const checkAuth = require('./rest_api/middleware/check-auth');
+app.use("/medicine", medicineRoutes);
 app.use('/testauth', checkAuth, (req, res) =>
 {
   res.send(req.userData);
@@ -179,14 +182,16 @@ app.use('/testauth', checkAuth, (req, res) =>
 
 
 // For error handling (don't worry about this)
-app.use((req, res, next) => {
+app.use((req, res, next) => 
+{
   const error = new Error("Not found");
   error.status = 404;
   next(error);
 });
 
 // For error handling (don't worry about this)
-app.use((error, req, res, next) => {
+app.use((error, req, res, next) => 
+{
   res.status(error.status || 500);
   res.json({
     error: {
@@ -200,6 +205,5 @@ app.use((error, req, res, next) => {
 // Express - Hello world: http://expressjs.com/en/starter/hello-world.html
 // Express - basic routing: http://expressjs.com/en/starter/basic-routing.html
 // Express - routing: https://expressjs.com/en/guide/routing.html
-
 
 module.exports = app;

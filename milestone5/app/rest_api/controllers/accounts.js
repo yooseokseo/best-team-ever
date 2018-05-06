@@ -9,16 +9,23 @@ const db = new sqlite3.Database('rest_api/database/users.db');
 /**
  * Helper function for generating JWT token based on useranme
  *
+ * @param {username} username to put in token; used for authentication; REQUIRED
+ * @param {account_id} id to put in token; used for finding account; REQUIRED
+ * @param {profile_id} used for finding profile; OPTIONAL
+ * @param {password} used for resetting password; OPTIONAL
+ *
  * @return JWT token
  */
-function getToken(username, id)
+function getToken(username, account_id, profile_id, password)
 {
-  const token = jwt.sign(
-  {
-    username: username,
-    id: id
-  }, "secret key lel", { expiresIn: "1h" } );
-  return token;
+  const token = { username: username, account_id: account_id };
+  
+  // add profile_id and/or password to token if not undefined
+  (profile_id == undefined)? {} : token.profile_id = profile_id;
+  (password == undefined)? {} : token.password = password;
+
+
+  return jwt.sign(token, "secret key lel", { expiresIn: "1h" } );
 }
 
 /**

@@ -48,11 +48,6 @@ exports.newProfile = (req, res) =>
   console.log("CREATE NEW PROFILE");
   console.log(req.body);
 
-
-  const username = req.userData.username;
-
-
-
   db.run(
     `INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id) \
      VALUES ($profilename, $firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
@@ -63,7 +58,7 @@ exports.newProfile = (req, res) =>
       $dob: req.body.dob,
       $gender: req.body.gender,
       $isDefault: 0,
-      $account_id: req.userData.id
+      $account_id: req.userData.account_id
     },
     // callback function to run when the query finishes:
     (err) => 
@@ -93,15 +88,15 @@ exports.getProfile = (req, res) =>
   console.log("GET PROFILE")
   const username = req.userData.username;
   const profilename = req.params.profilename.toLowerCase();
-  console.log('account.id = ',req.userData.id);
-
 
   db.all(
     `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
-     profiles WHERE profilename=$profilename AND profiles.account_id = $account_id`,
+     profiles WHERE profilename=$profilename 
+     AND accounts.id = $account_id 
+     AND profiles.account_id = $account_id`,
     {
       $profilename: profilename,
-      $account_id: req.userData.id
+      $account_id: req.userData.account_id
     },
     // callback function to run when the query finishes:
     (err, rows) => 
