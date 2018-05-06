@@ -28,11 +28,14 @@ $(document).ready(() => {
         {
           let info = document.createElement('a');
           info.setAttribute('href', "#");
-          info.appendChild( document.createTextNode( e.firstName+' '+e.lastName ) );
+          info.appendChild( 
+            document.createTextNode( e.firstName+' '+e.lastName+' (id: '+e.id+')' ) 
+          );
           info.addEventListener( 'click', () =>
           {
             $('#nameBoxFirst').val(e.firstName);
             $('#nameBoxLast').val(e.lastName);
+            $('#profile_id').val(e.id);
             $('#getProfile').click();
             event.preventDefault();
           });
@@ -56,6 +59,7 @@ $(document).ready(() => {
    */
   $('#getProfile').click(() => {
 
+
   	//check if input fields are blank
   	if ($('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
   	{
@@ -64,8 +68,10 @@ $(document).ready(() => {
         $('#status').html('');
   		return; 
   	}
-
-    const requestURL = 'profiles/' + $('#nameBoxFirst').val().trim()+ $('#nameBoxLast').val().trim();
+    const fn = $('#nameBoxFirst').val().trim();
+    const ln = $('#nameBoxLast').val().trim();
+    const id = $('#profile_id').val();
+    const requestURL = 'profiles/' + fn+ln + '/' + id;
     console.log('making ajax request to:', requestURL);
 
     // From: http://learn.jquery.com/ajax/jquery-ajax-methods/
@@ -82,7 +88,13 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));   
+        
+        window.localStorage.setItem("token", data.token); //store authorization token
+
+        // returned data also contains token; delete token so we don't have to display it
+        delete data.token;
+        $('#infoDiv').html(JSON.stringify(data));
+
         $('#profile-new').show();
         $('#medicine-new').show();
 

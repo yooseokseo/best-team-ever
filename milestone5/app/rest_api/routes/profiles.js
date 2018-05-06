@@ -12,7 +12,7 @@ router.get('/', checkAuth, ProfilesController.getAllProfiles);
 router.post('/new', checkAuth, ProfilesController.newProfile);
 
 // Get specific profile data (ex. localhost:3000/accounts/mrpeem/peem)
-router.get('/:profilename', checkAuth, ProfilesController.getProfile);
+router.get('/:profilename/:profile_id', checkAuth, ProfilesController.getProfile);
 
 
 
