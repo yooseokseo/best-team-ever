@@ -5,14 +5,13 @@ const MedsController = require("../controllers/medicine");
 const checkAuth = require('../middleware/check-auth');
 
 
-
-// Get all profile's medicine (ex. localhost:3000/accounts/mrpeem/peem/medicine)
+// Get all profile's medicine (ex. localhost:3000/medicine)
 router.get('/', checkAuth, MedsController.getAllMedicine);
 
-// Create new medicine (ex. localhost:3000/accounts/mrpeem/peem/medicine/new)
+// Create new medicine (ex. localhost:3000/medicine/new)
 router.post('/new', checkAuth, MedsController.newMedicine);
 
-// Get specific medicine data (ex. localhost:3000/accounts/mrpeem/peem/nyquil)
+// Get specific medicine data (ex. localhost:3000/medicine/vitaminC/2)
 router.get('/:medicinename/:medicine_id', checkAuth, MedsController.getMedicine);
 
 

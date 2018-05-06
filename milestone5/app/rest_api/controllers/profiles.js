@@ -38,6 +38,7 @@ function getToken(username, account_id, profile_id, password)
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
  *         2) array of profiles if found or 
+ *            -> [ list of profiles ]
  *         3) error 404 (Not Found) if no profiles
  */
 exports.getAllProfiles = (req, res) =>
@@ -85,6 +86,7 @@ exports.getAllProfiles = (req, res) =>
  *
  * @return 1) error 500 if error occured while creating profile. Otherwise
  *         2) created profile and new token 
+ *            -> { profile: {profile created}, token: token}
  */
 exports.newProfile = (req, res) => 
 {
@@ -155,6 +157,7 @@ exports.newProfile = (req, res) =>
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
  *         2) profile information if found or 
+ *            -> {keys -> id, firstName, lastName, gender, dob, account_id}
  *         3) error 404 (Not Found) if profile not found
  */
 exports.getProfile = (req, res) =>

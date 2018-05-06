@@ -46,6 +46,7 @@ function getToken(username, account_id, profile_id, password)
  *
  * @return 1) error 500 if error occured while searching for accounts. Otherwise
  *         2) array of all accounts
+ *            -> [ list of all accounts ]
  */
 exports.getAllAccounts = (req, res) => 
 {
@@ -80,7 +81,8 @@ exports.getAllAccounts = (req, res) =>
  * Expected: body {username, email, password}
  *
  * @return 1) error 500 if error occured while creating account or hashing password
- *         2) created account and new token if valid username and/or email
+ *         2) new token if valid username and/or email
+ *            -> {keys -> message, token}
  *         3) error 409 (Conflict) if username and/or email already taken
  */
 exports.signup = (req, res) =>
@@ -174,6 +176,7 @@ exports.signup = (req, res) =>
  *
  * @return 1) error 500 if error occured while searching for account. Otherwise
  *         2) token if correct username and password, or 
+ *            -> {keys -> message, token}
  *         3) error error 401 (Unauthorized) if incorrect password, or
  *         3) error 404 (Not Found) if account with that username doesn't exist
  */
@@ -239,6 +242,7 @@ exports.login = (req, res) =>
  *
  * @return 1) error 500 if error occured while searching for account. Otherwise
  *         2) account info if found, or
+ *            -> {keys -> id, username, password, email}
  *         3) error 404 (Not Found) if account does not exist
  * @return user's info if requested user exists, error message otherwise
  */

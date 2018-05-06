@@ -16,8 +16,6 @@ function testauth()
     $('#lookupInfo_hidden').show();
     $('#new_profile_text').text('New profile for '+response.username);
     $('#profile-new').show();
-
-
   }).fail(function (err)  
   {
     $('#loginStatus').text("Signed in: false");
@@ -72,6 +70,13 @@ $(document).ready(() => {
         $('#status').html('Successfully fetched data (POST request) at URL: accounts/signup');
         window.localStorage.setItem("token", data.token); //store authorization token
         testauth();
+        
+        // clear fields since signing in as new user; haven't selected profile yet
+        $('#medicine-new').hide();
+        $('#lookupMedicine_hidden').hide()
+        $('#nameBoxFirst').val('');
+        $('#nameBoxLast').val('');
+        $('#profile_id').val('');
       },
       error: (xhr, textStatus, error) => 
       {
@@ -104,6 +109,13 @@ $(document).ready(() => {
         $('#status').html('Successfully fetched data (POST request) at URL: accounts/login');
         window.localStorage.setItem("token", data.token); //store authorization token
         testauth();
+
+        // clear fields since logged in as new user; haven't selected profile yet
+        $('#medicine-new').hide();
+        $('#lookupMedicine_hidden').hide()
+        $('#nameBoxFirst').val('');
+        $('#nameBoxLast').val('');
+        $('#profile_id').val('');
       },
       error: (xhr, textStatus, error) => 
       {

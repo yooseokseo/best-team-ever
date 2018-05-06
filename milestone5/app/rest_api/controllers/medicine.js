@@ -13,9 +13,10 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  * Example call: localhost:3000/medicine
  * Expected: token
  *
- * @return erorr 500 if error occured while searching for medicine. Otherwise
- *         return array of all of profile's medicine if any exists; if none 
- *         exists, return error 404 (Not Found)
+ * @return 1) erorr 500 if error occured while searching for medicine. Otherwise
+ *         2) array of all of profile's medicine if any exists, or 
+ *            -> [ list of all medicine ]
+ *         3) error 404 (Not Found) if none exists
  */
 exports.getAllMedicine = (req, res) => 
 {
@@ -62,6 +63,7 @@ exports.getAllMedicine = (req, res) =>
  *
  * @return 1) error 500 if error occured while creating medicine. Otherwise
  *         2) created medicine 
+ *            -> {keys -> medicinename, ?}
  */
 exports.newMedicine = (req, res) => 
 {
@@ -91,7 +93,7 @@ exports.newMedicine = (req, res) =>
       else 
       {
         console.log('Medicine created\n---');
-        res.status(201).json( {profile: req.body} );
+        res.status(201).json(req.body);
       }
     } // end of (err) =>
   ); // end of db.run(`INSERT..`) for creating medicine 
@@ -110,6 +112,7 @@ exports.newMedicine = (req, res) =>
  *
  * @return 1) error 500 if error occured while searching for medicine. Otherwise
  *         2) medicine information if found or 
+ *            ->
  *         3) error 404 (Not Found) if medicine not found
  */
 exports.getMedicine = (req, res) => 
