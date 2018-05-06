@@ -82,29 +82,29 @@ db.serialize(() => {
 
   //-----------------------------------------------------------------------
   //medicine table
-  // db.run(
-  //   `CREATE TABLE medicine 
-  //   ( 
-  //     id INTEGER PRIMARY KEY AUTOINCREMENT, 
-  //     name TEXT,
-  //     account_id INTEGER, 
-  //     profile_id INTEGER,
-  //     FOREIGN KEY(account_id) REFERENCES accounts(id),
-  //     FOREIGN KEY(profile_id) REFERENCES profiles(id)
-  //   )`
-  // );
+  db.run(
+    `CREATE TABLE medicine 
+    ( 
+      id INTEGER PRIMARY KEY AUTOINCREMENT, 
+      name TEXT,
+      account_id INTEGER, 
+      profile_id INTEGER,
+      FOREIGN KEY(account_id) REFERENCES accounts(id),
+      FOREIGN KEY(profile_id) REFERENCES profiles(id)
+    )`
+  );
 
-  // db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminA', 1, 3)`);
-  // db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminC', 1, 3)`);
-  // db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('NyQuil', 2, 1)`);
+  db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminA', 1, 3)`);
+  db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('vitaminC', 1, 3)`);
+  db.run(`INSERT INTO medicine (name, account_id, profile_id) VALUES ('NyQuil', 2, 1)`);
 
-  // db.all(
-  //   `SELECT * FROM medicine
-  //    WHERE medicine.account_id = 1 AND medicine.profile_id = 3`, (err, rows) =>
-  // {
-  //   console.log(rows);
-  // });
-  
+  db.all(
+    `SELECT * FROM medicine
+     WHERE medicine.account_id = 1 AND medicine.profile_id = 3`, (err, rows) =>
+  {
+    console.log(rows);
+  });
+
 
 
 

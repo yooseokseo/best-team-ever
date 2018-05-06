@@ -14,12 +14,38 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  */
 exports.getAllMedicine = (req, res) => 
 {
+  console.log(req.userData);
+
   // db.all() fetches all results from an SQL query into the 'rows' variable:
-  db.all('SELECT username FROM users', (err, rows) => {
-    const allUsernames = rows.map(e => e.username);
-    console.log(allUsernames);
-    res.send(allUsernames);
-  });
+  db.all(
+    `SELECT * FROM medicine 
+     WHERE account_id=$account_id 
+     AND   profile_id=$profile_id`,
+    {
+      $account_id: req.userData.account_id,
+      $profile_id: req.userData.profile_id
+    }, 
+    (err, rows) => 
+    {
+      if (err) 
+      {
+        console.log(err);
+        res.status(500).json( {error: err} );
+      }
+      else
+      {
+        console.log(rows);
+
+        if (rows.length > 0)
+        {
+          res.status(200).json(rows);
+        }
+        else
+        {
+          res.status(404).json( {error: 'Profile does not have any medicine'} );
+        }
+      }
+    });
 
 }
 

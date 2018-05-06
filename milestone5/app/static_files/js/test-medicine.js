@@ -5,11 +5,9 @@ $(document).ready(() => {
    * Shows list of all of user's profile. Must be logged in
    * Makes GET request to /accounts/:username/profiles
    */
-  $('#getAllProfiles').click(() =>
+  $('#getAllMedicine').click(() =>
   {
-
-
-    const requestURL = '/profiles';
+    const requestURL = '/medicine';
     console.log('requestURl = '+requestURL);
     console.log('making ajax request to:', requestURL);
 
@@ -23,20 +21,19 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
 
-        $('#infoDiv').html('Profiles: ');
+        $('#infoDiv').html('Medicine: ');
         data.forEach(e =>
         {
           let info = document.createElement('a');
           info.setAttribute('href', "#");
           info.appendChild( 
-            document.createTextNode( e.firstName+' '+e.lastName+' (id: '+e.id+')' ) 
+            document.createTextNode( e.name + ' (id: '+e.id+')' ) 
           );
           info.addEventListener( 'click', () =>
           {
-            $('#nameBoxFirst').val(e.firstName);
-            $('#nameBoxLast').val(e.lastName);
-            $('#profile_id').val(e.id);
-            $('#getProfile').click();
+            $('#medicineName').val(e.name);
+            $('#medicine_id').val(e.id);
+            //$('#getProfile').click();
             event.preventDefault();
           });
           $('#infoDiv').append(info);  
