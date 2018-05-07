@@ -100,9 +100,9 @@ $(document).ready(() => {
       },
       success: (data) => {
         console.log('You received some data!', data);
-        
+
         // show medicine and make it clickable; clicking gives option to edit or delete
-        $('#infoDiv').html('Medicine: ');
+        $('#infoDiv').html('Medicine: (click to edit or delete)');
         let info = document.createElement('a');
         info.setAttribute('href', '#');
         info.appendChild( document.createTextNode( JSON.stringify(data) ) );
@@ -203,8 +203,46 @@ $(document).ready(() => {
 
   $('#editMedicine').click(() =>
   {
+    var body = {};
 
-  });
+    // only send PATCH request for values that user want to update (non-empty values)
+    // check if input value is empty; if not empty, add it to body, otherwise do nothing
+    ($('#medicinename').val() == '')?    {} : body.medicinename = $('#medicinename').val();
+    ($('#dosage').val() == '')?          {} : body.dosage = $('#dosage').val();
+    ($('#numPills').val() == '')?        {} : body.num_pills = $('#numPills').val();
+    ($('#recurrence_hour').val() == '')? {} : body.recurrence_hour = $('#recurrence_hour').val();
+    ($('#recurrence_day').val() == '')?  {} : body.times_per_day = $('#recurrence_day').val();
+    ($('#startDate').val() == '')?       {} : body.start_date = $('#startDate').val();
+    ($('#startTime').val() == '')?       {} : body.start_time = $('#startTime').val();
+    ($('#endDate').val() == '')?         {} : body.end_date = $('#endDate').val();
+    ($('#endTime').val() == '')?         {} : body.end_time = $('#endTime').val();
+    ($('#medType').val() == '')?         {} : body.med_type = $('#medType').val();
+    ($('#medColor').val() == '')?        {} : body.med_color = $('#medColor').val();
+
+    console.log(body);
+
+    const requestURL = '/medicine/edit/'+$('#medicineName').val()+'/'+$('#medicine_id').val();
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'PATCH',
+      dataType : 'json', // this URL returns data in JSON format
+      data: body,
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        $('#infoDiv').html(JSON.stringify(data));
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  }); // end of createMedicine()
   
 
   $('#deleteMedicine').click(() =>

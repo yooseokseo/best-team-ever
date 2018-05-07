@@ -15,5 +15,8 @@ router.post('/new', checkAuth, MedsController.newMedicine);
 router.get('/:medicinename/:medicine_id', checkAuth, MedsController.getMedicine);
 
 
+router.patch('/edit/:medicinename/:medicine_id', checkAuth, MedsController.editMedicine);
+
+
 
 module.exports = router;

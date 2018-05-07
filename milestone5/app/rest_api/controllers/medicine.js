@@ -175,3 +175,52 @@ exports.getMedicine = (req, res) =>
   );
 
 } // end of getMedicine()
+
+
+
+
+
+/**
+ *
+ */
+exports.editMedicine = (req, res) => 
+{
+  const id = req.params.medicine_id;
+
+  // to update, need to do `UPDATE medicine SET column='value', col2='value'`
+  // 'str' iterates through all of the requested columns to be edited and
+  // makes string for the `column='value', column2='value'`
+  let str = ``;
+  for (const e in req.body)
+  {
+    str += e+`='`+req.body[[e]]+`', `;
+  }
+  str = str.substring(0, str.length-2); // remove the final comma from string
+
+  let query = `UPDATE medicine SET `+str+` WHERE id=?`;
+  db.all(query, [id], (err, rows) =>
+  {
+    if (err)
+    {
+      console.log(err);
+      res.status(500).json( {error: err} );
+    }
+    else
+    {
+      // find the edited medicine and return it
+      db.get(
+        `SELECT * FROM medicine WHERE id=?`, [id], (err, row) =>
+        {
+          console.log('edited medicine: ', row);
+          res.status(200).json( row );
+        }
+      ); // end of db.get(...)
+    }
+
+  }); // end of db.all(..) for editing
+
+  
+
+
+} 
+

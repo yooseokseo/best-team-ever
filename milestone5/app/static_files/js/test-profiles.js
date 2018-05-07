@@ -108,7 +108,7 @@ $(document).ready(() => {
         delete data.token;
 
         // show profile and make it clickable; clicking gives option to edit or delete
-        $('#infoDiv').html('Profile: ');
+        $('#infoDiv').html('Profile: (click to edit or delete)');
         let info = document.createElement('a');
         info.setAttribute('href', '#');
         info.appendChild( document.createTextNode( JSON.stringify(data) ) );
