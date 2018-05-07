@@ -39,7 +39,7 @@ function getToken(username, account_id, profile_id, password)
  * @return 1) error 500 if error occured while searching for profile. Otherwise
  *            -> {keys -> error}
  *         2) array of profiles if found or 
- *            -> [ list of profiles ]
+ *            -> [ {keys -> id, firstName, lastName}, {..}, {..} ]
  *         3) error 404 (Not Found) if no profiles
  *            -> {keys -> error}
  */
@@ -65,10 +65,15 @@ exports.getAllProfiles = (req, res) =>
       }
       else
       {
-        console.log(rows);
+        const allProfiles = rows.map(e => 
+        { 
+          return {id: e.id, firstName: e.firstName, lastName: e.lastName} 
+        });
+        console.log(allProfiles);
         console.log('---');
+
         (rows.length > 0)?
-          res.status(200).json(rows) :
+          res.status(200).json(allProfiles) :
           res.status(404).json( {error: '\"'+username+'\" doesn\'t have any profiles'} );
       } 
     } // end of (err, rows) => {}
@@ -128,7 +133,7 @@ exports.newProfile = (req, res) =>
         const query = 'SELECT * FROM profiles WHERE account_id=?';
         db.all(query, [account_id], (err, rows) =>
         {
-          const allId = rows.map(e => {console.log(e); return e.id});
+          const allId = rows.map(e => e.id);
 
           // if multiple profiles w/ same name, new one will have highest id
           const max = Math.max(...allId);

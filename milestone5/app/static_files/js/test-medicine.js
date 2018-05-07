@@ -78,9 +78,9 @@ $(document).ready(() => {
   $('#getMedicine').click(() => {
 
   	//check if input fields are blank
-  	if ($('#medicineName').val().trim() == '' || $('#medicine_id').val().trim() == '') 
+  	if ($('#medicine_id').val() == '') 
   	{
-  		alert('Please enter info');
+  		alert('Please enter medicine id');
   		$('#infoDiv').html('');
         $('#status').html('');
   		return; 
@@ -172,7 +172,20 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));
+
+        // show 'medicine created' message and give option to view
+        $('#infoDiv').html('Medicine created: ');
+        let info = document.createElement('a');
+        info.setAttribute('href', '#');
+        info.appendChild( document.createTextNode( 'click here to view' ) );
+        info.addEventListener('click', () =>
+        {          
+          $('#medicine_id').val(data.id);
+          $('#getMedicine').click();
+          event.preventDefault();
+        });
+        $('#infoDiv').append(info);
+        
       },
       error: (xhr, textStatus, error) => 
       {

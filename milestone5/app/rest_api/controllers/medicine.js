@@ -17,7 +17,7 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  * @return 1) erorr 500 if error occured while searching for medicine. Otherwise
  *            -> {keys -> error}
  *         2) array of all of profile's medicine if any exists, or 
- *            -> [ list of all medicine ]
+ *            -> [ {keys -> id, medicinename}, {..}, {..} ]
  *         3) error 404 (Not Found) if none exists
  *            -> {keys -> error}
  */
@@ -42,11 +42,15 @@ exports.getAllMedicine = (req, res) =>
       }
       else
       {
-        console.log(rows);
+        const allMed = rows.map(e => 
+        { 
+          return {id: e.id, medicinename: e.medicinename} 
+        });
+        console.log(allMed);
         console.log('---');
 
         (rows.length > 0)?  
-          res.status(200).json(rows) :
+          res.status(200).json(allMed) :
           res.status(404).json( {error: 'Profile doesn\'t have any medicine'} );
       }
     }
@@ -68,8 +72,8 @@ exports.getAllMedicine = (req, res) =>
  *
  * @return 1) error 500 if error occured while creating medicine. Otherwise
  *            -> {keys -> error}
- *         2) message saying medicine has been created 
- *            -> {keys -> message}
+ *         2) message saying medicine has been created and medicine id 
+ *            -> {keys -> message, id}
  */
 exports.newMedicine = (req, res) => 
 {
@@ -107,8 +111,25 @@ exports.newMedicine = (req, res) =>
       } 
       else 
       {
-        console.log('Medicine created\n---');
-        res.status(201).json( {message: 'Medicine created'} );
+        const account_id = req.userData.account_id;
+        const profile_id = req.userData.profile_id
+
+        // find ID of the newly created medicine to create token from it
+        const query = 'SELECT * FROM medicine WHERE account_id=? AND profile_id=?';
+        db.all(query, [account_id, profile_id], (err, rows) =>
+        {
+          const allId = rows.map(e => e.id);
+
+          // if multiple profiles w/ same name, new one will have highest id
+          const max = Math.max(...allId);
+
+          console.log('found '+allId.length+' medicine(s) within this profile');
+          console.log('IDs found: ', JSON.stringify(allId));
+          console.log('ID of the new medicine = ' + max + '\n---');
+
+          res.status(201).json( {message: 'Medicine created', id: max} );
+        }); // end of db.all(..) for new medicine id
+        
       }
     } // end of (err) =>
   ); // end of db.run(`INSERT..`) for creating medicine 
