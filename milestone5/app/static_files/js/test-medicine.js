@@ -86,7 +86,7 @@ $(document).ready(() => {
   		return; 
   	}
 
-    const requestURL = 'medicine/' + $('#medicineName').val() + '/' + $('#medicine_id').val();
+    const requestURL = 'medicine/' + $('#medicine_id').val();
     console.log('making ajax request to:', requestURL);
 
 
@@ -108,6 +108,7 @@ $(document).ready(() => {
         info.appendChild( document.createTextNode( JSON.stringify(data) ) );
         info.addEventListener('click', () =>
         {
+          $('#medicine_id').val(data.id);
           $('#new_medicine_text').text('Edit/Delete medicine')
           
           //show field if it's not already shown
@@ -121,24 +122,7 @@ $(document).ready(() => {
           event.preventDefault();
         });
         $('#infoDiv').append(info);
-        // data.forEach(e =>
-        // {
-        //   let info = document.createElement('a');
-        //   info.setAttribute('href', "#");
-        //   info.appendChild( 
-        //     document.createTextNode( e.medicinename + ' (id: '+e.id+')' ) 
-        //   );
-        //   // fill out medicine name and id fields and click 'getMedicine'
-        //   info.addEventListener( 'click', () =>
-        //   {
-        //     $('#medicineName').val(e.medicinename);
-        //     $('#medicine_id').val(e.id);
-        //     $('#getMedicine').click();
-        //     event.preventDefault();
-        //   });
-        //   $('#infoDiv').append(info);  
-        //   $('#infoDiv').append( document.createTextNode(', ') );
-        // });
+
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
         //$('#infoDiv').html(JSON.stringify(data));
       },
@@ -221,7 +205,7 @@ $(document).ready(() => {
 
     console.log(body);
 
-    const requestURL = '/medicine/edit/'+$('#medicineName').val()+'/'+$('#medicine_id').val();
+    const requestURL = '/medicine/edit/'+$('#medicine_id').val();
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -236,7 +220,6 @@ $(document).ready(() => {
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
         
         // show the edited
-        $('#medicineName').val(data.medicinename);
         $('#medicine_id').val(data.id);
         $('#getMedicine').click();
       },
@@ -251,7 +234,29 @@ $(document).ready(() => {
 
   $('#deleteMedicine').click(() =>
   {
-
+    const body = {};
+    const requestURL = '/medicine/delete/'+$('#medicine_id').val();
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'DELETE',
+      dataType : 'json', // this URL returns data in JSON format
+      data: body,
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        $('#infoDiv').html('Medicine deleted; try doing "get medicine" to check');
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
   });
   
 

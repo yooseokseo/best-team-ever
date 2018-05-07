@@ -11,11 +11,15 @@ router.get('/', checkAuth, MedsController.getAllMedicine);
 // Create new medicine (ex. localhost:3000/medicine/new)
 router.post('/new', checkAuth, MedsController.newMedicine);
 
-// Get specific medicine data (ex. localhost:3000/medicine/vitaminC/2)
-router.get('/:medicinename/:medicine_id', checkAuth, MedsController.getMedicine);
+// Get specific medicine data (ex. localhost:3000/medicine/2)
+router.get('/:medicine_id', checkAuth, MedsController.getMedicine);
 
+// Edit specific medicine (ex. localhost:3000/medicine/edit/2)
+router.patch('/edit/:medicine_id', checkAuth, MedsController.editMedicine);
 
-router.patch('/edit/:medicinename/:medicine_id', checkAuth, MedsController.editMedicine);
+// Delete specific medicine (ex. localhost:3000/medicine/delete/2)
+router.delete('/delete/:medicine_id', checkAuth, MedsController.deleteMedicine);
+
 
 
 
