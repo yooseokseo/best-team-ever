@@ -183,8 +183,6 @@ $(document).ready(() => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
         window.localStorage.setItem("token", data.token); //store authorization token
-        $('#profile_id').val(data.id);
-
 
         // show 'profile created' message and give option to view
         $('#infoDiv').html('Profile created: ');
@@ -192,11 +190,20 @@ $(document).ready(() => {
         info.setAttribute('href', '#');
         info.appendChild( document.createTextNode( 'click here to view' ) );
         info.addEventListener('click', () =>
-        {          
+        { 
+          $('#profile_id').val(data.id);         
           $('#getProfile').click();
           event.preventDefault();
         });
         $('#infoDiv').append(info);
+
+        // change text to display newly created profile's name
+        $('#nameBoxFirst').val($('#firstname').val())
+        $('#nameBoxLast').val($('#lastname').val());
+        $('#new_medicine_text').text('New medicine for '+$('#firstname').val()+' '+$('#lastname').val())
+        $('#medicine-new').show();
+        $('#getAllMedicine').text('Get '+$('#firstname').val()+' '+$('#lastname').val()+'\'s medicine list');
+        $('#lookupMedicine_hidden').show();
 
       },
       error: (xhr, textStatus, error) => 
@@ -263,6 +270,10 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        $('#medicine-new').hide();
+        $('#lookupMedicine_hidden').hide();
+        $('#cancelEditProfile').click();
         
         $('#infoDiv').html('Profile deleted; try doing "get profile" to check');
       },

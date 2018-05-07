@@ -200,7 +200,7 @@ exports.getProfile = (req, res) =>
         }
         else
         {
-          res.status(404).json( {error: 'Profile id '+profile_id+'does not exist'} );
+          res.status(404).json( {error: 'Profile id '+profile_id+' does not exist'} );
         }
       }
 
@@ -260,15 +260,15 @@ exports.editProfile = (req, res) =>
 
 
 /**
- * DELETE request for deleting medicine. Must be logged in.
- * Checks that the account_id and profile_id of the requested medicine
- * match. If so, delete the medicine.
+ * DELETE request for deleting profile. Must be logged in.
+ * If the account_id and profile_id of the requested profile are correct, 
+ * delete the profile and all medicine belonging to the profile.
  *
- * Route signature: /medicine/delete/:medicine_id
- * Example call: localhost:3000/medicine/delete/5
+ * Route signature: /profiles/delete/:profile_id
+ * Example call: localhost:3000/profiles/delete/5
  * Expected: token
  *
- * @return 1) error 500 if error occured while deleting medicine. Otherwise
+ * @return 1) error 500 if error occured while deleting profile. Otherwise
  *            -> {keys -> error}
  *         2) success message
  *            -> {keys -> message}
@@ -277,18 +277,34 @@ exports.deleteProfile = (req, res) =>
 {
   console.log('DELETE PROFILE');
 
-  // const id = req.params.medicine_id;
-  // const profile_id = req.userData.profile_id;
-  // const account_id = req.userData.account_id;
-  //
-  // const query = `DELETE FROM medicine WHERE id=? AND profile_id=? AND account_id=?`;
-  // db.all(query, [id, profile_id, account_id], (err, rows) =>
-  // {
-  //   console.log('err = '+err);
-  //   console.log(rows);
-  //   (err)? 
-  //     res.status(500).json( {error: err} ) : 
-  //     res.status(200).json( {message: 'Medicine deleted'} )
-  // });
+  const id = req.params.profile_id;
+  const profile_id = req.userData.profile_id;
+  const account_id = req.userData.account_id;
+
+  if (id == profile_id)
+  {
+    let query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
+    db.all(query, [account_id, profile_id], (err) =>
+    {
+      console.log('delete medicine; err = '+err);
+      if (err)
+      {
+        res.status(500).json( {error: err} );
+      }
+      else
+      {
+        query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
+        db.all(query, [account_id, profile_id], (err) =>
+        {
+          console.log('delete profile; err = '+err+'\n---');
+          (err)? 
+            res.status(500).json( {error: err} ) : 
+            res.status(200).json( {message: 'Profile deleted'} )
+        });
+      }
+    }); //end of db.all(..)
+
+  } // end of if
+
 }
 
