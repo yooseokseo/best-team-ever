@@ -346,43 +346,73 @@ exports.editAccount = (req, res) =>
   console.log('EDIT ACCOUNT');
 
   const account_id = req.userData.account_id;
+  const username = req.body.username;
+  const password = req.body.password;
+  const email = req.body.email;
 
-  hashPassword(req.body.password, (hash) =>
-  {
-    if (hash.error) // error with hashing
-      res.status(500).json( {error: hash.error} );
-
-    else if (hash != '') // if user wants to edit password
-      req.body.password = hash; // replace password in body w/ hashed version
-
-    console.log('replace current info with: ',req.body);
-
-    // get substring for query
-    substringForEdit(req.body, (str) =>
+  // check if username and/or email is taken; doesn't matter if user didn't
+  // input anything since it'll be 'undefined', which will make it
+  // unique anyway
+  db.all(
+    `SELECT * FROM accounts WHERE username=? OR email=?`, [username, email], 
+    (err, rows) => 
     {
-      let query = `UPDATE accounts SET `+str+` WHERE id=?`;
-      db.all(query, [account_id], (err) =>
+      if (err)
       {
-        if (err) // error editing account
+        console.log(err);
+        res.status(500).json( {error: err} );
+      }
+      else
+      {
+        console.log('Username and/or email already exists: ',rows.length != 0);
+
+        // valid username and email; continue with editing process
+        if (rows.length == 0) 
         {
-          console.log('err = '+err+'\n---');
-          res.status(500).json( {error: err} );
-        }
+          hashPassword(req.body.password, (hash) =>
+          {
+            if (hash.error) // error with hashing
+              res.status(500).json( {error: hash.error} );
+
+            else if (hash != '') // if user wants to edit password
+              req.body.password = hash; // replace password in body w/ hashed version
+
+            console.log('replace current info with: ',req.body);
+
+            // get substring for query
+            substringForEdit(req.body, (str) =>
+            {
+              let query = `UPDATE accounts SET `+str+` WHERE id=?`;
+              db.all(query, [account_id], (err) =>
+              {
+                if (err) // error editing account
+                {
+                  console.log('err = '+err+'\n---');
+                  res.status(500).json( {error: err} );
+                }
+                else
+                {
+                  // create new token; check if username has been changed
+                  let username;
+                  if (req.body.username)
+                    username = req.body.username;
+                  else
+                    username = req.userData.userData;
+
+                  const token = getToken(username, req.userData.account_id);
+                  res.status(200).json( {message: 'Account edited', token: token} )
+                }
+              }); // end of db.all(..) for editing account
+            });  // end of substringForEdit callback
+          }); // end of hashPassword(..) callback
+        } // end of check for valid username and email
         else
         {
-          // create new token; check if username has been changed
-          let username;
-          if (req.body.username)
-            username = req.body.username;
-          else
-            username = req.userData.userData;
-
-          const token = getToken(username, req.userData.account_id);
-          res.status(200).json( {message: 'Account edited', token: token} )
+          res.status(409).json( {error: 'username and/or email already exists'} );
         }
-      }); // end of db.all(..) for editing account
-    });  // end of substringForEdit callback
-  }); // end of hashPassword(..) callback
+      }
+    });
+
 
 } // end of editAccount()
 
