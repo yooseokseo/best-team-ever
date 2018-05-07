@@ -311,8 +311,8 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        
         $('#infoDiv').html('Account deleted; try doing "get all accounts" to check');
+        $('#signout').click();
       },
       error: (xhr, textStatus, error) => 
       {
@@ -329,6 +329,7 @@ $(document).ready(() => {
   $('#cancelEditAccount').click(() =>
   {
     $('#signup-login_text').text('Sign up/Log in')
+
     $('#signout').show();
     $('#signup').show();
     $('#login').show();

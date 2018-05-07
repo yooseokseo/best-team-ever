@@ -437,29 +437,39 @@ exports.deleteAccount = (req, res) =>
 
   const account_id = req.userData.account_id;
 
-  res.send({})
+  let query = `DELETE FROM medicine WHERE account_id=?`;
+  db.all(query, [account_id], (err) =>
+  {
+    console.log('delete medicine; err = '+err);
+    if (err)
+    {
+      res.status(500).json( {error: err} );
+    }
+    else // no error deleting medicine
+    {
+      query = `DELETE FROM profiles WHERE account_id=?`;
+      db.all(query, [account_id], (err) =>
+      {
+        console.log('delete profile; err = '+err);
+        if (err)
+        {
+          res.status(500).json( {error: err} );
+        }
+        else
+        {
+          query = `DELETE FROM accounts WHERE id=?`;
+          db.all(query, [account_id], (err) =>
+          {
+            console.log('delete account; err = '+err+'\n---');
+            (err)? 
+              res.status(500).json( {error: err} ) : 
+              res.status(200).json( {message: 'Account deleted'} )
+          }); // end of db.all(..) deleting accounts
 
+        } // end of deleting profiles
+      }); // end of db.all(..) deleting profiles
 
-  // const profile_id = req.userData.profile_id;
+    } // end of deleting medicine
+  }); //end of db.all(..) deleting medicine
 
-  // let query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
-  // db.all(query, [account_id, profile_id], (err) =>
-  // {
-  //   console.log('delete medicine; err = '+err);
-  //   if (err)
-  //   {
-  //     res.status(500).json( {error: err} );
-  //   }
-  //   else
-  //   {
-  //     query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
-  //     db.all(query, [account_id, profile_id], (err) =>
-  //     {
-  //       console.log('delete profile; err = '+err+'\n---');
-  //       (err)? 
-  //         res.status(500).json( {error: err} ) : 
-  //         res.status(200).json( {message: 'Profile deleted'} )
-  //     });
-  //   }
-  // }); //end of db.all(..)
 } // end of deleteProfile()
