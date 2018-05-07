@@ -1,6 +1,25 @@
 // jQuery convention for running when the document has been fully loaded:
 $(document).ready(() => {
 
+  /* hide or show div containing ability to create, edit, and delete
+   * medicine to save space and make screen not too cluttered
+   */
+  $('#newMedicine-display-button').click(() =>
+  {
+    const text = $('#newMedicine-display-button').text();
+    if (text == 'Hide')
+    {
+      $('#newMedicine-div').hide();
+      $('#newMedicine-display-button').text('Show');
+    }
+    else
+    {
+      $('#newMedicine-div').show();
+      $('#newMedicine-display-button').text('Hide');
+    }
+  });
+
+
 /*
    * Shows list of all of user's profile. Must be logged in
    * Makes GET request to /medicine
@@ -81,8 +100,47 @@ $(document).ready(() => {
       },
       success: (data) => {
         console.log('You received some data!', data);
+        
+        // show medicine and make it clickable; clicking gives option to edit or delete
+        $('#infoDiv').html('Medicine: ');
+        let info = document.createElement('a');
+        info.setAttribute('href', '#');
+        info.appendChild( document.createTextNode( JSON.stringify(data) ) );
+        info.addEventListener('click', () =>
+        {
+          $('#new_medicine_text').text('Edit/Delete medicine')
+          
+          //show field if it's not already shown
+          $('#newMedicine-div').show();
+          $('#newMedicine-display-button').text('Hide');
+
+          $('#createMedicine').hide();
+          $('#editMedicine').show();
+          $('#deleteMedicine').show();
+          $('#cancelEditMedicine').show();
+          event.preventDefault();
+        });
+        $('#infoDiv').append(info);
+        // data.forEach(e =>
+        // {
+        //   let info = document.createElement('a');
+        //   info.setAttribute('href', "#");
+        //   info.appendChild( 
+        //     document.createTextNode( e.medicinename + ' (id: '+e.id+')' ) 
+        //   );
+        //   // fill out medicine name and id fields and click 'getMedicine'
+        //   info.addEventListener( 'click', () =>
+        //   {
+        //     $('#medicineName').val(e.medicinename);
+        //     $('#medicine_id').val(e.id);
+        //     $('#getMedicine').click();
+        //     event.preventDefault();
+        //   });
+        //   $('#infoDiv').append(info);  
+        //   $('#infoDiv').append( document.createTextNode(', ') );
+        // });
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));
+        //$('#infoDiv').html(JSON.stringify(data));
       },
       error: (xhr, textStatus, error) => 
       {
@@ -138,7 +196,33 @@ $(document).ready(() => {
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
+  }); // end of createMedicine()
 
+  
+
+
+  $('#editMedicine').click(() =>
+  {
+
+  });
+  
+
+  $('#deleteMedicine').click(() =>
+  {
+
+  });
+  
+
+  /* 
+   * exit edit/delete medicine mode; returns to normal 'create medicine' mode
+   */
+  $('#cancelEditMedicine').click(() =>
+  {
+    $('#editMedicine').hide();
+    $('#deleteMedicine').hide();
+    $('#cancelEditMedicine').hide();
+    $('#createMedicine').show();
+    $('#new_medicine_text').text('New medicine for '+$('#nameBoxFirst').val()+' '+$('#nameBoxLast').val())
   });
 
 });

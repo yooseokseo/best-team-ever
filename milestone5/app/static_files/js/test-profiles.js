@@ -1,6 +1,21 @@
 // jQuery convention for running when the document has been fully loaded:
 $(document).ready(() => {
 
+  $('#newProfile-display-button').click(() =>
+  {
+    const text = $('#newProfile-display-button').text();
+    if (text == 'Hide')
+    {
+      $('#newProfile-div').hide();
+      $('#newProfile-display-button').text('Show');
+    }
+    else
+    {
+      $('#newProfile-div').show();
+      $('#newProfile-display-button').text('Hide');
+    }
+  });
+
 /*
    * Shows list of all of user's profile. Must be logged in
    * Makes GET request to /profiles
@@ -91,7 +106,28 @@ $(document).ready(() => {
 
         // returned data also contains token; delete token so we don't have to display it
         delete data.token;
-        $('#infoDiv').html(JSON.stringify(data));
+
+        // show profile and make it clickable; clicking gives option to edit or delete
+        $('#infoDiv').html('Profile: ');
+        let info = document.createElement('a');
+        info.setAttribute('href', '#');
+        info.appendChild( document.createTextNode( JSON.stringify(data) ) );
+        info.addEventListener('click', () =>
+        {
+          $('#new_profile_text').text('Edit/Delete profile')
+          
+          //show field if it's not already shown
+          $('#newProfile-div').show();
+          $('#newProfile-display-button').text('Hide');
+
+          $('#createProfile').hide();
+          $('#editProfile').show();
+          $('#deleteProfile').show();
+          $('#cancelEditProfile').show();
+          event.preventDefault();
+        });
+        $('#infoDiv').append(info);
+
 
         $('#new_medicine_text').text('New medicine for '+$('#nameBoxFirst').val()+' '+$('#nameBoxLast').val())
         $('#medicine-new').show();
@@ -158,5 +194,30 @@ $(document).ready(() => {
       }
     });
   }); // end of create new profile
+
+
+  $('#editProfile').click(() =>
+  {
+
+  });
+  
+  
+  $('#deleteProfile').click(() =>
+  {
+
+  });
+  
+
+  /* 
+   * exit edit/delete profile mode; returns to normal 'create profile' mode
+   */
+  $('#cancelEditProfile').click(() =>
+  {
+    $('#editProfile').hide();
+    $('#deleteProfile').hide();
+    $('#cancelEditProfile').hide();
+    $('#createProfile').show();
+    testauth();
+  });
 
 });

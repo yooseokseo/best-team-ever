@@ -47,6 +47,21 @@ $(document).ready(() => {
     });
   });
 
+  $('#signup-login-display-button').click(() =>
+  {
+    const text = $('#signup-login-display-button').text();
+    if (text == 'Hide')
+    {
+      $('#signup-login-div').hide();
+      $('#signup-login-display-button').text('Show');
+    }
+    else
+    {
+      $('#signup-login-div').show();
+      $('#signup-login-display-button').text('Hide'); 
+    }
+  });
+
   /*
    * Sign up; don't need to be signed in.
    * Makes POST request to /accounts/signup
