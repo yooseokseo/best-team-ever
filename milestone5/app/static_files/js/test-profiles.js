@@ -72,6 +72,8 @@ $(document).ready(() => {
   /*
    * View info for a specific profile. Must be logged in
    * Makes GET request to /profiles/:profilename/:profile_id
+   * If click on displayed profile, hide "create profile" button and show
+   * "edit profile"  and "delete profile" buttons instead
    */
   $('#getProfile').click(() => {
 
@@ -146,6 +148,9 @@ $(document).ready(() => {
   /*
    * Create new profile for the currently logged in user.
    * Makes POST request to /profiles/new
+   * After creating, give option to view profile. Also change all texts
+   * with name to represent the created profile. Show medicine options for
+   * created profile.
    */
   $('#createProfile').click(()=>
   {
@@ -215,6 +220,10 @@ $(document).ready(() => {
   }); // end of create new profile
 
 
+  /* 
+   * Edit profile. After editing, click "get profile" to view the newly
+   * edited profile
+   */
   $('#editProfile').click(() =>
   {
     var body = {};
@@ -254,6 +263,10 @@ $(document).ready(() => {
   }); // end of edit profile
   
   
+  /**
+   * Delete profile. After deleting hide all medicine fields since medicine
+   * corresponds to profile and there's no "current" profile.
+   */
   $('#deleteProfile').click(() =>
   {
     const body = {};

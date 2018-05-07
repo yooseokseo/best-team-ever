@@ -47,8 +47,10 @@
 
   <!-- Field for logging in & signing up; always present -->
   <hr> 
-  <h4> Sign up/Log in <button id="signup-login-display-button">Hide</button></h4>
-  <div id="signup-login-div">
+  <h4 id="signup-login_text"> Sign up/Log in 
+    <button id="signup-login-display-button">Show</button>
+  </h4>
+  <div id="signup-login-div" style="display:none">
     Username: <input id="username" type="text" placeholder="Username"/>
     Password: <input id="password" type="password" placeholder="Password"/>
     Email: <input id="email" type="email" placeholder="Email"/>
@@ -56,7 +58,10 @@
     <br>
     <button id="signout"> Sign out</button>
     <button id="signup">Sign Up</button>
-    <button id="login">Log in</button> *note: don't need email to log in
+    <button id="login">Log in</button> *note: don't need email to log in <br>
+    <button id='editAccount' style='display:none'> Edit profile </button>
+    <button id='deleteAccount' style='display:none'> Delete profile </button>
+    <button id='cancelEditAccount' style='display:none'> Cancel edit/delete mode </button>
     <br> ----
   </div>
 

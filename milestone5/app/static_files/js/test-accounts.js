@@ -28,6 +28,10 @@ $(document).ready(() => {
   /*
    * Show list of all users. Don't need to be signed in
    * Makes GET request to /accounts
+   * If user is signed in, from the list of all accounts, make user's account
+   * clickable; clicking it will give options to edit and delete account.
+   * If user is not signed in, simply show list of all accounts (none of them 
+   * will be clickable)
    */
   $('#allUsersButton').click(() => {
     $.ajax({
@@ -36,8 +40,60 @@ $(document).ready(() => {
       dataType : 'json',
       success: (data) => {
         console.log('You received some data!', data);
-        $('#infoDiv').html('All users: ' + JSON.stringify(data));
         $('#status').html('Successfully fetched data (GET request) at URL: /users');
+
+//          $('#loginStatus').text("Signed in: true (username: "+response.username+")");
+        
+        // find username from signed status above
+        let status = $('#loginStatus').text();
+        if (status.length >= 27) // signed in
+        {
+          // extract substring with just username
+          status = status.substring(27, status.length-1);
+
+          // display list of accounts and make the logged in user's account clickable
+          $('#infoDiv').html('Accounts: (click to edit or delete)<br>');
+
+          data.forEach(e =>
+          {
+            if (e == status)
+            {
+              let info = document.createElement('a');
+              info.setAttribute('href', "#");
+              info.appendChild( document.createTextNode( e ) );
+              
+              // fill out first name, last name, and id fields and click 'getProfile'
+              info.addEventListener( 'click', () =>
+              {
+                $('#signup-login_text').text('Edit/Delete account')
+          
+                //show field if it's not already shown
+                $('#signup-login-div').show();
+                $('#signup-login-display-button').text('Hide');
+
+                $('#signout').hide();
+                $('#signup').hide();
+                $('#login').hide();
+                $('#editAccount').show();
+                $('#deleteAccount').show();
+                $('#cancelEditAccount').show();
+                event.preventDefault();
+              });
+              $('#infoDiv').append(info);  
+              $('#infoDiv').append( document.createTextNode(', ') );
+            }
+            else
+            {
+              $('#infoDiv').append( document.createTextNode(e+', ') );
+            }
+          }); // end of forEach
+        }
+        else // not signed in
+        {
+          $('#infoDiv').html('All users: ' + JSON.stringify(data));
+
+        }
+
       },
       error: (xhr, textStatus, error) => 
       {
@@ -177,6 +233,85 @@ $(document).ready(() => {
         $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
       }
     });
+  });
+
+
+
+  $('#editAccount').click(() =>
+  {
+    var body = {};
+
+    // only send PATCH request for values that user want to update (non-empty values)
+    // check if input value is empty; if not empty, add it to body, otherwise do nothing
+
+
+    console.log(body);
+
+    const requestURL = '/accounts/edit/'+$('#medicine_id').val();
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'PATCH',
+      dataType : 'json', // this URL returns data in JSON format
+      data: body,
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        // show the edited
+        $('#medicine_id').val(data.id);
+        $('#getMedicine').click();
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  }); // end of createMedicine()
+  
+
+  $('#deleteAccount').click(() =>
+  {
+    const body = {};
+    const requestURL = '/medicine/delete/'+$('#medicine_id').val();
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'DELETE',
+      dataType : 'json', // this URL returns data in JSON format
+      data: body,
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        $('#infoDiv').html('Medicine deleted; try doing "get medicine" to check');
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  });
+  
+
+  /* 
+   * exit edit/delete medicine mode; returns to normal 'create medicine' mode
+   */
+  $('#cancelEditAccount').click(() =>
+  {
+    $('#editMedicine').hide();
+    $('#deleteMedicine').hide();
+    $('#cancelEditMedicine').hide();
+    $('#createMedicine').show();
+    $('#new_medicine_text').text('New medicine for '+$('#nameBoxFirst').val()+' '+$('#nameBoxLast').val())
   });
 
 
