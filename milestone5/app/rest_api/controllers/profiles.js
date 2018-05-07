@@ -209,6 +209,8 @@ exports.getProfile = (req, res) =>
 
 } // end of getProfile()
 
+
+
 /**
  * PATCH request for editing profile. Must be logged in.
  * Edits the profile with the requested id and params passed in.
@@ -218,8 +220,8 @@ exports.getProfile = (req, res) =>
  * The passed in body can contain all of the columns within profiles.
  * All are optional since users don't have to change all of them.
  *
- * Route signature: /profiles/:profile_id
- * Example call: /profiles/5
+ * Route signature: /profiles/edit/:profile_id
+ * Example call: localhost:3000/profiles/edit/5
  * Expected: token, body { optional }
  *
  * @return 1) error 500 if error occured while editing profile. Otherwise
@@ -277,34 +279,28 @@ exports.deleteProfile = (req, res) =>
 {
   console.log('DELETE PROFILE');
 
-  const id = req.params.profile_id;
   const profile_id = req.userData.profile_id;
   const account_id = req.userData.account_id;
 
-  if (id == profile_id)
+  let query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
+  db.all(query, [account_id, profile_id], (err) =>
   {
-    let query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
-    db.all(query, [account_id, profile_id], (err) =>
+    console.log('delete medicine; err = '+err);
+    if (err)
     {
-      console.log('delete medicine; err = '+err);
-      if (err)
+      res.status(500).json( {error: err} );
+    }
+    else
+    {
+      query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
+      db.all(query, [account_id, profile_id], (err) =>
       {
-        res.status(500).json( {error: err} );
-      }
-      else
-      {
-        query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
-        db.all(query, [account_id, profile_id], (err) =>
-        {
-          console.log('delete profile; err = '+err+'\n---');
-          (err)? 
-            res.status(500).json( {error: err} ) : 
-            res.status(200).json( {message: 'Profile deleted'} )
-        });
-      }
-    }); //end of db.all(..)
-
-  } // end of if
-
-}
+        console.log('delete profile; err = '+err+'\n---');
+        (err)? 
+          res.status(500).json( {error: err} ) : 
+          res.status(200).json( {message: 'Profile deleted'} )
+      });
+    }
+  }); //end of db.all(..)
+} // end of deleteProfile()
 

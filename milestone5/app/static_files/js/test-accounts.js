@@ -77,6 +77,8 @@ $(document).ready(() => {
                 $('#editAccount').show();
                 $('#deleteAccount').show();
                 $('#cancelEditAccount').show();
+
+                $('#getUserInfo').click();
                 event.preventDefault();
               });
               $('#infoDiv').append(info);  
@@ -243,11 +245,14 @@ $(document).ready(() => {
 
     // only send PATCH request for values that user want to update (non-empty values)
     // check if input value is empty; if not empty, add it to body, otherwise do nothing
+    ($('#username').val() == '')? {} : body.username = $('#username').val();
+    ($('#password').val() == '')? {} : body.password = $('#password').val();
+    ($('#email').val() == '')?    {} : body.email = $('#email').val();
 
 
     console.log(body);
 
-    const requestURL = '/accounts/edit/'+$('#medicine_id').val();
+    const requestURL = '/accounts/edit/';
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -260,10 +265,12 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        window.localStorage.setItem("token", data.token); //store authorization token
+        testauth();
         
         // show the edited
-        $('#medicine_id').val(data.id);
-        $('#getMedicine').click();
+        // $('#medicine_id').val(data.id);
+        // $('#getMedicine').click();
       },
       error: (xhr, textStatus, error) => 
       {
@@ -277,7 +284,7 @@ $(document).ready(() => {
   $('#deleteAccount').click(() =>
   {
     const body = {};
-    const requestURL = '/medicine/delete/'+$('#medicine_id').val();
+    const requestURL = '/accounts/delete/';
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -291,7 +298,7 @@ $(document).ready(() => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
         
-        $('#infoDiv').html('Medicine deleted; try doing "get medicine" to check');
+        $('#infoDiv').html('Account deleted; try doing "get all accounts" to check');
       },
       error: (xhr, textStatus, error) => 
       {

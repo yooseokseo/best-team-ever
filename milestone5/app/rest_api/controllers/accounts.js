@@ -257,27 +257,180 @@ exports.login = (req, res) =>
 exports.getAccountInfo = (req, res) =>
 {
   console.log("GET ACCOUNT INFO");
+  const id = req.userData.account_id;
   const username = req.userData.username;
 
-  db.all(
-    `SELECT * FROM accounts WHERE username=$username`,
+  const query = `SELECT * FROM accounts WHERE id=? AND username=?`;
+  db.all(query, [id, username], (err, rows) =>
+  {
+    if (rows.length > 0) 
     {
-      $username: username
-    },
-    // callback function to run when the query finishes:
-    (err, rows) => 
+      console.log(rows[0]);
+      console.log('---');
+      res.status(200).json(rows[0]);
+    } 
+    else 
     {
-      if (rows.length > 0) 
-      {
-        console.log(rows[0]);
-        console.log('---');
-        res.status(200).json(rows[0]);
-      } 
-      else 
-      {
-        res.status(404).json( {error: '\"'+username+'\" does not exist'} );
-      }
+      res.status(404).json( {error: '\"'+username+'\" does not exist'} );
     }
-  ); // end of db.all(..)
-
+  }); // end of db.all(..)
 } // end of getAccountInfo()
+
+
+
+/**
+ * Helper function for editing account.
+ *
+ * To update, need to do `UPDATE profiles SET column='value', col2='value'`
+ * 'str' iterates through all of the requested columns to be edited and
+ * makes string for the `column='value', column2='value'`
+ *
+ * This process could take a while, so need to do a callback.
+ */
+function substringForEdit(body, callback)
+{
+  let str = ``;
+  for (const e in body)
+  {
+    str += e+`='`+body[[e]]+`', `;
+  }
+  str = str.substring(0, str.length-2); // remove the final comma from string
+  callback(str);
+}
+
+/**
+ * Helper function for editing account.
+ * 
+ * Used for hashing password. User may or may not want to edit password. If user
+ * doesn't want to edit password, then body will not contain password data, 
+ * and thus, req.body.password will be undefined. If password is undefined,
+ * do nothing. Otherwise, hash the password.
+ */
+function hashPassword(password, callback)
+{
+  if (password) // user wants to change password; hash it
+  {
+    bcrypt.hash(password, 10, (err, hash) =>
+    {
+      (err)?
+        callback({error: err}) : // error while hashing
+        callback(hash)           // successful hash
+    });
+  }
+  else // password undefined; user doesn't want to change password
+  {
+    callback('');
+  }
+}
+
+/**
+ * PATCH request for editing account. Must be logged in.
+ * Edits the account with the requested id.
+ * Front end will pass only the columns that user want edited and
+ * this function will replace all of thost columns with new value.
+ * 
+ * The passed in body can contain all of the columns within profiles.
+ * All are optional since users don't have to change all of them.
+ *
+ * Route signature: /accounts/edit
+ * Example call: localhost:3000/accounts/edit
+ * Expected: token, body { optional }
+ *
+ * @return 1) error 500 if error occured while editing profile. Otherwise
+ *            -> {keys -> error}
+ *         2) success message and profile id
+ *            -> {keys -> message, id}
+ */
+exports.editAccount = (req, res) => 
+{
+  console.log('EDIT ACCOUNT');
+
+  const account_id = req.userData.account_id;
+
+  hashPassword(req.body.password, (hash) =>
+  {
+    if (hash.error) // error with hashing
+      res.status(500).json( {error: hash.error} );
+
+    else if (hash != '') // if user wants to edit password
+      req.body.password = hash; // replace password in body w/ hashed version
+
+    console.log('replace current info with: ',req.body);
+
+    // get substring for query
+    substringForEdit(req.body, (str) =>
+    {
+      let query = `UPDATE accounts SET `+str+` WHERE id=?`;
+      db.all(query, [account_id], (err) =>
+      {
+        if (err) // error editing account
+        {
+          console.log('err = '+err+'\n---');
+          res.status(500).json( {error: err} );
+        }
+        else
+        {
+          // create new token; check if username has been changed
+          let username;
+          if (req.body.username)
+            username = req.body.username;
+          else
+            username = req.userData.userData;
+
+          const token = getToken(username, req.userData.account_id);
+          res.status(200).json( {message: 'Account edited', token: token} )
+        }
+      }); // end of db.all(..) for editing account
+    });  // end of substringForEdit callback
+  }); // end of hashPassword(..) callback
+
+} // end of editAccount()
+
+
+
+/**
+ * DELETE request for deleting profile. Must be logged in.
+ * If the account_id and profile_id of the requested profile are correct, 
+ * delete the profile and all medicine belonging to the profile.
+ *
+ * Route signature: /profiles/delete/:profile_id
+ * Example call: localhost:3000/profiles/delete/5
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while deleting profile. Otherwise
+ *            -> {keys -> error}
+ *         2) success message
+ *            -> {keys -> message}
+ */
+exports.deleteAccount = (req, res) => 
+{
+  console.log('DELETE ACCOUNT');
+
+  const account_id = req.userData.account_id;
+
+  res.send({})
+
+
+  // const profile_id = req.userData.profile_id;
+
+  // let query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
+  // db.all(query, [account_id, profile_id], (err) =>
+  // {
+  //   console.log('delete medicine; err = '+err);
+  //   if (err)
+  //   {
+  //     res.status(500).json( {error: err} );
+  //   }
+  //   else
+  //   {
+  //     query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
+  //     db.all(query, [account_id, profile_id], (err) =>
+  //     {
+  //       console.log('delete profile; err = '+err+'\n---');
+  //       (err)? 
+  //         res.status(500).json( {error: err} ) : 
+  //         res.status(200).json( {message: 'Profile deleted'} )
+  //     });
+  //   }
+  // }); //end of db.all(..)
+} // end of deleteProfile()

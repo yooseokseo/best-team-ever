@@ -17,6 +17,13 @@ router.post('/login', AccountsController.login);
 // Get user's account info (ex. localhost:3000/accounts/info)
 router.get('/info', checkAuth, AccountsController.getAccountInfo);
 
+// Edit specific account (ex. localhost:3000/accounts/edit)
+router.patch('/edit/', checkAuth, AccountsController.editAccount);
+
+// Delete specific account (ex. localhost:3000/profiles/delete)
+router.delete('/delete/', checkAuth, AccountsController.deleteAccount);
+
+
 
 
 module.exports = router;
