@@ -234,7 +234,11 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));
+        
+        // show the edited
+        $('#medicineName').val(data.medicinename);
+        $('#medicine_id').val(data.id);
+        $('#getMedicine').click();
       },
       error: (xhr, textStatus, error) => 
       {

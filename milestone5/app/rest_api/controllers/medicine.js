@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt');
 // use this library to interface with SQLite databases: https://github.com/mapbox/node-sqlite3
 const db = new sqlite3.Database('rest_api/database/users.db');
 
+
 /**
  * GET a list of all medicine for a profile. Find medicine belonging to the
  * correct profile by checking account_id and profile_id.
@@ -179,9 +180,25 @@ exports.getMedicine = (req, res) =>
 
 
 
-
 /**
+ * PATCH request for editing medicine. Must be logged in/
+ * Edits the medicine with the requested id and params passed in.
+ * Front end will pass only the columns that user want edited and
+ * this code will replace all of thost columns with new value.
+ * 
+ * The passed in body can contain all of the columns within medicine.
+ * All are optional since users don't have to change all of them.
  *
+ * Route signature: /medicine/:medicinename/:medicine_id
+ * Example call: /medicine/vitaminA/5
+ * Expected: token, body { optional }
+ *
+ * @return 1) error 500 if error occured while searching for medicine. Otherwise
+ *            -> {keys -> error}
+ *         2) the edited medicine
+ *            -> {keys -> id, medicinename, dosage, num_pills, recurrence_hour,
+ *                        times_per_day, start_date, start_time, end_date,
+ *                        end_time, med_type, med_color, account_id, profile_id}
  */
 exports.editMedicine = (req, res) => 
 {
@@ -207,20 +224,15 @@ exports.editMedicine = (req, res) =>
     }
     else
     {
-      // find the edited medicine and return it
-      db.get(
+      db.get( // find the edited medicine and return it
         `SELECT * FROM medicine WHERE id=?`, [id], (err, row) =>
         {
           console.log('edited medicine: ', row);
           res.status(200).json( row );
         }
-      ); // end of db.get(...)
+      ); // end of db.get(...) for finding edited medicine
     }
 
   }); // end of db.all(..) for editing
-
-  
-
-
-} 
+} // end of editMedicine()
 
