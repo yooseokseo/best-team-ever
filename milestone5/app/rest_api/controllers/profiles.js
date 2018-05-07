@@ -154,8 +154,8 @@ exports.newProfile = (req, res) =>
  * GET profile data for an account. Must be logged in.
  * If logged in, find the with requested name. 
  *
- * Route signature: GET /profiles/:profilename/:profile_id
- * Example call: localhost:3000/profiles/JohnnyTest/2
+ * Route signature: GET /profiles/:profile_id
+ * Example call: localhost:3000/profiles/2
  * Expected: token
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
@@ -169,17 +169,13 @@ exports.getProfile = (req, res) =>
 {
   console.log("GET PROFILE")
   const username = req.userData.username;
-  const profilename = req.params.profilename.toLowerCase();
   const profile_id = req.params.profile_id;
   const account_id = req.userData.account_id;
 
   db.get(
     `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
-     profiles WHERE profilename=$profilename
-     AND profiles.id = $profile_id  
-     AND accounts.id = $account_id`,
+     profiles WHERE profiles.id = $profile_id AND accounts.id = $account_id`,
     {
-      $profilename: profilename,
       $profile_id: profile_id,
       $account_id: account_id
     },
@@ -202,8 +198,7 @@ exports.getProfile = (req, res) =>
         }
         else
         {
-          const name_id = '\"'+profilename+'\" (id: '+profile_id+')';
-          res.status(404).json( {error: name_id + ' does not exist'} );
+          res.status(404).json( {error: 'Profile id '+profile_id+'does not exist'} );
         }
       }
 
@@ -211,4 +206,87 @@ exports.getProfile = (req, res) =>
   ); // end of db.get(..)
 
 } // end of getProfile()
+
+/**
+ * PATCH request for editing profile. Must be logged in.
+ * Edits the profile with the requested id and params passed in.
+ * Front end will pass only the columns that user want edited and
+ * this function will replace all of thost columns with new value.
+ * 
+ * The passed in body can contain all of the columns within profiles.
+ * All are optional since users don't have to change all of them.
+ *
+ * Route signature: /profiles/:profile_id
+ * Example call: /profiles/5
+ * Expected: token, body { optional }
+ *
+ * @return 1) error 500 if error occured while editing profile. Otherwise
+ *            -> {keys -> error}
+ *         2) success message and profile id
+ *            -> {keys -> message, id}
+ */
+exports.editProfile = (req, res) => 
+{
+  console.log('EDIT PROFILE');
+  console.log(req.body);
+
+  const id = req.params.profile_id;
+  const account_id = req.userData.account_id;
+
+  // to update, need to do `UPDATE profiles SET column='value', col2='value'`
+  // 'str' iterates through all of the requested columns to be edited and
+  // makes string for the `column='value', column2='value'`
+  let str = ``;
+  for (const e in req.body)
+  {
+    str += e+`='`+req.body[[e]]+`', `;
+  }
+  str = str.substring(0, str.length-2); // remove the final comma from string
+
+  let query = `UPDATE profiles SET `+str+` WHERE id=? AND account_id=?`;
+  db.all(query, [id, account_id], (err) =>
+  {
+    console.log('err = '+err+'\n---');
+
+    (err)? 
+      res.status(500).json( {error: err} ) : 
+      res.status(200).json( {message: 'Profile edited', id: id} )
+
+  }); // end of db.all(..) for editing
+} // end of editProfile()
+
+
+
+/**
+ * DELETE request for deleting medicine. Must be logged in.
+ * Checks that the account_id and profile_id of the requested medicine
+ * match. If so, delete the medicine.
+ *
+ * Route signature: /medicine/delete/:medicine_id
+ * Example call: localhost:3000/medicine/delete/5
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while deleting medicine. Otherwise
+ *            -> {keys -> error}
+ *         2) success message
+ *            -> {keys -> message}
+ */
+exports.deleteProfile = (req, res) => 
+{
+  console.log('DELETE PROFILE');
+
+  // const id = req.params.medicine_id;
+  // const profile_id = req.userData.profile_id;
+  // const account_id = req.userData.account_id;
+  //
+  // const query = `DELETE FROM medicine WHERE id=? AND profile_id=? AND account_id=?`;
+  // db.all(query, [id, profile_id, account_id], (err, rows) =>
+  // {
+  //   console.log('err = '+err);
+  //   console.log(rows);
+  //   (err)? 
+  //     res.status(500).json( {error: err} ) : 
+  //     res.status(200).json( {message: 'Medicine deleted'} )
+  // });
+}
 

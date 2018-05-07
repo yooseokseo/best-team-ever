@@ -208,7 +208,7 @@ exports.editMedicine = (req, res) =>
 
     (err)? 
       res.status(500).json( {error: err} ) : 
-      res.status(200).json( {message: 'Medicine created', id: id} )
+      res.status(200).json( {message: 'Medicine edited', id: id} )
 
   }); // end of db.all(..) for editing
 } // end of editMedicine()
@@ -246,5 +246,5 @@ exports.deleteMedicine = (req, res) =>
       res.status(500).json( {error: err} ) : 
       res.status(200).json( {message: 'Medicine deleted'} )
   });
-}
+} // end of deleteMedicine()
 

@@ -83,10 +83,9 @@ $(document).ready(() => {
         $('#status').html('');
   		return; 
   	}
-    const fn = $('#nameBoxFirst').val().trim();
-    const ln = $('#nameBoxLast').val().trim();
+
     const id = $('#profile_id').val();
-    const requestURL = 'profiles/' + fn+ln + '/' + id;
+    const requestURL = 'profiles/'+ id;
     console.log('making ajax request to:', requestURL);
 
 
@@ -198,14 +197,69 @@ $(document).ready(() => {
 
   $('#editProfile').click(() =>
   {
+    var body = {};
 
-  });
+    // only send PATCH request for values that user want to update (non-empty values)
+    // check if input value is empty; if not empty, add it to body, otherwise do nothing
+    ($('#firstname').val() == '')? {} : body.firstName = $('#firstname').val();
+    ($('#lastname').val() == '')?  {} : body.lastName = $('#lastname').val();
+    ($('#dob').val() == '')?       {} : body.dob = $('#dob').val();
+    ($('#gender').val() == '')?    {} : body.gender = $('#gender').val();
+    console.log(body);
+
+    const requestURL = '/profiles/edit/'+$('#profile_id').val();
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'PATCH',
+      dataType : 'json', // this URL returns data in JSON format
+      data: body,
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        // show the edited profile
+        $('#profile_id').val(data.id);
+        $('#getProfile').click();
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  }); // end of edit profile
   
   
   $('#deleteProfile').click(() =>
   {
-
-  });
+    const body = {};
+    const requestURL = '/profiles/delete/'+$('#profile_id').val();
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'DELETE',
+      dataType : 'json', // this URL returns data in JSON format
+      data: body,
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        $('#infoDiv').html('Profile deleted; try doing "get profile" to check');
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  }); // end of delete profile
   
 
   /* 

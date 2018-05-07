@@ -12,7 +12,13 @@ router.get('/', checkAuth, ProfilesController.getAllProfiles);
 router.post('/new', checkAuth, ProfilesController.newProfile);
 
 // Get specific profile data (ex. localhost:3000/profiles/johnnytest/1)
-router.get('/:profilename/:profile_id', checkAuth, ProfilesController.getProfile);
+router.get('/:profile_id', checkAuth, ProfilesController.getProfile);
+
+// Edit specific profile (ex. localhost:3000/profiles/edit/2)
+router.patch('/edit/:profile_id', checkAuth, ProfilesController.editProfile);
+
+// Delete specific profile (ex. localhost:3000/profiles/delete/2)
+router.delete('/delete/:profile_id', checkAuth, ProfilesController.deleteProfile);
 
 
 
