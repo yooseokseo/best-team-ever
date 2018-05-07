@@ -364,12 +364,10 @@ exports.editAccount = (req, res) =>
       }
       else
       {
-        console.log('Username and/or email already exists: ',rows.length != 0);
-
         // valid username and email; continue with editing process
         if (rows.length == 0) 
         {
-          hashPassword(req.body.password, (hash) =>
+          hashPassword(password, (hash) =>
           {
             if (hash.error) // error with hashing
               res.status(500).json( {error: hash.error} );
@@ -377,10 +375,9 @@ exports.editAccount = (req, res) =>
             else if (hash != '') // if user wants to edit password
               req.body.password = hash; // replace password in body w/ hashed version
 
-            console.log('replace current info with: ',req.body);
+            console.log('replace current info with: \n',req.body);
 
-            // get substring for query
-            substringForEdit(req.body, (str) =>
+            substringForEdit(req.body, (str) => // get substring for query
             {
               let query = `UPDATE accounts SET `+str+` WHERE id=?`;
               db.all(query, [account_id], (err) =>
@@ -399,6 +396,8 @@ exports.editAccount = (req, res) =>
                   else
                     username = req.userData.userData;
 
+                  console.log('---')
+
                   const token = getToken(username, req.userData.account_id);
                   res.status(200).json( {message: 'Account edited', token: token} )
                 }
@@ -408,11 +407,11 @@ exports.editAccount = (req, res) =>
         } // end of check for valid username and email
         else
         {
+          console.log('username and/or email already exists\n---')
           res.status(409).json( {error: 'username and/or email already exists'} );
         }
       }
-    });
-
+    }); // end of db.all(..)
 
 } // end of editAccount()
 

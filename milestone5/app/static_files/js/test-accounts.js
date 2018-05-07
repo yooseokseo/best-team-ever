@@ -29,7 +29,7 @@ $(document).ready(() => {
    * Show list of all users. Don't need to be signed in
    * Makes GET request to /accounts
    * If user is signed in, from the list of all accounts, make user's account
-   * clickable; clicking it will give options to edit and delete account.
+   * clickable; clicking it will take user to "get info"
    * If user is not signed in, simply show list of all accounts (none of them 
    * will be clickable)
    */
@@ -61,23 +61,8 @@ $(document).ready(() => {
               let info = document.createElement('a');
               info.setAttribute('href', "#");
               info.appendChild( document.createTextNode( e ) );
-              
-              // fill out first name, last name, and id fields and click 'getProfile'
               info.addEventListener( 'click', () =>
               {
-                $('#signup-login_text').text('Edit/Delete account')
-          
-                //show field if it's not already shown
-                $('#signup-login-div').show();
-                $('#signup-login-display-button').text('Hide');
-
-                $('#signout').hide();
-                $('#signup').hide();
-                $('#login').hide();
-                $('#editAccount').show();
-                $('#deleteAccount').show();
-                $('#cancelEditAccount').show();
-
                 $('#getUserInfo').click();
                 event.preventDefault();
               });
@@ -104,6 +89,7 @@ $(document).ready(() => {
       }
     });
   });
+
 
   $('#signup-login-display-button').click(() =>
   {
@@ -212,6 +198,7 @@ $(document).ready(() => {
    * Gets user's info (ex. username, email, password)
    * Needs to be signed in and access correct user
    * Makes GET request to /accounts/info
+   * Make info clickable; clicking gives option to edit or delete account
    */
   $('#getUserInfo').click(() => {
     const requestURL = 'accounts/info'
@@ -226,8 +213,35 @@ $(document).ready(() => {
       },
       success: (data) => {
         console.log('You received some data!', data);
-        $('#infoDiv').html(data.username + '\'s info: ' + JSON.stringify(data));
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+
+        $('#infoDiv').html(data.username + '\'s info: (click to edit or delete account)');
+
+        let info = document.createElement('a');
+        info.setAttribute('href', "#");
+        info.appendChild( document.createTextNode( JSON.stringify(data) ) );
+        
+        // fill out first name, last name, and id fields and click 'getProfile'
+        info.addEventListener( 'click', () =>
+        {
+          $('#signup-login_text').text('Edit/Delete account')
+    
+          //show field if it's not already shown
+          $('#signup-login-div').show();
+          $('#signup-login-display-button').text('Hide');
+
+          $('#signout').hide();
+          $('#signup').hide();
+          $('#login').hide();
+          $('#editAccount').show();
+          $('#deleteAccount').show();
+          $('#cancelEditAccount').show();
+
+          $('#getUserInfo').click();
+          event.preventDefault();
+        });
+        $('#infoDiv').append(info);  
+
       },
       error: (xhr, textStatus, error) => 
       {
@@ -265,12 +279,12 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        window.localStorage.setItem("token", data.token); //store authorization token
+        window.localStorage.setItem("token", data.token); //store authorization token  
         testauth();
+
+        // show the edited account
+        $('#getUserInfo').click();
         
-        // show the edited
-        // $('#medicine_id').val(data.id);
-        // $('#getMedicine').click();
       },
       error: (xhr, textStatus, error) => 
       {
@@ -310,15 +324,17 @@ $(document).ready(() => {
   
 
   /* 
-   * exit edit/delete medicine mode; returns to normal 'create medicine' mode
+   * exit edit/delete medicine mode; return to normal 'login/signup' mode
    */
   $('#cancelEditAccount').click(() =>
   {
-    $('#editMedicine').hide();
-    $('#deleteMedicine').hide();
-    $('#cancelEditMedicine').hide();
-    $('#createMedicine').show();
-    $('#new_medicine_text').text('New medicine for '+$('#nameBoxFirst').val()+' '+$('#nameBoxLast').val())
+    $('#signup-login_text').text('Sign up/Log in')
+    $('#signout').show();
+    $('#signup').show();
+    $('#login').show();
+    $('#editAccount').hide();
+    $('#deleteAccount').hide();
+    $('#cancelEditAccount').hide();
   });
 
 
