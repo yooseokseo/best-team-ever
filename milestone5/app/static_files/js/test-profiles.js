@@ -76,11 +76,11 @@ $(document).ready(() => {
   $('#getProfile').click(() => {
 
   	//check if input fields are blank
-  	if ($('#nameBoxFirst').val().trim() == '' || $('#nameBoxLast').val().trim() == '') 
+  	if ($('#profile_id').val() == '') 
   	{
-  		alert('Please enter info');
+  		alert('Please profile ID');
   		$('#infoDiv').html('');
-        $('#status').html('');
+      $('#status').html('');
   		return; 
   	}
 
@@ -182,8 +182,21 @@ $(document).ready(() => {
       success: (data) => {
         console.log('You received some data!', data);
         $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        $('#infoDiv').html(JSON.stringify(data));
         window.localStorage.setItem("token", data.token); //store authorization token
+        $('#profile_id').val(data.id);
+
+
+        // show 'profile created' message and give option to view
+        $('#infoDiv').html('Profile created: ');
+        let info = document.createElement('a');
+        info.setAttribute('href', '#');
+        info.appendChild( document.createTextNode( 'click here to view' ) );
+        info.addEventListener('click', () =>
+        {          
+          $('#getProfile').click();
+          event.preventDefault();
+        });
+        $('#infoDiv').append(info);
 
       },
       error: (xhr, textStatus, error) => 
