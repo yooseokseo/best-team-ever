@@ -13,9 +13,9 @@ const later = require('later');
 
 
 // for testing only
-function a(amount)
+function a(amount, string)
 {
-  return new moment( currentReminder ).add(amount, 'minute');
+  return new moment( currentReminder ).add(amount, string);
 }
 
 // only pick the earliest time and put it at front of array
@@ -39,6 +39,11 @@ function sort(reminders)
 
 function getString(reminders)
 {
+  // keep loop going by waiting for a long ass time
+  // to avoid attempting to get substring of undefined
+  if (reminders.length == 0)
+  	reminders = [a(1000000000, 'hours')];
+
   const formattedNext = reminders[0].format( format );	
   const month = formattedNext.substring(0, 3);
   const day = formattedNext.substring(4, 7);
@@ -52,7 +57,7 @@ server.listen(port, () =>{
   console.log("Started listening on port: "+port);
 
     
-  const reminders = [a(1), a(0), a(2), a(4), a(5)];
+  const reminders = [a(1, 's'), a(0, 's'), a(2, 's'), a(4, 's'), a(5, 's')];
 
 
 
