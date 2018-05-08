@@ -130,7 +130,9 @@ $(document).ready(() => {
         $('#infoDiv').append(info);
 
 
-        $('#new_medicine_text').text('New medicine for '+$('#nameBoxFirst').val()+' '+$('#nameBoxLast').val())
+        $('#new_medicine_text').text('New medicine for '+data.firstName+' '+data.lastName);
+        $('#nameBoxFirst').val(data.firstName);
+        $('#nameBoxLast').val(data.lastName);
         $('#medicine-new').show();
         $('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
         $('#lookupMedicine_hidden').show();

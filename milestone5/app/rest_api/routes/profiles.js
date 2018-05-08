@@ -14,6 +14,9 @@ router.post('/new', checkAuth, ProfilesController.newProfile);
 // Get specific profile data (ex. localhost:3000/profiles/johnnytest/1)
 router.get('/:profile_id', checkAuth, ProfilesController.getProfile);
 
+// Same as above; use token as ID params (ex. localhost:3000/profiles/info)
+router.get('/info', checkAuth, ProfilesController.getProfile);
+
 // Edit specific profile (ex. localhost:3000/profiles/edit/2)
 router.patch('/edit/:profile_id', checkAuth, ProfilesController.editProfile);
 
