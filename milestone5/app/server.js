@@ -6,13 +6,14 @@ const port = process.env.PORT || 3000;
 const server = http.createServer(app);
 
 const moment = require('moment');
-const currentReminder = moment();
-const format = 'MMMM Do YYYY, h:mm a';
+const format = '{h:mm a}, {Do} {MMMM} {YYYY},';
 const later = require('later');
 
 
 
+
 // for testing only
+const currentReminder = moment();
 function a(amount, string)
 {
   return new moment( currentReminder ).add(amount, string);
@@ -22,7 +23,6 @@ function a(amount, string)
 function sort(reminders)
 {
   let min = reminders[0];
-  let minIndex = 0;
 
   for (let i = 0; i < reminders.length; i++)
   {
@@ -30,67 +30,69 @@ function sort(reminders)
   	{
   	  min = reminders[i].valueOf();
   	  let temp = reminders[i];
-  	  reminders[i] = reminders[minIndex];
-  	  reminders[minIndex] = temp;
-  	  minIndex = i;
+  	  reminders[i] = reminders[0];
+  	  reminders[0] = temp;
   	}
   }
 }
 
-function getString(reminders)
+function parse(reminders)
 {
   // keep loop going by waiting for a long ass time
   // to avoid attempting to get substring of undefined
   if (reminders.length == 0)
-  	reminders = [a(1000000000, 'hours')];
+  	reminders = [a(100000, 'days')];
 
-  const formattedNext = reminders[0].format( format );	
-  const month = formattedNext.substring(0, 3);
-  const day = formattedNext.substring(4, 7);
-  const year = formattedNext.substring(8, 12);
-  const time = formattedNext.substring(14, formattedNext.length);
-  
-  return 'after '+time+' on the '+day+' day of '+month+' in '+year;
+  let nextReminder = reminders[0].format( format );	
+
+  const keywords = ['after ', ' on the ', ' day of ', ' in ']
+  let str = '';
+  for (let i = 0; i < 4; i++)
+  {
+	 let bracket_left = nextReminder.indexOf('{');
+	 let bracket_right = nextReminder.indexOf('}');
+	 str += keywords[i] + nextReminder.substring(bracket_left+1, bracket_right);
+ 	 nextReminder = nextReminder.substring(bracket_right+1, nextReminder.length);
+  }
+
+  console.log('next reminder '+str);
+  return str;
 }
 
+
+function createSchedule(reminders)
+{
+  sort(reminders);
+  let str = parse(reminders);
+  let schedule = later.parse.text(str);
+  later.date.localTime();
+  let next = later.schedule(schedule).next(1);
+
+  return schedule;
+}
+
+/*
+ * Create server and have it listen to port 3000 or other default ports.
+ * Serves as essentially infinite loop, so we can put reminder counter/timer
+ * in here since process will keep running
+ */
 server.listen(port, () =>{
   console.log("Started listening on port: "+port);
-
     
-  const reminders = [a(1, 's'), a(0, 's'), a(2, 's'), a(4, 's'), a(5, 's')];
+  const reminders = [a(1, 'm'), a(0, 's'), a(2, 's'), a(4, 'm'), a(5, 's')];
+  let schedule = createSchedule(reminders);
 
-
-
-  sort(reminders);
-
-
-  let str = getString(reminders);
-  console.log('first reminder '+str);
-  let textSched = later.parse.text(str);
-  later.date.localTime();
-  let next = later.schedule(textSched).next(5);
-
-  function logTime() {
-    console.log('log time = '+new Date());
-    // do query for all medicine. send notification for all meds that time has passed
-    timer2.clear();
+  const sendReminder = () =>
+  {
+    console.log('log time = '+new Date()+'\n--');
 
     reminders.shift();
-    sort(reminders);
-	textSched = later.parse.text(getString(reminders));
-	later.date.localTime();
-	next = later.schedule(textSched).next(5);
-	timer2 = later.setInterval(logTime, textSched);
-  }
-  var timer2 = later.setInterval(logTime, textSched);
+    schedule = createSchedule(reminders);
 
-  // var txt = later.parse.text(str);
-  // console.log(txt);
-  // next = later.schedule(textSched).next(5);
-  // function logTime2() {
-  //   console.log(new Date());
-  // }
-  // var timer = later.setInterval(logTime2, txt);
+    timer.clear();
+	timer = later.setInterval(sendReminder, schedule);
+  }
+  let timer = later.setInterval(sendReminder, schedule);
 
 
 

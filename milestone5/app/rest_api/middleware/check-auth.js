@@ -7,7 +7,7 @@ module.exports = (req, res, next) =>
     const token = req.headers.authorization.split(" ")[1];
     const decoded = jwt.verify(token, "secret key lel");
     req.userData = decoded;
-    console.log("correct auth: ", decoded, "\n");
+    console.log("correct auth");
     //console.log("")
     next();
 

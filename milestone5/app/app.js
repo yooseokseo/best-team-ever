@@ -1,19 +1,50 @@
+// node modules
 const express = require("express");
 const exphbs  = require('express-handlebars');
 const bodyParser = require('body-parser');
 const sqlite3 = require('sqlite3');
+const path = require('path');
+const morgan = require('morgan');
+const methodOverride = require('method-override');
+const session = require('express-session');
+const multer = require('multer');
+const debug = require('debug')('my-namespace')
+const name = 'my-app'
+debug('booting %s', name)
+
 
 // use this library to interface with SQLite databases: https://github.com/mapbox/node-sqlite3
 const db = new sqlite3.Database('rest_api/database/users.db');
 const app = express();
+
 
 //register a Handlebars - Seo
 // views/layouts/main.handlebars will be default Layout
 // all partial layouts will be at views/partials
 // in order to use partial layout in main.Handlebars
 // use {{>partial_layout_file_name_here}}
+// app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+// app.set('view engine', 'handlebars');
+
+ 
+// all environments
+app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
+
+app.use(morgan('dev'));
+app.use(methodOverride());
+app.use(express.static('static_files'));
+
+// parse application/json
+app.use(bodyParser.json()); 
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: true }));
+
+// parse multipart/form-data
+//app.use(multer());
+
 
 // Variables for linking to route files
 const accountsRoutes = require("./rest_api/routes/accounts");

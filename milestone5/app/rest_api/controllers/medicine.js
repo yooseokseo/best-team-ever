@@ -23,6 +23,7 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  */
 exports.getAllMedicine = (req, res) => 
 {
+  console.log('---');
   console.log('GET ALL MEDICINE')
 
   db.all(
@@ -47,7 +48,6 @@ exports.getAllMedicine = (req, res) =>
           return {id: e.id, medicinename: e.medicinename} 
         });
         console.log(allMed);
-        console.log('---');
 
         (rows.length > 0)?  
           res.status(200).json(allMed) :
@@ -77,6 +77,7 @@ exports.getAllMedicine = (req, res) =>
  */
 exports.newMedicine = (req, res) => 
 {
+  console.log('---');
   console.log("CREATE NEW MEDICINE");
   console.log('medicine to create:\n', req.body, '\n');
 
@@ -125,7 +126,7 @@ exports.newMedicine = (req, res) =>
 
           console.log('found '+allId.length+' medicine(s) within this profile');
           console.log('IDs found: ', JSON.stringify(allId));
-          console.log('ID of the new medicine = ' + max + '\n---');
+          console.log('ID of the new medicine = ' + max);
 
           res.status(201).json( {message: 'Medicine created', id: max} );
         }); // end of db.all(..) for new medicine id
@@ -157,6 +158,7 @@ exports.newMedicine = (req, res) =>
  */
 exports.getMedicine = (req, res) => 
 {
+  console.log('---');
   console.log('GET MEDICINE');
 
   const id = req.params.medicine_id;
@@ -174,7 +176,6 @@ exports.getMedicine = (req, res) =>
       else
       {
         console.log('medicine: ',row);
-        console.log('---');
 
         (row)? //check if medicine found
           res.status(200).json(row) :
@@ -208,6 +209,7 @@ exports.getMedicine = (req, res) =>
  */
 exports.editMedicine = (req, res) => 
 {
+  console.log('---');
   console.log('EDIT MEDICINE');
   const id = req.params.medicine_id;
   const profile_id = req.userData.profile_id;
@@ -225,7 +227,7 @@ exports.editMedicine = (req, res) =>
   let query = `UPDATE medicine SET `+str+` WHERE id=? AND profile_id=?`;
   db.all(query, [id, profile_id], (err) =>
   {
-    console.log('err = '+err+'\n---');
+    console.log('err = '+err);
 
     (err)? 
       res.status(500).json( {error: err} ) : 

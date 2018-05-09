@@ -45,15 +45,16 @@ function getToken(username, account_id, profile_id, password)
  */
 exports.getAllProfiles = (req, res) =>
 {
+  console.log('---');
   console.log("GET ALL PROFILES");
   const username = req.userData.username;
+  const account_id = req.userData.account_id;
 
 
   db.all(
-    'SELECT profiles.id, firstname, lastname, isDefault FROM accounts, \
-     profiles WHERE username=$username AND profiles.account_id = accounts.id',
+    'SELECT * FROM profiles WHERE profiles.account_id = $account_id',
     {
-      $username: username
+      $account_id: account_id
     },
     // callback function to run when the query finishes:
     (err, rows) => 
@@ -65,12 +66,14 @@ exports.getAllProfiles = (req, res) =>
       }
       else
       {
-        const allProfiles = rows.map(e => 
+        let allProfiles = rows.map(e => 
         { 
-          return {id: e.id, firstName: e.firstName, lastName: e.lastName} 
+          return { id: e.id, 
+                   firstName: e.firstName, 
+                   lastName: e.lastName, 
+                   default: e.isDefault } 
         });
         console.log(allProfiles);
-        console.log('---');
 
         (rows.length > 0)?
           res.status(200).json(allProfiles) :
@@ -98,6 +101,7 @@ exports.getAllProfiles = (req, res) =>
  */
 exports.newProfile = (req, res) => 
 {
+  console.log('---');
   console.log("CREATE NEW PROFILE");
   console.log('profile to create:\n', req.body, '\n');
 
@@ -108,46 +112,65 @@ exports.newProfile = (req, res) =>
   const gender = req.body.gender;
   const account_id = req.userData.account_id;
 
-  db.run(
-    `INSERT INTO profiles (firstName, lastName, dob, 
-                           gender, isDefault, account_id)
-     VALUES ($firstName, $lastName, $dob, $gender, 0, $account_id)`,
+  db.all('SELECT * FROM profiles WHERE profiles.account_id = ?', [account_id],
+    (err, rows) => 
     {
-      $firstName: firstName,
-      $lastName: lastName,
-      $dob: dob,
-      $gender: gender,
-      $account_id: account_id
-    },
-    // callback function to run when the query finishes:
-    (err) => 
-    {
-      if (err) 
+      if (err)
       {
         console.log(err);
         res.status(500).json( {error: err} );
-      } 
-      else 
-      {
-        // find ID of the newly created profile to create token from it
-        const query = 'SELECT * FROM profiles WHERE account_id=?';
-        db.all(query, [account_id], (err, rows) =>
-        {
-          const allId = rows.map(e => e.id);
-
-          // if multiple profiles w/ same name, new one will have highest id
-          const max = Math.max(...allId);
-
-          console.log('found '+allId.length+' profile(s) within this account');
-          console.log('IDs found: ', JSON.stringify(allId));
-          console.log('ID of the new profile = ' + max + '\n---');
-
-          const token = getToken(username, account_id, max);
-          res.status(201).json( {id: max, token: token} );
-        }); // end of db.all(..) for new profile id
       }
-    } // end of (err) =>
-  ); // end of db.run(`INSERT..`) for creating profile 
+      else
+      {
+        const isDefault = (rows.length == 0)? 1 : 0;
+
+        // make profile default if this will be first profile in account
+        db.run(
+          `INSERT INTO profiles (firstName, lastName, dob, 
+                                 gender, isDefault, account_id)
+           VALUES ($firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
+          {
+            $firstName: firstName,
+            $lastName: lastName,
+            $dob: dob,
+            $gender: gender,
+            $isDefault: isDefault,
+            $account_id: account_id
+          },
+          // callback function to run when the query finishes:
+          (err) => 
+          {
+            if (err) 
+            {
+              console.log(err);
+              res.status(500).json( {error: err} );
+            } 
+            else 
+            {
+              // find ID of the newly created profile to create token from it
+              const query = 'SELECT * FROM profiles WHERE account_id=?';
+              db.all(query, [account_id], (err, rows) =>
+              {
+                const allId = rows.map(e => e.id);
+
+                // if multiple profiles w/ same name, new one will have highest id
+                const max = Math.max(...allId);
+
+                console.log('found '+allId.length+' profile(s) within this account');
+                console.log('IDs found: ', JSON.stringify(allId));
+                console.log('ID of the new profile = ' + max);
+
+                const token = getToken(username, account_id, max);
+                res.status(201).json( {id: max, token: token} );
+              }); // end of db.all(..) for new profile id
+            }
+          } // end of (err) =>
+        ); // end of db.run(`INSERT..`) for creating profile 
+      } 
+    } // end of (err, rows) => {}
+  ); // end of db.all(..)
+
+  
 
 } // end of newProfile()
 
@@ -169,6 +192,7 @@ exports.newProfile = (req, res) =>
  */
 exports.getProfile = (req, res) =>
 {
+  console.log('---')
   console.log("GET PROFILE")
   const username = req.userData.username;
   const profile_id = req.params.profile_id;
@@ -192,7 +216,6 @@ exports.getProfile = (req, res) =>
       else 
       {
         console.log('profile: ',row);
-        console.log('---');
         if (row) //found profile
         {
           row.token = getToken(username, account_id, profile_id);
@@ -231,6 +254,7 @@ exports.getProfile = (req, res) =>
  */
 exports.editProfile = (req, res) => 
 {
+  console.log('---');
   console.log('EDIT PROFILE');
   console.log(req.body);
 
@@ -250,7 +274,7 @@ exports.editProfile = (req, res) =>
   let query = `UPDATE profiles SET `+str+` WHERE id=? AND account_id=?`;
   db.all(query, [id, account_id], (err) =>
   {
-    console.log('err = '+err+'\n---');
+    console.log('err = '+err);
 
     (err)? 
       res.status(500).json( {error: err} ) : 
@@ -277,6 +301,7 @@ exports.editProfile = (req, res) =>
  */
 exports.deleteProfile = (req, res) => 
 {
+  console.log('---');
   console.log('DELETE PROFILE');
 
   const profile_id = req.userData.profile_id;
@@ -295,7 +320,7 @@ exports.deleteProfile = (req, res) =>
       query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
       db.all(query, [account_id, profile_id], (err) =>
       {
-        console.log('delete profile; err = '+err+'\n---');
+        console.log('delete profile; err = '+err);
         (err)? 
           res.status(500).json( {error: err} ) : 
           res.status(200).json( {message: 'Profile deleted'} )
