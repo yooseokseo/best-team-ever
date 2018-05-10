@@ -146,6 +146,64 @@ $(document).ready(() => {
     });
   });
 
+  $('#getDefault').click(() => 
+  {
+    const requestURL = '/api/profiles/default'
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'GET',
+      dataType : 'json', // this URL returns data in JSON format
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        window.localStorage.setItem("token", data.token); //store authorization token
+
+        // returned data also contains token; delete token so we don't have to display it
+        delete data.token;
+
+        // show profile and make it clickable; clicking gives option to edit or delete
+        $('#infoDiv').html('Profile: (click to edit or delete)');
+        let info = document.createElement('a');
+        info.setAttribute('href', '#');
+        info.appendChild( document.createTextNode( JSON.stringify(data) ) );
+        info.addEventListener('click', () =>
+        {
+          $('#new_profile_text').text('Edit/Delete profile')
+          
+          //show field if it's not already shown
+          $('#newProfile-div').show();
+          $('#newProfile-display-button').text('Hide');
+
+          $('#createProfile').hide();
+          $('#editProfile').show();
+          $('#deleteProfile').show();
+          $('#cancelEditProfile').show();
+          event.preventDefault();
+        });
+        $('#infoDiv').append(info);
+
+
+        $('#new_medicine_text').text('New medicine for '+data.firstName+' '+data.lastName);
+        $('#nameBoxFirst').val(data.firstName);
+        $('#nameBoxLast').val(data.lastName);
+        $('#medicine-new').show();
+        $('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
+        $('#lookupMedicine_hidden').show();
+
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  });
+
 
   /*
    * Create new profile for the currently logged in user.

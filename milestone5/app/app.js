@@ -79,7 +79,7 @@ app.use((req, res, next) =>
 //-----------------------------------------
 
 // Add new router for Home page - Seo
-app.get('/home', (req, res) => 
+app.post('/home', (req, res) => 
 {
   console.log('home');
     res.render('home', {

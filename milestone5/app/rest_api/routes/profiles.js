@@ -11,6 +11,9 @@ router.get('/', checkAuth, ProfilesController.getAllProfiles);
 // Create new profile (ex. localhost:3000/profiles/new)
 router.post('/new', checkAuth, ProfilesController.newProfile);
 
+// GEt default profile (ex. localhost:3000/profiles/default)
+router.get('/default', checkAuth, ProfilesController.getDefault);
+
 // Get specific profile data (ex. localhost:3000/profiles/johnnytest/1)
 router.get('/:profile_id', checkAuth, ProfilesController.getProfile);
 

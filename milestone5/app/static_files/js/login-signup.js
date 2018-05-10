@@ -1,6 +1,5 @@
 $('#login_button').click(()=>
 {
-  
   var body = {
                  'username' : $('#username').val(),
                  'password' : $('#password').val()
@@ -16,7 +15,13 @@ $('#login_button').click(()=>
       console.log('login success');
       console.log(data);
       window.localStorage.setItem("token", data.token); //store authorization token
-      window.location = '/home';
+      //window.location = '/home';
+      $.ajax(
+      {
+        url: '/home',
+        type: 'POST'
+      })
+
     },
     error: (xhr, textStatus, error) =>
     {

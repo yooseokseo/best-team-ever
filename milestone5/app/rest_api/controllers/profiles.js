@@ -170,10 +170,25 @@ exports.newProfile = (req, res) =>
     } // end of (err, rows) => {}
   ); // end of db.all(..)
 
-  
-
 } // end of newProfile()
 
+
+exports.getDefault = (req, res) =>
+{
+  console.log('---');
+  console.log('GET DEFAULT PROFILE');
+  const username = req.userData.username;
+  const account_id = req.userData.account_id;
+
+
+  const query = `SELECT * FROM profiles WHERE account_id=? AND isDefault=?`;
+  db.get(query, [account_id, 1], (err, row) =>
+  {
+    console.log(row);
+    row.token = getToken(username, account_id, row.id);
+    res.status(200).json(row);
+  })
+}
 
 /**
  * GET profile data for an account. Must be logged in.
