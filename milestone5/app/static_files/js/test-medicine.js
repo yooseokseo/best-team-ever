@@ -26,7 +26,7 @@ $(document).ready(() => {
    */
   $('#getAllMedicine').click(() =>
   {
-    const requestURL = '/medicine';
+    const requestURL = '/api/medicine';
     console.log('requestURl = '+requestURL);
     console.log('making ajax request to:', requestURL);
 
@@ -86,7 +86,7 @@ $(document).ready(() => {
   		return; 
   	}
 
-    const requestURL = 'medicine/' + $('#medicine_id').val();
+    const requestURL = '/api/medicine/' + $('#medicine_id').val();
     console.log('making ajax request to:', requestURL);
 
 
@@ -159,7 +159,7 @@ $(document).ready(() => {
                  'med_color' : $('#medColor').val(),
                };
 
-  	const requestURL = '/medicine/new';
+  	const requestURL = '/api/medicine/new';
   	$.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -185,7 +185,7 @@ $(document).ready(() => {
           event.preventDefault();
         });
         $('#infoDiv').append(info);
-        
+
       },
       error: (xhr, textStatus, error) => 
       {
@@ -218,7 +218,7 @@ $(document).ready(() => {
 
     console.log(body);
 
-    const requestURL = '/medicine/edit/'+$('#medicine_id').val();
+    const requestURL = '/api/medicine/edit/'+$('#medicine_id').val();
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -248,7 +248,7 @@ $(document).ready(() => {
   $('#deleteMedicine').click(() =>
   {
     const body = {};
-    const requestURL = '/medicine/delete/'+$('#medicine_id').val();
+    const requestURL = '/api/medicine/delete/'+$('#medicine_id').val();
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,

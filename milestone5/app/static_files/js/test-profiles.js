@@ -22,7 +22,7 @@ $(document).ready(() => {
    */
   $('#getAllProfiles').click(() =>
   {
-    const requestURL = '/profiles';
+    const requestURL = '/api/profiles';
     console.log('requestURl = '+requestURL);
     console.log('making ajax request to:', requestURL);
 
@@ -87,7 +87,7 @@ $(document).ready(() => {
   	}
 
     const id = $('#profile_id').val();
-    const requestURL = 'profiles/'+ id;
+    const requestURL = '/api/profiles/'+ id;
     console.log('making ajax request to:', requestURL);
 
 
@@ -130,7 +130,67 @@ $(document).ready(() => {
         $('#infoDiv').append(info);
 
 
-        $('#new_medicine_text').text('New medicine for '+$('#nameBoxFirst').val()+' '+$('#nameBoxLast').val())
+        $('#new_medicine_text').text('New medicine for '+data.firstName+' '+data.lastName);
+        $('#nameBoxFirst').val(data.firstName);
+        $('#nameBoxLast').val(data.lastName);
+        $('#medicine-new').show();
+        $('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
+        $('#lookupMedicine_hidden').show();
+
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        $('#infoDiv').html('');
+        $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
+  });
+
+  $('#getDefault').click(() => 
+  {
+    const requestURL = '/api/profiles/default'
+    $.ajax({
+      // all URLs are relative to http://localhost:3000/
+      url: requestURL,
+      type: 'GET',
+      dataType : 'json', // this URL returns data in JSON format
+      beforeSend: function (xhr) {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('You received some data!', data);
+        $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        
+        window.localStorage.setItem("token", data.token); //store authorization token
+
+        // returned data also contains token; delete token so we don't have to display it
+        delete data.token;
+
+        // show profile and make it clickable; clicking gives option to edit or delete
+        $('#infoDiv').html('Profile: (click to edit or delete)');
+        let info = document.createElement('a');
+        info.setAttribute('href', '#');
+        info.appendChild( document.createTextNode( JSON.stringify(data) ) );
+        info.addEventListener('click', () =>
+        {
+          $('#new_profile_text').text('Edit/Delete profile')
+          
+          //show field if it's not already shown
+          $('#newProfile-div').show();
+          $('#newProfile-display-button').text('Hide');
+
+          $('#createProfile').hide();
+          $('#editProfile').show();
+          $('#deleteProfile').show();
+          $('#cancelEditProfile').show();
+          event.preventDefault();
+        });
+        $('#infoDiv').append(info);
+
+
+        $('#new_medicine_text').text('New medicine for '+data.firstName+' '+data.lastName);
+        $('#nameBoxFirst').val(data.firstName);
+        $('#nameBoxLast').val(data.lastName);
         $('#medicine-new').show();
         $('#getAllMedicine').text('Get '+data.firstName+' '+data.lastName+'\'s medicine list');
         $('#lookupMedicine_hidden').show();
@@ -173,7 +233,7 @@ $(document).ready(() => {
                  'dob' : $('#dob').val()
                };
 
-  	const requestURL = '/profiles/new';
+  	const requestURL = '/api/profiles/new';
     console.log('making ajax request to: '+requestURL);
   	$.ajax({
       // all URLs are relative to http://localhost:3000/
@@ -236,7 +296,7 @@ $(document).ready(() => {
     ($('#gender').val() == '')?    {} : body.gender = $('#gender').val();
     console.log(body);
 
-    const requestURL = '/profiles/edit/'+$('#profile_id').val();
+    const requestURL = '/api/profiles/edit/'+$('#profile_id').val();
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -270,7 +330,7 @@ $(document).ready(() => {
   $('#deleteProfile').click(() =>
   {
     const body = {};
-    const requestURL = '/profiles/delete/'+$('#profile_id').val();
+    const requestURL = '/api/profiles/delete/'+$('#profile_id').val();
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,

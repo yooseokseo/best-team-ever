@@ -35,7 +35,7 @@ $(document).ready(() => {
    */
   $('#allUsersButton').click(() => {
     $.ajax({
-      url: 'accounts/',
+      url: '/api/accounts/',
       type: 'GET',
       dataType : 'json',
       success: (data) => {
@@ -118,7 +118,7 @@ $(document).ready(() => {
                  'password' : $('#password').val()
                };
     $.ajax({
-      url: 'accounts/signup',
+      url: '/api/accounts/signup',
       type: 'POST',
       dataType : 'json',
       data: body,
@@ -157,7 +157,7 @@ $(document).ready(() => {
                  'password' : $('#password').val()
                };
     $.ajax({
-      url: 'accounts/login',
+      url: '/api/accounts/login',
       type: 'POST',
       dataType : 'json',
       data: body,
@@ -201,7 +201,7 @@ $(document).ready(() => {
    * Make info clickable; clicking gives option to edit or delete account
    */
   $('#getUserInfo').click(() => {
-    const requestURL = 'accounts/info'
+    const requestURL = '/api/accounts/info'
     console.log('making ajax request to:', requestURL);
 
     $.ajax({
@@ -266,7 +266,7 @@ $(document).ready(() => {
 
     console.log(body);
 
-    const requestURL = '/accounts/edit/';
+    const requestURL = '/api/accounts/edit/';
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -298,7 +298,7 @@ $(document).ready(() => {
   $('#deleteAccount').click(() =>
   {
     const body = {};
-    const requestURL = '/accounts/delete/';
+    const requestURL = '/api/accounts/delete/';
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,

@@ -51,6 +51,7 @@ function getToken(username, account_id, profile_id, password)
  */
 exports.getAllAccounts = (req, res) => 
 {
+  console.log('---')
   console.log('GET ALL ACCOUNTS');
 
   db.all(`SELECT username FROM accounts`, (err, rows) => 
@@ -90,6 +91,7 @@ exports.getAllAccounts = (req, res) =>
  */
 exports.signup = (req, res) =>
 {
+  console.log('---');
   console.log('SIGNUP');
 
   const username = req.body.username;
@@ -188,6 +190,7 @@ exports.signup = (req, res) =>
  */
 exports.login = (req, res) =>
 {
+  console.log('---');
   console.log('LOGIN');
 
   const username = req.body.username;
@@ -256,6 +259,7 @@ exports.login = (req, res) =>
  */
 exports.getAccountInfo = (req, res) =>
 {
+  console.log('---');
   console.log("GET ACCOUNT INFO");
   const id = req.userData.account_id;
   const username = req.userData.username;
@@ -266,7 +270,6 @@ exports.getAccountInfo = (req, res) =>
     if (rows.length > 0) 
     {
       console.log(rows[0]);
-      console.log('---');
       res.status(200).json(rows[0]);
     } 
     else 
@@ -343,6 +346,7 @@ function hashPassword(password, callback)
  */
 exports.editAccount = (req, res) => 
 {
+  console.log('---');
   console.log('EDIT ACCOUNT');
 
   const account_id = req.userData.account_id;
@@ -384,7 +388,7 @@ exports.editAccount = (req, res) =>
               {
                 if (err) // error editing account
                 {
-                  console.log('err = '+err+'\n---');
+                  console.log('err = '+err);
                   res.status(500).json( {error: err} );
                 }
                 else
@@ -394,9 +398,7 @@ exports.editAccount = (req, res) =>
                   if (req.body.username)
                     username = req.body.username;
                   else
-                    username = req.userData.userData;
-
-                  console.log('---')
+                    username = req.userData.username;
 
                   const token = getToken(username, req.userData.account_id);
                   res.status(200).json( {message: 'Account edited', token: token} )
@@ -407,7 +409,7 @@ exports.editAccount = (req, res) =>
         } // end of check for valid username and email
         else
         {
-          console.log('username and/or email already exists\n---')
+          console.log('username and/or email already exists')
           res.status(409).json( {error: 'username and/or email already exists'} );
         }
       }
@@ -433,6 +435,7 @@ exports.editAccount = (req, res) =>
  */
 exports.deleteAccount = (req, res) => 
 {
+
   console.log('DELETE ACCOUNT');
 
   const account_id = req.userData.account_id;
@@ -460,7 +463,7 @@ exports.deleteAccount = (req, res) =>
           query = `DELETE FROM accounts WHERE id=?`;
           db.all(query, [account_id], (err) =>
           {
-            console.log('delete account; err = '+err+'\n---');
+            console.log('delete account; err = '+err);
             (err)? 
               res.status(500).json( {error: err} ) : 
               res.status(200).json( {message: 'Account deleted'} )
