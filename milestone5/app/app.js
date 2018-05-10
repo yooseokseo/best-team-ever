@@ -8,12 +8,9 @@ const morgan = require('morgan');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const multer = require('multer');
-const debug = require('debug')('my-namespace')
-const name = 'my-app'
-debug('booting %s', name)
 
 
-// use this library to interface with SQLite databases: https://github.com/mapbox/node-sqlite3
+// use this library to interface with SQLite databases
 const db = new sqlite3.Database('rest_api/database/users.db');
 const app = express();
 
@@ -31,7 +28,6 @@ const app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
-
 app.use(morgan('dev'));
 app.use(methodOverride());
 app.use(express.static('static_files'));
@@ -46,17 +42,20 @@ app.use(bodyParser.urlencoded({ extended: true }));
 //app.use(multer());
 
 
-// Variables for linking to route files
+// Variables for linking to database
 const accountsRoutes = require("./rest_api/routes/accounts");
 const profilesRoutes = require("./rest_api/routes/profiles");
 const medicineRoutes = require("./rest_api/routes/medicine");
 const checkAuth      = require('./rest_api/middleware/check-auth');
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+// Varaibles for linking to routes
+const profiles = require('./routes/profiles');
+const accounts = require('./routes/accounts');
+const medicine = require('./routes/medicine'); 
+const history  = require('./routes/history' );
+const extra    = require('./routes/extra'   );
 
-app.use(express.static('static_files'));
 
 // Header (don't worry about this)
 app.use((req, res, next) => 
@@ -78,126 +77,87 @@ app.use((req, res, next) =>
 //-----------ROUTES FOR MAIN APP-----------
 //-----------------------------------------
 
-// Add new router for Home page - Seo
-app.post('/home', (req, res) => 
-{
-  console.log('home');
-    res.render('home', {
-      isHomePage : true,
-      pageTitle: "Firstname Last"
-    });
-});
 
-// Add new router for Add New page - Seo
+// --------- Account related routes ---------
+
+// Add new router for login page
+app.get('/', accounts.login);
+
+// Sign up page
+app.get('/signup', accounts.signup);
+
+// Add new router for Home page
+app.get('/home', accounts.home);
+
+// Account info page
+app.get('/getAccountInfo', accounts.getAccountInfo);
+
+// Add new router for Edit Account Info page
+app.get('/editAccountInfo', accounts.editAccountInfo);
+
+// Add new router for Change Password page
+app.get('/changePassword', accounts.changePassword);
+
+// Delete page
+app.get('/deleteAccount', accounts.deleteAccount);
+
+// Add new router for settings page
+app.get('/settings', accounts.settings);
+
+
+
+
+// --------- Profile related routes ----------
+
+// For viewing profile page
+app.get('/viewProfiles', profiles.view);
+
+// Add new router for Add a new profile page
+app.get('/addNewProfile', profiles.addNewProfile);
+
+// Add new router for no user profile page
+app.get('/noUserProfile', profiles.noUserProfile);
+
+
+
+
+// --------- Medicine related routes ---------
+
+// Add new router for View All med page
+app.get('/viewAllMed', medicine.viewAllMed);
+
+// Add new router for View pill detail page
+app.get('/viewPillDetail', medicine.viewPillDetail);
+
+// Add new router for Add New page
 // Add a flag value so that it tells whether it should generate '<-' button in navigation or not'
-app.get('/addNewMed', (req, res) => {
-    res.render('addNewMed', {
-      backbuttonShow: true,
-      pageTitle: "Add New Medicine"
-    });
-});
-
-// Add new router for View All med page - Seo
-app.get('/viewAllMed', (req, res) => {
-    res.render('viewAllMed', {
-      backbuttonShow: true,
-      pageTitle: "Current Medications"
-    });
-});
-
-// Add new router for View pill detail page - Seo
-app.get('/viewPillDetail', (req, res) => {
-    res.render('viewPillDetail', {
-      backbuttonShow: true,
-      pageTitle: "Medication Detail"
-    });
-});
-
-// Add new router for View History page - Seo
-app.get('/viewHistory', (req, res) => {
-    res.render('viewHistory', {
-      pageTitle: "View History"
-    });
-});
-
-// Add new router for View History Date page - Seo
-app.get('/viewHistoryDate', (req, res) => {
-    res.render('viewHistoryDate', {
-      pageTitle: "View History"
-    });
-});
-
-// Add new router for View History Date Detail page - Seo
-app.get('/viewHistoryDateDetail', (req, res) => {
-    res.render('viewHistoryDateDetail', {
-      backbuttonShow: true,
-      pageTitle: "View Date Detail"
-    });
-});
-
-// Add new router for View Pill History page - Seo
-app.get('/viewPillHistory', (req, res) => {
-    res.render('viewPillHistory', {
-      backbuttonShow: true,
-      pageTitle: "View Medicine History"
-    });
-});
-
-// Add new router for View Profiles page - Seo
-app.get('/viewProfiles', (req, res) => {
-    res.render('viewProfiles', {
-      pageTitle: "Manage Profiles"
-    });
-});
-
-// Add new router for Add a new profile page - Seo
-app.get('/addNewProfile', (req, res) => {
-    res.render('addNewProfile', {
-      backbuttonShow: true,
-      pageTitle: "Add a New Profile"
-    });
-});
+app.get('/addNewMed', medicine.addNewMed);
 
 
 
-// Add new router for settings page - Seo
-app.get('/settings', (req, res) => {
-    res.render('settings', {
-      pageTitle: "Account Settings"
-    });
-});
 
-// Add new router for Edit Account Info page - Mayreni
-app.get('/editAccountInfo', (req, res) => {
-    res.render('editAccountInfo', {
-      pageTitle: "Edit Info"
-    });
-});
+// --------- History related routes ---------
 
-// Add new router for Change Password page - Mayreni
-app.get('/changePassword', (req, res) => {
-    res.render('changePassword', {
-      pageTitle: "Change Password"
-    });
-});
+// Add new router for View History page
+app.get('/viewHistory', history.viewHistory);
 
-// Add new router for help page - Seo
-app.get('/help', (req, res) => {
-    res.render('help', {
-      pageTitle: "Help"
-    });
-});
+// Add new router for View History Date page
+app.get('/viewHistoryDate', history.viewHistoryDate);
 
-// Add new router for login page - Seo
-app.get('/', (req, res) => {
-    res.render('login');
-});
+// Add new router for View History Date Detail page
+app.get('/viewHistoryDateDetail', history.viewHistoryDateDetail);
 
-// Add new router for no user profile page - Seo
-app.get('/noUserProfile', (req, res) => {
-    res.render('noUserProfile');
-});
+// Add new router for View Pill History page
+app.get('/viewPillHistory', history.viewPillHistory);
 
+
+
+// --------- Extra routes ---------
+// Add new router for help page
+app.get('/help', extra.help);
+
+// For viewign preview (link from login page)
+app.get('/viewPreview', extra.viewPreview);
 
 
 

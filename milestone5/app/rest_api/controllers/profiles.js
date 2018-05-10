@@ -185,8 +185,15 @@ exports.getDefault = (req, res) =>
   db.get(query, [account_id, 1], (err, row) =>
   {
     console.log(row);
-    row.token = getToken(username, account_id, row.id);
-    res.status(200).json(row);
+    if (row)
+    {
+      row.token = getToken(username, account_id, row.id);
+      res.status(200).json(row);
+    }
+    else
+    {
+      res.status(404).json({error: 'No profiles found'});
+    }
   })
 }
 
