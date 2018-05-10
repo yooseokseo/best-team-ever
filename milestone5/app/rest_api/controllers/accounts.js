@@ -398,7 +398,7 @@ exports.editAccount = (req, res) =>
                   if (req.body.username)
                     username = req.body.username;
                   else
-                    username = req.userData.userData;
+                    username = req.userData.username;
 
                   const token = getToken(username, req.userData.account_id);
                   res.status(200).json( {message: 'Account edited', token: token} )

@@ -22,7 +22,7 @@ $(document).ready(() => {
    */
   $('#getAllProfiles').click(() =>
   {
-    const requestURL = '/profiles';
+    const requestURL = '/api/profiles';
     console.log('requestURl = '+requestURL);
     console.log('making ajax request to:', requestURL);
 
@@ -87,7 +87,7 @@ $(document).ready(() => {
   	}
 
     const id = $('#profile_id').val();
-    const requestURL = 'profiles/'+ id;
+    const requestURL = '/api/profiles/'+ id;
     console.log('making ajax request to:', requestURL);
 
 
@@ -175,7 +175,7 @@ $(document).ready(() => {
                  'dob' : $('#dob').val()
                };
 
-  	const requestURL = '/profiles/new';
+  	const requestURL = '/api/profiles/new';
     console.log('making ajax request to: '+requestURL);
   	$.ajax({
       // all URLs are relative to http://localhost:3000/
@@ -238,7 +238,7 @@ $(document).ready(() => {
     ($('#gender').val() == '')?    {} : body.gender = $('#gender').val();
     console.log(body);
 
-    const requestURL = '/profiles/edit/'+$('#profile_id').val();
+    const requestURL = '/api/profiles/edit/'+$('#profile_id').val();
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
@@ -272,7 +272,7 @@ $(document).ready(() => {
   $('#deleteProfile').click(() =>
   {
     const body = {};
-    const requestURL = '/profiles/delete/'+$('#profile_id').val();
+    const requestURL = '/api/profiles/delete/'+$('#profile_id').val();
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,

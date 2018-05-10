@@ -203,9 +203,9 @@ app.get('/noUserProfile', (req, res) => {
 //-----------------------------------------
 //-----------ROUTES FOR DATABASE-----------
 //-----------------------------------------
-app.use("/accounts", accountsRoutes); // handle all requests for /accounts
-app.use("/profiles", profilesRoutes); // handle all requests for /profiles
-app.use("/medicine", medicineRoutes); // handle all requests for /medicine
+app.use("/api/accounts", accountsRoutes); // handle all requests for /accounts
+app.use("/api/profiles", profilesRoutes); // handle all requests for /profiles
+app.use("/api/medicine", medicineRoutes); // handle all requests for /medicine
 app.use('/testauth', checkAuth, (req, res) => // check if token is valid
 {
   res.send(req.userData);
