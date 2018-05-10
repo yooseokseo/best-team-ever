@@ -97,6 +97,7 @@ db.serialize(() => {
       end_time TEXT,
       med_type TEXT,
       med_color TEXT,
+      med_pic TEXT,
       account_id INTEGER, 
       profile_id INTEGER,
       FOREIGN KEY(account_id) REFERENCES accounts(id),

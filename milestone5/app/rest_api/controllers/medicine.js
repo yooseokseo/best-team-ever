@@ -84,8 +84,8 @@ exports.newMedicine = (req, res) =>
   db.run(
     `INSERT INTO medicine
      VALUES ($id, $medicinename, $dosage, $num_pills, $recurrence_hour, 
-             $times_per_day, $start_date, $start_time, $end_date, 
-             $end_time, $med_type, $med_color, $account_id, $profile_id)`,
+             $times_per_day, $start_date, $start_time, $end_date, $end_time,
+             $med_type, $med_color, $med_pic, $account_id, $profile_id)`,
     {
       $id : null,
       $medicinename : req.body.medicinename,
@@ -99,6 +99,7 @@ exports.newMedicine = (req, res) =>
       $end_time : req.body.end_time,
       $med_type : req.body.med_type,
       $med_color : req.body.med_color,
+      $med_pic : req.body.med_type+'-type-'+req.body.med_color+'.png',
       $account_id : req.userData.account_id,
       $profile_id : req.userData.profile_id
     },
