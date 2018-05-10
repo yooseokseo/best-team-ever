@@ -1,5 +1,7 @@
 $(document).ready(() => {
 
+  // when a home page is fully loaded, it should fetch a list of profile names from database and display
+  //
   const requestURL = 'api/profiles';
   console.log('making ajax request to:', requestURL);
 
@@ -27,34 +29,62 @@ $(document).ready(() => {
 
 
 
-      })
-      /*
-      $('#pageTitle').html(data.firstName + ' ' + data.lastName);
 
-      $.ajax({
-        url: '/api/medicine',
-        type: 'GET',
-        dataType : 'json',
-        beforeSend: function (xhr) {   //Include the bearer token in header
-          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-        },
-        success: (data) =>
-        {
-          data.forEach(e => { console.log(e) } );
-          console.log(JSON.stringify(data));
-          //$('#pageTitle').html(data.firstName + ' ' + data.lastName);
-        },
-        error: (xhr, textStatus, error) =>
-        {
-          console.log(xhr.statusText+': '+xhr.responseJSON.error);
-        }
-      });
-      */
+
+      })
+
+
+
+
+
+
 
     },
     error: (xhr, textStatus, error) =>
     {
       console.log(xhr.statusText+': '+xhr.responseJSON.error);
+    },
+    complete: ()=>{
+      console.log('hello');
+      $.ajax({
+        url: '/api/medicine',
+        type: 'GET',
+        dataType : 'json',
+        beforeSend: function (xhr) {   //Include the bearer token in header
+            xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+          },
+        success: (data) => {
+          console.log('You received some data!', data);
+          // display list of medicine and make each one clickable
+          // clicking on a medicine gets that medicine's information
+          $('#infoDiv').html('Medicine: ');
+          data.forEach(e =>
+          {
+            let info = document.createElement('a');
+            info.setAttribute('href', "#");
+            info.appendChild(
+              document.createTextNode( e.medicinename + ' (id: '+e.id+')' )
+            );
+            // fill out medicine name and id fields and click 'getMedicine'
+            info.addEventListener( 'click', () =>
+            {
+              $('#medicineName').val(e.medicinename);
+              $('#medicine_id').val(e.id);
+              $('#getMedicine').click();
+              event.preventDefault();
+            });
+            $('#infoDiv').append(info);
+            $('#infoDiv').append( document.createTextNode(', ') );
+          });
+
+          $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
+        },
+        error: (xhr, textStatus, error) =>
+        {
+          $('#infoDiv').html('');
+          $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
+        }
+      });
     }
   });
 });
