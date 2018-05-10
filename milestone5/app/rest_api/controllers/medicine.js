@@ -152,8 +152,8 @@ exports.newMedicine = (req, res) =>
  *            -> {keys -> error}
  *         2) medicine information if found or 
  *            -> {keys -> id, medicinename, dosage, num_pills, recurrence_hour,
- *                        times_per_day, start_date, start_time, end_date,
- *                        end_time, med_type, med_color, account_id, profile_id}
+ *                        times_per_day, start_date, start_time, end_date,end_time,
+ *                        med_type, med_color, med_pic, account_id, profile_id}
  *         3) error 404 (Not Found) if medicine not found
  *            -> {keys -> error}
  */

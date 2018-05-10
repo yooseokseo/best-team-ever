@@ -4,6 +4,7 @@ $(document).ready(() => {
   //
   const requestURL = 'api/profiles';
   console.log('making ajax request to:', requestURL);
+  let token;
 
   $.ajax({
     url: requestURL,
@@ -17,74 +18,62 @@ $(document).ready(() => {
       console.log(data);
       for (const e of data) {
           $('.profile-list-container').append('<div class="user-profile-name-box page-title">'+ e.firstName +' '+ e.lastName +'</div><hr>');
+
       }
       $('.user-profile-name-box').click((e)=>{
             console.log(e.target.textContent);
             //console.log(document.getElementsByClassName('user-profile-name-box')[1].childNodes[0].textContent);
-
-
             $('.tri-svg').removeClass('down-nav-clicked');
             $('.user-profile-container').removeClass('user-profile-container-down');
             $('#page-title-nav').text(e.target.textContent);
-
-
-
-
-
       })
 
+      // get default profile's information
+      $.ajax({
+          url: '/api/profiles/default',
+          type: 'GET',
+          dataType : 'json', // this URL returns data in JSON format
+          beforeSend: function (xhr) {   //Include the bearer token in header
+              xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+          },
+          success: (data) => 
+          {
+            console.log('You received some data!', data);            
+            window.localStorage.setItem("token", data.token); //store authorization token
+            $('#page-title-nav').html(data.firstName+' '+data.lastName);
 
+            // get medicine
+            $.ajax({
+              url: '/api/medicine',
+              type: 'GET',
+              dataType: 'json',
+              beforeSend: function(xhr) {
+                xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+              },
+              success: (data) =>
+              {
+                console.log('get medicine');
+                console.log(data);
+              },
+              error: (err) =>
+              {
+                console.log(err);
+              }
+            });
+          },
+          error: (err) => 
+          {
 
-
-
-
-
+          }
+        });
     },
     error: (xhr, textStatus, error) =>
     {
       console.log(xhr.statusText+': '+xhr.responseJSON.error);
     },
-    complete: ()=>{
-      console.log('hello');
-      $.ajax({
-        url: '/api/medicine',
-        type: 'GET',
-        dataType : 'json',
-        beforeSend: function (xhr) {   //Include the bearer token in header
-            xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-          },
-        success: (data) => {
-          console.log('You received some data!', data);
-          // display list of medicine and make each one clickable
-          // clicking on a medicine gets that medicine's information
-          $('#infoDiv').html('Medicine: ');
-          data.forEach(e =>
-          {
-            let info = document.createElement('a');
-            info.setAttribute('href', "#");
-            info.appendChild(
-              document.createTextNode( e.medicinename + ' (id: '+e.id+')' )
-            );
-            // fill out medicine name and id fields and click 'getMedicine'
-            info.addEventListener( 'click', () =>
-            {
-              $('#medicineName').val(e.medicinename);
-              $('#medicine_id').val(e.id);
-              $('#getMedicine').click();
-              event.preventDefault();
-            });
-            $('#infoDiv').append(info);
-            $('#infoDiv').append( document.createTextNode(', ') );
-          });
-
-          $('#status').html('Successfully fetched data (GET request) at URL: ' + requestURL);
-        },
-        error: (xhr, textStatus, error) =>
-        {
-          $('#infoDiv').html('');
-          $('#status').html(xhr.statusText+': '+xhr.responseJSON.error);
-        }
-      });
+    complete: () =>
+    {
+            
     }
   });
 });

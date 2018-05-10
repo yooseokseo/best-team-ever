@@ -19,7 +19,7 @@ const db = new sqlite3.Database('rest_api/database/users.db');
 function getToken(username, account_id, profile_id, password)
 {
   const token = { username: username, account_id: account_id };
-  
+
   // add profile_id and/or password to token if not undefined
   (profile_id == undefined)? {} : token.profile_id = profile_id;
   (password == undefined)? {} : token.password = password;
