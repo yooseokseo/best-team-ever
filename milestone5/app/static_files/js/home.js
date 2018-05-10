@@ -1,6 +1,6 @@
 $(document).ready(() => {
-  
-  const requestURL = '/api/profiles/default';
+
+  const requestURL = 'api/profiles';
   console.log('making ajax request to:', requestURL);
 
   $.ajax({
@@ -13,6 +13,22 @@ $(document).ready(() => {
     success: (data) =>
     {
       console.log(data);
+      for (const e of data) {
+          $('.profile-list-container').append('<div class="user-profile-name-box page-title">'+ e.firstName +' '+ e.lastName +'</div><hr>');
+      }
+      $('.user-profile-name-box').click((e)=>{
+            console.log(e.target.textContent);
+            //console.log(document.getElementsByClassName('user-profile-name-box')[1].childNodes[0].textContent);
+
+
+            $('.tri-svg').removeClass('down-nav-clicked');
+            $('.user-profile-container').removeClass('user-profile-container-down');
+            $('#page-title-nav').text(e.target.textContent);
+
+
+
+      })
+      /*
       $('#pageTitle').html(data.firstName + ' ' + data.lastName);
 
       $.ajax({
@@ -33,11 +49,12 @@ $(document).ready(() => {
           console.log(xhr.statusText+': '+xhr.responseJSON.error);
         }
       });
+      */
 
     },
     error: (xhr, textStatus, error) =>
     {
       console.log(xhr.statusText+': '+xhr.responseJSON.error);
     }
-  }); 
+  });
 });
