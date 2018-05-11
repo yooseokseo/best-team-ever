@@ -4,7 +4,75 @@
 <body>
   {{>navigation}} {{>nonscript}}
 
-  account_id: {{account_id}} <br>
-  profile_id: {{profile_id}}
+<!--
+    account_id: {{account_id}} <br>
+    profile_id: {{profile_id}}
+  -->
 
+  <div class="add-new-profile-container">
+    <div class="add-new-profile-name-box profile-image-box">
+      <div id="add-new-profile-image" class="border-black flex-center">
+        <img class="profile-image" src="/images/icons/user.svg" alt="">
+      </div>
+      <div id="add-new-profile-first" class="flex-center">
+        Firstname
+        <input id="firstname" type="text" class="input-margin-left border-black add-new-profile-input" value="{{firstName}}" disabled/>
+      </div>
+      <div id="add-new-profile-last" class="flex-center">
+        Lastname
+        <input id="lastname" type="text" class="input-margin-left border-black add-new-profile-input" value="{{lastName}}" disabled/>
+      </div>
+    </div>
+    <div class="">
+      <div class="box-title">
+        Date of Birth
+      </div>
+      <div class="box-content flex-center">
+        <input id="dob" type="date"/ value="{{dob}}" disabled>
+      </div>
+    </div>
+    <div class="">
+      <div class="box-title">
+        Gender
+      </div>
+      <div id="gender-box" class="box-content">
+        <div class="gender-box">
+          <input type="checkbox"/> Male
+        </div>
+        <div class="gender-box">
+          <input type="checkbox"/> Female
+        </div>
+        <!--
+        <div class="gender-box">
+          <input type="checkbox"/> Prefer not to say
+        </div>
+        -->
+        <div class="gender-box">
+          <input id="gender" class="border-black" type="text">
+        </div>
+      </div>
+    </div>
+    <div class="box-title">
+      <input type="checkbox"/> Set as Default
+
+    </div>
+
+  </div>
+  <div id="btns-container" class="add-new-profile-btn">
+    <div class="btn flex-center border-right-black">
+      Delete
+    </div>
+    <div class="btn flex-center">
+      <div id="editProfile" class="a-box flex-center">Edit</div>
+      <div id="saveProfile" class="a-box flex-center saveProfile-close">Save</div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+<script src="/js/viewProfile.js"></script>
   {{>script}}

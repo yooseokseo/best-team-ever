@@ -836,16 +836,9 @@ a:hover
   transition: all 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
 }
 
-.pill-date-item-close {
-  display: none;
-}
-.pill-date-item-shown {
-  display: block;
-  width: 90vw;
-  overflow-y: scroll;
-  height: 53vh;
-  margin-bottom: 5vh;
-}
+
+
+
 /*************5. Theme Rule *************/
 .flex-center {
   display: flex;
@@ -963,4 +956,18 @@ a:hover
 .edit-account-inputs{
   width: 95%;
   height: 100%;
+}
+.input-margin-left{
+  padding-left: 1vh;
+}
+
+.pill-date-item-close, .saveProfile-close {
+  display: none;
+}
+.pill-date-item-shown {
+  display: block;
+  width: 90vw;
+  overflow-y: scroll;
+  height: 53vh;
+  margin-bottom: 5vh;
 }
