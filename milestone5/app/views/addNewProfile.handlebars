@@ -10,11 +10,11 @@
       </div>
       <div id="add-new-profile-first" class="flex-center">
         Firstname
-        <input type="text" class="border-black add-new-profile-input"/>
+        <input id="firstname" type="text" class="border-black add-new-profile-input"/>
       </div>
       <div id="add-new-profile-last" class="flex-center">
         Lastname
-        <input type="text" class="border-black add-new-profile-input"/>
+        <input id="lastname" type="text" class="border-black add-new-profile-input"/>
       </div>
     </div>
     <div class="">
@@ -22,7 +22,7 @@
         Date of Birth
       </div>
       <div class="box-content flex-center">
-        <input type="date"/>
+        <input id="dob" type="date"/>
       </div>
     </div>
     <div class="">
@@ -36,8 +36,13 @@
         <div class="gender-box">
           <input type="checkbox"/> Female
         </div>
+        <!--
         <div class="gender-box">
           <input type="checkbox"/> Prefer not to say
+        </div>
+        -->
+        <div class="gender-box">
+          <input id="gender" class="border-black" type="text">
         </div>
       </div>
     </div>
@@ -52,7 +57,7 @@
       Cancel
     </div>
     <div class="btn flex-center">
-      <a class="a-box flex-center" href="/home">Save</a>
+      <a id="createProfile" class="a-box flex-center" href="/home">Save</a>
     </div>
   </div>
 
@@ -60,5 +65,5 @@
 
 
 
-
+  <script src="/js/addNewProfile.js"></script>
 </body>

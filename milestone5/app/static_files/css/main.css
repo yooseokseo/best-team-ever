@@ -888,6 +888,7 @@ a:hover
 
 .page-title {
   font-size: 1.5em;
+  text-transform: capitalize;
 }
 .box-content{
   border: 1px solid black;
@@ -896,6 +897,7 @@ a:hover
 
 .box-title{
   font-size: 1.5rem;
+  text-transform: capitalize;
 }
 .amount-select{
   border: 1px solid black;
