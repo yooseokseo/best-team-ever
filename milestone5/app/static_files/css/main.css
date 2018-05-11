@@ -76,7 +76,6 @@ nav {
 
 #med-list-container {
   height: 57vh;
-  background-color: gray;
   overflow-y: scroll;
 }
 
