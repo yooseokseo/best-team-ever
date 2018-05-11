@@ -46,10 +46,15 @@ $(document).ready(() => {
     {
       console.log(data);
       for (const e of data) {
-          $('.profile-list-container').append('<div class="user-profile-name-box page-title">'+ e.firstName +' '+ e.lastName +'</div><hr>');
+        const profile_id = 'profile_id-'+e.id;
+
+          $('.profile-list-container').append('<div class="user-profile-name-box page-title" id="'+profile_id+'">'+ e.firstName +' '+ e.lastName +'</div><hr>');
 
       }
       $('.user-profile-name-box').click((e)=>{
+            const e_id = e.target.id;
+            const profile_id = e.target.id.substring(e_id.indexOf('-')+1, e_id.length);
+            console.log(profile_id);
             console.log(e.target.textContent);
             //console.log(document.getElementsByClassName('user-profile-name-box')[1].childNodes[0].textContent);
             $('.tri-svg').removeClass('down-nav-clicked');
