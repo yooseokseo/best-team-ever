@@ -62,6 +62,23 @@ $(document).ready(() => {
             $('#page-title-nav').text(e.target.textContent);
 
             // get medicine for a certain profile
+            $.ajax({
+                url: '/api/profiles/'+ profile_id,
+                type: 'GET',
+                dataType : 'json', // this URL returns data in JSON format
+                beforeSend: function (xhr) {   //Include the bearer token in header
+                    xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+                },
+                success: (data) =>
+                {
+                  console.log('You received some data!', data);
+                  
+                },
+                error: (err) =>
+                {
+                  console.log(err);
+                }
+              });
 
 
       })
