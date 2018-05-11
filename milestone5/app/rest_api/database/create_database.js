@@ -28,15 +28,15 @@ db.serialize(() => {
 
   // create a new database table:
   db.run(
-    `CREATE TABLE accounts 
-    ( 
-      id INTEGER PRIMARY KEY AUTOINCREMENT, 
-      username TEXT,  
-      password TEXT,  
-      email TEXT 
+    `CREATE TABLE accounts
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT,
+      password TEXT,
+      email TEXT
     )`
   );
-  // insert 3 rows of data: 
+  // insert 3 rows of data:
   const hashedPassword = '$2a$10$HCwBZYmiL.ukBvVakPtJ6urHm/s7AXszpZRYsHZ.ppD5f8.U0/1Gy';
   db.run("INSERT INTO accounts (username, password, email) VALUES ( 'user1', '"+hashedPassword+"', 'user1@gmail.com')");
   db.run("INSERT INTO accounts (username, password, email) VALUES ( 'user2', '"+hashedPassword+"', 'user2@gmail.com')");
@@ -55,17 +55,17 @@ db.serialize(() => {
   //-----------------------------------------------------------------------
   //profile table
   db.run(
-    `CREATE TABLE profiles 
-    ( 
-      id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    `CREATE TABLE profiles
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       profilename TEXT,
-      firstName TEXT, 
-      lastName TEXT, 
-      dob TEXT, 
-      gender TEXT, 
-      isDefault INTERGER, 
-      account_id INTEGER, 
-      FOREIGN KEY(account_id) REFERENCES accounts(id) 
+      firstName TEXT,
+      lastName TEXT,
+      dob TEXT,
+      gender TEXT,
+      isDefault INTERGER,
+      account_id INTEGER,
+      FOREIGN KEY(account_id) REFERENCES accounts(id)
     )`
   );
 
@@ -73,9 +73,9 @@ db.serialize(() => {
   db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'philipjohnson', 'Philip', 'Johnson', '01/17/1980', 'male', 0, 2)");
   db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'jamesbrown', 'James', 'Brown', '08/13/1995', 'male', 1, 1)");
   db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'marymiller', 'Mary', 'Miller', '07/03/1975', 'female', 0, 1)");
-  
 
-  db.all("SELECT * FROM profiles", (err, rows) => 
+
+  db.all("SELECT * FROM profiles", (err, rows) =>
   {
     console.log(rows);
   });
@@ -83,9 +83,9 @@ db.serialize(() => {
   //-----------------------------------------------------------------------
   //medicine table
   db.run(
-    `CREATE TABLE medicine 
-    ( 
-      id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    `CREATE TABLE medicine
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       medicinename TEXT,
       dosage INTEGER,
       num_pills INTEGER,
@@ -98,7 +98,7 @@ db.serialize(() => {
       med_type TEXT,
       med_color TEXT,
       med_pic TEXT,
-      account_id INTEGER, 
+      account_id INTEGER,
       profile_id INTEGER,
       FOREIGN KEY(account_id) REFERENCES accounts(id),
       FOREIGN KEY(profile_id) REFERENCES profiles(id)
@@ -107,6 +107,8 @@ db.serialize(() => {
 
   db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('vitaminA', 1, 3)`);
   db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('vitaminC', 1, 3)`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('vitaminB', 1, 4)`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('vitaminD', 1, 4)`);
   db.run(`INSERT INTO medicine (medicinename, account_id, profile_id) VALUES ('NyQuil', 2, 1)`);
 
   db.all(

@@ -46,7 +46,7 @@ $(document).ready(() => {
       },
       error: (err) =>
       {
-
+        console.log(err);
       }
     });
 
@@ -77,7 +77,7 @@ $(document).ready(() => {
             $('.user-profile-container').removeClass('user-profile-container-down');
             $('#page-title-nav').text(e.target.textContent);
 
-
+            // get medicine for a certain profile
 
 
       })
@@ -87,10 +87,7 @@ $(document).ready(() => {
     error: (xhr, textStatus, error) =>
     {
       console.log(xhr.statusText+': '+xhr.responseJSON.error);
-    },
-    complete: () =>
-    {
-
     }
+
   });
 });
