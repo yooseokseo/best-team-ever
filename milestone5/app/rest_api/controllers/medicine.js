@@ -18,15 +18,13 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  *            -> {keys -> error}
  *         2) array of all of profile's medicine if any exists, or 
  *            -> [ {keys -> id, medicinename}, {..}, {..} ]
- *         3) error 404 (Not Found) if none exists
- *            -> {keys -> error}
  */
 exports.getAllMedicine = (req, res) => 
 {
   console.log('---');
   console.log('GET ALL MEDICINE')
 
-  const profile_id = req.userData.profile_id || req.profile.id;
+  const profile_id = req.profile.id;
 
   db.all(
     `SELECT * FROM medicine 
@@ -49,22 +47,10 @@ exports.getAllMedicine = (req, res) =>
         { 
           return {id: e.id, medicinename: e.medicinename, image: e.med_pic} 
         });
-        if (rows.length > 0)
-        {
-          console.log(allMed);
-          if (req.profile)
-          {
-            req.profile.medicine = allMed;
-            console.log(req.profile);
-            res.status(200).json(req.profile)
-          }
-          else
-          {
-            res.status(200).json(allMed)
-          }
-        }
-        else
-          res.status(404).json( {error: 'Profile doesn\'t have any medicine'} );          
+        console.log('all med: \n', allMed);
+        req.profile.medicine = allMed;
+        console.log(req.profile);
+        res.status(200).json(req.profile)        
       }
     }
   ); // end of db.all(...)
@@ -167,8 +153,8 @@ exports.newMedicine = (req, res) =>
  *            -> {keys -> id, medicinename, dosage, num_pills, recurrence_hour,
  *                        times_per_day, start_date, start_time, end_date,end_time,
  *                        med_type, med_color, med_pic, account_id, profile_id}
- *         3) error 404 (Not Found) if medicine not found
- *            -> {keys -> error}
+ *         3) empty object if medicine not found
+ *            -> {}
  */
 exports.getMedicine = (req, res) => 
 {
@@ -190,10 +176,10 @@ exports.getMedicine = (req, res) =>
       else
       {
         console.log('medicine: ',row);
-
+        console.log(row);
         (row)? //check if medicine found
           res.status(200).json(row) :
-          res.status(404).json( {error: 'Medicine id '+id+' does not exist'} )  
+          res.status(200).json( {} )  
       }
     }
   );

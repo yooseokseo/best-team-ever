@@ -194,7 +194,7 @@ exports.getDefault = (req, res, next) =>
     }
     else
     {
-      res.status(404).json({error: 'No profiles found'});
+      res.status(200).json({error: 'No profiles found'});
     }
   })
 }

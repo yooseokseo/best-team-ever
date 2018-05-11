@@ -16,8 +16,9 @@ $(document).ready(() => {
     
       $('.view-profile-box-list').html('');
       for ( const e of data) {
+        const profile_id = 'profile_id-'+e.id;
 
-        $('.view-profile-box-list').append('<div class="view-profile-box border-black">'
+        $('.view-profile-box-list').append('<div id='+profile_id+' class="view-profile-box border-black">'
         + '<div class="flex-center"><img class="profile-image-view" src="/images/icons/user.svg" alt=""></div>'
         + '<div class="flex-center box-title">'+e.firstName + ' ' + e.lastName +'</div></div>');
       }
