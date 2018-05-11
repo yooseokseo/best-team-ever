@@ -9,12 +9,12 @@ $(document).ready(() => {
       },
       success: (data) =>
       {
-        console.log('You received some data!', data);
+        //console.log('You received some data!', data);
         window.localStorage.setItem("token", data.token); //store authorization token
         $('#page-title-nav').html(data.firstName+' '+data.lastName);
 
         $('#med-list-container').html('');
-          console.log(data);
+          //console.log(data);
           for (const e of data.medicine) {
             $('#med-list-container').append('<a href="/viewPillDetail"><div class="med-item-box border-black">'
             + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pill.svg" alt=""></div> '
@@ -32,7 +32,7 @@ $(document).ready(() => {
   // when a home page is fully loaded, it should fetch a list of profile names from database and display
   //
   const requestURL = 'api/profiles';
-  console.log('making ajax request to:', requestURL);
+  //console.log('making ajax request to:', requestURL);
   let token;
 
   $.ajax({
@@ -44,7 +44,7 @@ $(document).ready(() => {
     },
     success: (data) =>
     {
-      console.log(data);
+      //console.log(data);
       for (const e of data) {
         const profile_id = 'profile_id-'+e.id;
 
@@ -54,8 +54,8 @@ $(document).ready(() => {
       $('.user-profile-name-box').click((e)=>{
             const e_id = e.target.id;
             const profile_id = e.target.id.substring(e_id.indexOf('-')+1, e_id.length);
-            console.log(profile_id);
-            console.log(e.target.textContent);
+            //console.log(profile_id);
+            //console.log(e.target.textContent);
             //console.log(document.getElementsByClassName('user-profile-name-box')[1].childNodes[0].textContent);
             $('.tri-svg').removeClass('down-nav-clicked');
             $('.user-profile-container').removeClass('user-profile-container-down');
@@ -71,8 +71,18 @@ $(document).ready(() => {
                 },
                 success: (data) =>
                 {
-                  console.log('You received some data!', data);
-                  
+                  //console.log('You received some data!', data);
+                  //console.log(data.medicine);
+                  $('#med-list-container').html('');
+                  for (const e of data.medicine) {
+                    $('#med-list-container').append('<a href="/viewPillDetail"><div class="med-item-box border-black">'
+                    + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pill.svg" alt=""></div> '
+                    + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
+                    + '</div></div></a>');
+                  }
+
+
+
                 },
                 error: (err) =>
                 {
