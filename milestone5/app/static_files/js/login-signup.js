@@ -14,6 +14,7 @@ $('#login_button').click(()=>
     {
       console.log('login success');
       console.log(data);
+      window.localStorage.setItem("account_id", data.account_id);
       window.localStorage.setItem("token", data.token); //store authorization token
       window.location = '/home';
       

@@ -13,15 +13,39 @@ $(document).ready(() => {
     success: (data) =>
     {
       console.log(data);
-    
+      
       $('.view-profile-box-list').html('');
       for ( const e of data) {
-        const profile_id = 'profile_id-'+e.id;
+        const account_id = window.localStorage.getItem("account_id");
+        
 
-        $('.view-profile-box-list').append('<div id='+profile_id+' class="view-profile-box border-black">'
+        $('.view-profile-box-list').append('<div class="view-profile-box border-black">'
         + '<div class="flex-center"><img class="profile-image-view" src="/images/icons/user.svg" alt=""></div>'
-        + '<div class="flex-center box-title">'+e.firstName + ' ' + e.lastName +'</div></div>');
+        + '<a href="/viewProfile/'+account_id+'/'+e.id+'">'
+        +    '<div class="flex-center box-title">'+e.firstName + ' ' + e.lastName +'</div>'
+        +'</a></div>');
       }
+
+      // $('.view-profile-box').click((e)=>{
+      //   const e_id = e.target.id;
+      //   const profile_id = e.target.id.substring(e_id.indexOf('-')+1, e_id.length);
+      //   console.log('clicked on: '+e.target.textContent+' (id: '+profile_id+')');
+
+        // $.ajax({
+        //   url: '/viewProfile/'+profile_id,
+        //   type: 'GET',
+        //   success: (data)=>
+        //   {
+        //     console.log('successful fetch to /viewProfile');
+        //     console.log(data);
+        //   },
+        //   error: (err) =>
+        //   {
+        //     console.log(err);
+        //   }
+        // });
+
+      //});
 
 
 

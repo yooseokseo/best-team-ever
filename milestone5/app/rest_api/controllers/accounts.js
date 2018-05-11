@@ -146,7 +146,7 @@ exports.signup = (req, res) =>
                     {
                       console.log('created account: ',account);
                       const token = getToken(username, account.id);
-                      res.status(201).json( {message: "Account created", token: token} );
+                      res.status(201).json( {account_id: account_id, token: token} );
                     });
                   }
                 }
@@ -225,7 +225,7 @@ exports.login = (req, res) =>
             {
               console.log("Log in successful");
               const token = getToken(username, rows[0].id );
-              res.status(200).json( {message: "Logged in", token: token} );
+              res.status(200).json( {account_id: rows[0].id, token: token} );
             }
 
           });
