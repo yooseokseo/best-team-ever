@@ -971,3 +971,6 @@ a:hover
   height: 53vh;
   margin-bottom: 5vh;
 }
+.test-input {
+  width: 10vw;
+}
