@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 
 const ProfilesController = require("../controllers/profiles");
+const MedsController = require("../controllers/medicine");
+
 const checkAuth = require('../middleware/check-auth');
 
 
@@ -12,10 +14,12 @@ router.get('/', checkAuth, ProfilesController.getAllProfiles);
 router.post('/new', checkAuth, ProfilesController.newProfile);
 
 // GEt default profile (ex. localhost:3000/profiles/default)
-router.get('/default', checkAuth, ProfilesController.getDefault);
+router.get('/default', checkAuth, 
+	        ProfilesController.getDefault, MedsController.getAllMedicine);
 
 // Get specific profile data (ex. localhost:3000/profiles/johnnytest/1)
-router.get('/:profile_id', checkAuth, ProfilesController.getProfile);
+router.get('/:profile_id', checkAuth, 
+	        ProfilesController.getProfile, MedsController.getAllMedicine);
 
 // Same as above; use token as ID params (ex. localhost:3000/profiles/info)
 router.get('/info', checkAuth, ProfilesController.getProfile);

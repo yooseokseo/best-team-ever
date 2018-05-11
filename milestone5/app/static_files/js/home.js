@@ -13,36 +13,15 @@ $(document).ready(() => {
         window.localStorage.setItem("token", data.token); //store authorization token
         $('#page-title-nav').html(data.firstName+' '+data.lastName);
 
-        // get medicine
-        $.ajax({
-          url: '/api/medicine',
-          type: 'GET',
-          dataType: 'json',
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-          },
-          success: (data) =>
-          {
-            console.log('get medicine');
-            // display a list of medication for a certain user profiles
-
-            // reset list-container
-            $('#med-list-container').html('');
-            console.log(data);
-            for (const e of data) {
-              $('#med-list-container').append('<a href="/viewPillDetail"><div class="med-item-box border-black">'
-              + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pill.svg" alt=""></div> '
-              + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
-              + '</div></div></a>');
-            }
-
-
-          },
-          error: (err) =>
-          {
-            console.log(err);
+        $('#med-list-container').html('');
+          console.log(data);
+          for (const e of data.medicine) {
+            $('#med-list-container').append('<a href="/viewPillDetail"><div class="med-item-box border-black">'
+            + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pill.svg" alt=""></div> '
+            + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
+            + '</div></div></a>');
           }
-        });
+
       },
       error: (err) =>
       {

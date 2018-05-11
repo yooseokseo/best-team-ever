@@ -173,7 +173,7 @@ exports.newProfile = (req, res) =>
 } // end of newProfile()
 
 
-exports.getDefault = (req, res) =>
+exports.getDefault = (req, res, next) =>
 {
   console.log('---');
   console.log('GET DEFAULT PROFILE');
@@ -188,7 +188,9 @@ exports.getDefault = (req, res) =>
     if (row)
     {
       row.token = getToken(username, account_id, row.id);
-      res.status(200).json(row);
+      req.profile = row;
+      next();
+      
     }
     else
     {
@@ -212,7 +214,7 @@ exports.getDefault = (req, res) =>
  *         3) error 404 (Not Found) if profile not found
  *            -> {keys -> error}
  */
-exports.getProfile = (req, res) =>
+exports.getProfile = (req, res, next) =>
 {
   console.log('---')
   console.log("GET PROFILE")
@@ -241,7 +243,9 @@ exports.getProfile = (req, res) =>
         if (row) //found profile
         {
           row.token = getToken(username, account_id, profile_id);
-          res.status(200).json(row);
+          req.profile = row;
+          next();
+          //res.status(200).json(row);
         }
         else
         {

@@ -26,13 +26,15 @@ exports.getAllMedicine = (req, res) =>
   console.log('---');
   console.log('GET ALL MEDICINE')
 
+  const profile_id = req.userData.profile_id || req.profile.id;
+
   db.all(
     `SELECT * FROM medicine 
      WHERE account_id=$account_id 
      AND   profile_id=$profile_id`,
     {
       $account_id: req.userData.account_id,
-      $profile_id: req.userData.profile_id
+      $profile_id: profile_id
     }, 
     (err, rows) => 
     {
@@ -45,13 +47,24 @@ exports.getAllMedicine = (req, res) =>
       {
         const allMed = rows.map(e => 
         { 
-          return {id: e.id, medicinename: e.medicinename} 
+          return {id: e.id, medicinename: e.medicinename, image: e.med_pic} 
         });
-        console.log(allMed);
-
-        (rows.length > 0)?  
-          res.status(200).json(allMed) :
-          res.status(404).json( {error: 'Profile doesn\'t have any medicine'} );
+        if (rows.length > 0)
+        {
+          console.log(allMed);
+          if (req.profile)
+          {
+            req.profile.medicine = allMed;
+            console.log(req.profile);
+            res.status(200).json(req.profile)
+          }
+          else
+          {
+            res.status(200).json(allMed)
+          }
+        }
+        else
+          res.status(404).json( {error: 'Profile doesn\'t have any medicine'} );          
       }
     }
   ); // end of db.all(...)
