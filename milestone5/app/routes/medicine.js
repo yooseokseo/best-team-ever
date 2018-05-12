@@ -1,16 +1,18 @@
 exports.viewAllMed = (req, res) =>
 {
-  res.render('viewAllMed', 
+  const profile_id = req.params.profile_id;
+  res.render('viewAllMed',
   {
     backbuttonShow: true,
-    pageTitle: "Current Medications"
+    pageTitle: "Current Medications",
+    profile_id: profile_id
   });
 }
 
 
-exports.viewPillDetail = (req, res) => 
+exports.viewPillDetail = (req, res) =>
 {
-  res.render('viewPillDetail', 
+  res.render('viewPillDetail',
   {
     backbuttonShow: true,
     pageTitle: "Medication Detail"
@@ -18,12 +20,11 @@ exports.viewPillDetail = (req, res) =>
 };
 
 
-exports.addNewMed = (req, res) => 
+exports.addNewMed = (req, res) =>
 {
-  res.render('addNewMed', 
+  res.render('addNewMed',
   {
     backbuttonShow: true,
     pageTitle: "Add New Medicine"
   });
 };
-

@@ -23,7 +23,7 @@ const app = express();
 // app.engine('handlebars', exphbs({defaultLayout: 'main'}));
 // app.set('view engine', 'handlebars');
 
- 
+
 // all environments
 app.set('views', path.join(__dirname, 'views'));
 app.engine('handlebars', exphbs({defaultLayout: 'main'}));
@@ -33,7 +33,7 @@ app.use(methodOverride());
 app.use(express.static('static_files'));
 
 // parse application/json
-app.use(bodyParser.json()); 
+app.use(bodyParser.json());
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,13 +52,13 @@ const checkAuth      = require('./rest_api/middleware/check-auth');
 // Varaibles for linking to routes
 const profiles = require('./routes/profiles');
 const accounts = require('./routes/accounts');
-const medicine = require('./routes/medicine'); 
+const medicine = require('./routes/medicine');
 const history  = require('./routes/history' );
 const extra    = require('./routes/extra'   );
 
 
 // Header (don't worry about this)
-app.use((req, res, next) => 
+app.use((req, res, next) =>
 {
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
@@ -127,7 +127,7 @@ app.get('/noUserProfile', profiles.noUserProfile);
 // --------- Medicine related routes ---------
 
 // Add new router for View All med page
-app.get('/viewAllMed', medicine.viewAllMed);
+app.get('/viewAllMed/:profile_id', medicine.viewAllMed);
 
 // Add new router for View pill detail page
 app.get('/viewPillDetail', medicine.viewPillDetail);
@@ -178,7 +178,7 @@ app.use('/testauth', checkAuth, (req, res) => // check if token is valid
 
 
 // For error handling (don't worry about this)
-app.use((req, res, next) => 
+app.use((req, res, next) =>
 {
   const error = new Error("Not found");
   error.status = 404;
@@ -186,7 +186,7 @@ app.use((req, res, next) =>
 });
 
 // For error handling (don't worry about this)
-app.use((error, req, res, next) => 
+app.use((error, req, res, next) =>
 {
   res.status(error.status || 500);
   res.json({

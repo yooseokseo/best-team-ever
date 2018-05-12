@@ -1,4 +1,13 @@
 $(document).ready(() => {
+  //to set today's date
+
+  let todayDate = new Date();
+  console.log(todayDate);
+
+  console.log(todayDate.getMonth());
+  console.log(todayDate.getDay());
+
+
   // get default profile's information
   $.ajax({
       url: '/api/profiles/default',
@@ -9,7 +18,7 @@ $(document).ready(() => {
       },
       success: (data) =>
       {
-        //console.log('You received some data!', data);
+        console.log('You received some data!', data);
         window.localStorage.setItem("token", data.token); //store authorization token
         $('#page-title-nav').html(data.firstName+' '+data.lastName);
 
@@ -21,6 +30,9 @@ $(document).ready(() => {
             + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
             + '</div></div></a>');
           }
+        const newHref = '/viewAllMed/' + data.id;
+        console.log(newHref);
+        $('#view-all-btn-a').attr('href', newHref);
 
       },
       error: (err) =>
