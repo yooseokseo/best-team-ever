@@ -112,8 +112,8 @@ app.get('/settings', accounts.settings);
 // For viewing profile page
 app.get('/viewProfiles', profiles.view);
 
-// FOr viewing spseicic profile
-app.get('/viewProfile/:account_id/:profile_id', profiles.viewProfile);
+// FOr viewing specific profile
+app.post('/viewProfile', profiles.viewProfile);
 
 // Add new router for Add a new profile page
 app.get('/addNewProfile', profiles.addNewProfile);

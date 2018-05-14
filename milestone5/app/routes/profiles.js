@@ -1,5 +1,6 @@
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('rest_api/database/users.db');
+const request = require('request');
 
 exports.view = (req, res) =>
 {
@@ -14,62 +15,32 @@ exports.view = (req, res) =>
 exports.viewProfile = (req, res) =>
 {
   console.log('viewProfile')
-  const profile_id = req.params.profile_id;
-  const account_id = req.params.account_id;
-  console.log(req.params);
+  const profile_id = req.body.profile_id;
+  console.log('requested profile id = '+req.body.profile_id);
 
-  db.get(
-    `SELECT * FROM accounts,
-     profiles WHERE profiles.id = $profile_id AND accounts.id = $account_id`,
-    {
-      $profile_id: profile_id,
-      $account_id: account_id
+  request.get(
+  {
+    headers: {
+      'content-type' : 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer '+req.body.token
     },
-    // callback function to run when the query finishes:
-    (err, row) =>
-    {
-      if (err)
-      {
-        console.log(err);
-        res.status(500).json( {error: err} );
-      }
-      else
-      {
-        console.log('profile: ',row);
-        //console.log(row.firstName);
-        //console.log(row.lastName);
-        console.log(row.dob);
+    url: 'http://localhost:3000/api/profiles/'+profile_id,
+  },
+  (error, response, body) =>
+  {
+    body = JSON.parse(body);
+    console.log(body.firstName+' '+body.lastName+' '+body.dob+' '+body.gender);
+    res.render('viewProfile', {
+      backbuttonShow: true,
+      pageTitle: "View Profile",
+      profile_id: profile_id,
+      firstName: body.firstName,
+      lastName: body.lastName,
+      dob: body.dob
+    });
+  });
 
-
-        res.render('viewProfile', {
-          backbuttonShow: true,
-          pageTitle: "View Profile",
-          account_id: account_id,
-          profile_id: profile_id,
-          firstName: row.firstName,
-          lastName: row.lastName,
-          dob: row.dob
-        });
-        /*
-        if (row) //found profile
-        {
-          row.token = getToken(username, account_id, profile_id);
-          req.profile = row;
-          next();
-          //res.status(200).json(row);
-        }
-        else
-        {
-          res.status(404).json( {error: 'Profile id '+profile_id+' does not exist'} );
-        }
-        */
-      }
-
-    } // end of (err, row) =>
-  ); // end of db.get(..)
-
-
-
+  
 
 }
 

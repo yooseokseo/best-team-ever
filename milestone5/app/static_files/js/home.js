@@ -8,9 +8,9 @@ $(document).ready(() => {
   console.log(todayDate.getDay());
 
 
-  // get default profile's information
+  // get current profile's information
   $.ajax({
-      url: '/api/profiles/default',
+      url: '/api/profiles/current',
       type: 'GET',
       dataType : 'json', // this URL returns data in JSON format
       beforeSend: function (xhr) {   //Include the bearer token in header

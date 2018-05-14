@@ -251,7 +251,7 @@ exports.getProfile = (req, res, next) =>
   const account_id = req.userData.account_id;
 
   db.get(
-    `SELECT profiles.id, firstname, lastname, gender, dob, account_id FROM accounts, 
+    `SELECT profiles.id, firstname, lastname, gender, dob, account_id, isCurrent FROM accounts, 
      profiles WHERE profiles.id = $profile_id AND accounts.id = $account_id`,
     {
       $profile_id: profile_id,
@@ -267,25 +267,26 @@ exports.getProfile = (req, res, next) =>
       }
       else 
       {
-        console.log('profile: ',row);
-        if (row) //found profile
+        console.log('fetched profile (current profile): \n',row);
+        const fetchedProfile = row;
+        if (fetchedProfile) //found profile
         {
-          const newCurrent = row.id;
+          const newCurrentProfile = fetchedProfile.id;
           // check if profile is already current; if not, set as current
-          if (row.isCurrent != 1) // not already current
+          if (fetchedProfile.isCurrent != 1) // not already current
           {
             // get current profile id
             let query = `SELECT * FROM profiles WHERE account_id=? AND isCurrent=?`;
             db.get(query, [account_id, 1], (err, row) =>
             {
-              console.log(row);
+              console.log('previously selected profile: ', row.firstName+' '+row.lastName);
               if (row)
               { 
-                const currentProfile = row.id;
+                const previousCurrentProfile = row.id;
 
                 let query = `UPDATE profiles SET isCurrent=0 
                              WHERE id=? AND account_id=?`;
-                db.all(query, [currentProfile, account_id], (err) =>
+                db.all(query, [previousCurrentProfile, account_id], (err) =>
                 {
                   console.log('err = '+err);
 
@@ -295,14 +296,15 @@ exports.getProfile = (req, res, next) =>
                   {
                     let query = `UPDATE profiles SET isCurrent=1 
                                  WHERE id=? AND account_id=?`;
-                    db.all(query, [newCurrent, account_id], (err) =>
+                    db.all(query, [newCurrentProfile, account_id], (err) =>
                     {
                       if (err)
                         res.status(500).json( {error: err} );
                       else
                       {
-                        row.token = getToken(username, account_id, profile_id);
-                        req.profile = row;
+                        fetchedProfile.token = getToken(username, account_id, profile_id);
+                        console.log()
+                        req.profile = fetchedProfile;
                         next();
                       }
                     });  
@@ -320,8 +322,8 @@ exports.getProfile = (req, res, next) =>
           } // end of checking if profile is already current
           else // profile already current
           {
-            row.token = getToken(username, account_id, profile_id);
-            req.profile = row;
+            fetchedProfile.token = getToken(username, account_id, profile_id);
+            req.profile = fetchedProfile;
             next();
           }
         } // end of if(row) to check if profile found
