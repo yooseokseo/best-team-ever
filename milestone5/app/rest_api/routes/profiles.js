@@ -17,6 +17,9 @@ router.post('/new', checkAuth, ProfilesController.newProfile);
 router.get('/default', checkAuth, 
 	        ProfilesController.getDefault, MedsController.getAllMedicine);
 
+router.get('/current', checkAuth,
+			ProfilesController.getCurrent, MedsController.getAllMedicine);
+
 // Get specific profile data (ex. localhost:3000/profiles/johnnytest/1)
 router.get('/:profile_id', checkAuth, 
 	        ProfilesController.getProfile, MedsController.getAllMedicine);

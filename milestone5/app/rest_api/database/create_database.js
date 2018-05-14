@@ -58,21 +58,21 @@ db.serialize(() => {
     `CREATE TABLE profiles
     (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      profilename TEXT,
       firstName TEXT,
       lastName TEXT,
       dob TEXT,
       gender TEXT,
       isDefault INTERGER,
+      isCurrent INTEGER,
       account_id INTEGER,
       FOREIGN KEY(account_id) REFERENCES accounts(id)
     )`
   );
 
-  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'liamsmith', 'Liam', 'Smith', '1987-02-21', 'male', 1, 2)");
-  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'philipjohnson', 'Philip', 'Johnson', '1980-01-17', 'male', 0, 2)");
-  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'jamesbrown', 'James', 'Brown', '1995-08-13', 'male', 1, 1)");
-  db.run("INSERT INTO profiles (profilename, firstName, lastName, dob, gender, isDefault, account_id ) VALUES ( 'marymiller', 'Mary', 'Miller', '1975-07-03', 'female', 0, 1)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, isCurrent, account_id ) VALUES ( 'Liam', 'Smith', '1987-02-21', 'male', 1, 1, 2)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, isCurrent, account_id ) VALUES ( 'Philip', 'Johnson', '1980-01-17', 'male', 0, 0, 2)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, isCurrent, account_id ) VALUES ( 'James', 'Brown', '1995-08-13', 'male', 1, 1, 1)");
+  db.run("INSERT INTO profiles (firstName, lastName, dob, gender, isDefault, isCurrent, account_id ) VALUES ( 'Mary', 'Miller', '1975-07-03', 'female', 0, 0, 1)");
 
 
   db.all("SELECT * FROM profiles", (err, rows) =>

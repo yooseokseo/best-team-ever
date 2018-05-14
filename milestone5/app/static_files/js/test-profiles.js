@@ -148,7 +148,7 @@ $(document).ready(() => {
 
   $('#getDefault').click(() => 
   {
-    const requestURL = '/api/profiles/default'
+    const requestURL = '/api/profiles/current'
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,

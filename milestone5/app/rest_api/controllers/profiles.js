@@ -122,19 +122,21 @@ exports.newProfile = (req, res) =>
       }
       else
       {
-        const isDefault = (rows.length == 0)? 1 : 0;
-
         // make profile default if this will be first profile in account
+        const isDefault = (rows.length == 0)? 1 : 0;
+        
         db.run(
-          `INSERT INTO profiles (firstName, lastName, dob, 
-                                 gender, isDefault, account_id)
-           VALUES ($firstName, $lastName, $dob, $gender, $isDefault, $account_id)`,
+          `INSERT INTO profiles
+           VALUES ($id, $firstName, $lastName, $dob, $gender, 
+                   $isDefault, $isCurrent, $account_id)`,
           {
+            $id : null,
             $firstName: firstName,
             $lastName: lastName,
             $dob: dob,
             $gender: gender,
             $isDefault: isDefault,
+            $isCurrent: isDefault,
             $account_id: account_id
           },
           // callback function to run when the query finishes:
@@ -199,6 +201,32 @@ exports.getDefault = (req, res, next) =>
   })
 }
 
+exports.getCurrent = (req, res, next) =>
+{
+  console.log('---');
+  console.log('GET CURRENT PROFILE');
+  const username = req.userData.username;
+  const account_id = req.userData.account_id;
+
+
+  const query = `SELECT * FROM profiles WHERE account_id=? AND isCurrent=?`;
+  db.get(query, [account_id, 1], (err, row) =>
+  {
+    console.log(row);
+    if (row)
+    {
+      row.token = getToken(username, account_id, row.id);
+      req.profile = row;
+      next();
+      
+    }
+    else
+    {
+      res.status(200).json({error: 'No profiles found'});
+    }
+  });
+}
+
 /**
  * GET profile data for an account. Must be logged in.
  * If logged in, find the with requested name. 
@@ -242,11 +270,61 @@ exports.getProfile = (req, res, next) =>
         console.log('profile: ',row);
         if (row) //found profile
         {
-          row.token = getToken(username, account_id, profile_id);
-          req.profile = row;
-          next();
-          //res.status(200).json(row);
-        }
+          const newCurrent = row.id;
+          // check if profile is already current; if not, set as current
+          if (row.isCurrent != 1) // not already current
+          {
+            // get current profile id
+            let query = `SELECT * FROM profiles WHERE account_id=? AND isCurrent=?`;
+            db.get(query, [account_id, 1], (err, row) =>
+            {
+              console.log(row);
+              if (row)
+              { 
+                const currentProfile = row.id;
+
+                let query = `UPDATE profiles SET isCurrent=0 
+                             WHERE id=? AND account_id=?`;
+                db.all(query, [currentProfile, account_id], (err) =>
+                {
+                  console.log('err = '+err);
+
+                  if (err)
+                    res.status(500).json( {error: err} );
+                  else
+                  {
+                    let query = `UPDATE profiles SET isCurrent=1 
+                                 WHERE id=? AND account_id=?`;
+                    db.all(query, [newCurrent, account_id], (err) =>
+                    {
+                      if (err)
+                        res.status(500).json( {error: err} );
+                      else
+                      {
+                        row.token = getToken(username, account_id, profile_id);
+                        req.profile = row;
+                        next();
+                      }
+                    });  
+                  }
+                  
+                }); // end of db.all(..) for editing
+                
+                
+              }
+              else
+              {
+                res.status(200).json({error: 'No profiles found'});
+              }
+            });  
+          } // end of checking if profile is already current
+          else // profile already current
+          {
+            row.token = getToken(username, account_id, profile_id);
+            req.profile = row;
+            next();
+          }
+        } // end of if(row) to check if profile found
         else
         {
           res.status(404).json( {error: 'Profile id '+profile_id+' does not exist'} );
