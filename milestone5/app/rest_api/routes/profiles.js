@@ -10,12 +10,15 @@ const checkAuth = require('../middleware/check-auth');
 // Get list of all of user's profiles (ex. localhost:3000/profiles)
 router.get('/', checkAuth, ProfilesController.getAllProfiles);
 
+
 // Create new profile (ex. localhost:3000/profiles/new)
 router.post('/new', checkAuth, ProfilesController.newProfile);
+
 
 // GEt default profile (ex. localhost:3000/profiles/default)
 router.get('/default', checkAuth, 
 	        ProfilesController.getDefault, MedsController.getAllMedicine);
+
 
 router.get('/current', checkAuth,
 			ProfilesController.getCurrent, MedsController.getAllMedicine);
@@ -24,11 +27,10 @@ router.get('/current', checkAuth,
 router.get('/:profile_id', checkAuth, 
 	        ProfilesController.getProfile, MedsController.getAllMedicine);
 
-// Same as above; use token as ID params (ex. localhost:3000/profiles/info)
-router.get('/info', checkAuth, ProfilesController.getProfile);
 
 // Edit specific profile (ex. localhost:3000/profiles/edit/2)
 router.patch('/edit/:profile_id', checkAuth, ProfilesController.editProfile);
+
 
 // Delete specific profile (ex. localhost:3000/profiles/delete/2)
 router.delete('/delete/:profile_id', checkAuth, ProfilesController.deleteProfile);

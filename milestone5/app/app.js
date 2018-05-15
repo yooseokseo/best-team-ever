@@ -86,8 +86,6 @@ app.get('/', accounts.login);
 // Sign up page
 app.get('/signup', accounts.signup);
 
-// Add new router for Home page
-app.get('/home', accounts.home);
 
 // Account info page
 app.get('/getAccountInfo', accounts.getAccountInfo);
@@ -109,11 +107,14 @@ app.get('/settings', accounts.settings);
 
 // --------- Profile related routes ----------
 
+// Add new router for Home page
+app.post('/home', profiles.home);
+
 // For viewing profile page
-app.get('/viewProfiles', profiles.view);
+app.post('/viewProfiles', profiles.view);
 
 // FOr viewing specific profile
-app.post('/viewProfile', profiles.viewProfile);
+app.post('/viewProfile/:profile_id', profiles.viewProfile);
 
 // Add new router for Add a new profile page
 app.get('/addNewProfile', profiles.addNewProfile);

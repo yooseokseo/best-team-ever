@@ -8,14 +8,7 @@ exports.signup = (req, res) =>
   res.render('')
 }
 
-exports.home = (req, res) =>
-{
-  res.render('home', 
-  {
-    isHomePage: true,
-    pageTitle: 'Firstname Lastname'
-  })
-}
+
 
 exports.getAccountInfo = (req, res) =>
 {

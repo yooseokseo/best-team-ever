@@ -37,10 +37,10 @@
       </div>
       <div id="gender-box" class="box-content">
         <div class="gender-box">
-          <input id="gender-male" type="checkbox" name="checkbox" onclick="check(this)" /> Male
+          <input id="gender-male" type="checkbox" name="checkbox" onclick="check(this)"  /> Male
         </div>
         <div class="gender-box">
-          <input id="gender-female" type="checkbox" name="checkbox" onclick="check(this)" /> Female
+          <input id="gender-female" type="checkbox" name="checkbox" onclick="check(this)"  /> Female
         </div>
         <!--
         <div class="gender-box">
@@ -49,12 +49,12 @@
         -->
         <div class="gender-box">
           Other:  
-          <input id="gender-other" name="checkbox" placeholder="  Whatever floats your boat" size="24" class="border-black" type="text">
+          <input id="gender-other" name="checkbox" placeholder="  Whatever floats your boat" size="24" class="border-black" type="text"  />
         </div>
       </div>
     </div>
     <div class="box-title">
-      <input type="checkbox"/> Set as Default
+      <input type="checkbox"  /> Set as Default
 
     </div>
 
@@ -67,7 +67,7 @@
 
     <div class="btn flex-center">
       <div id="editProfile" class="a-box flex-center">Edit</div>
-      <div id="saveProfile" class="a-box flex-center saveProfile-close">Save</div>
+      <div id="saveProfile" onclick="save({{id}})" class="a-box flex-center saveProfile-close">Save</div>
     </div>
   </div>
 

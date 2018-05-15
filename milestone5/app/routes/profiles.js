@@ -2,21 +2,67 @@ const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('rest_api/database/users.db');
 const request = require('request');
 
+
+exports.home = (req, res) =>
+{
+  const host = 'http://localhost:3000';
+  const path = '/api/profiles/current';
+  request.get(
+  {
+    headers: {
+      'content-type' : 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer '+req.body.token
+    },
+    url: host+path,
+  },
+  (error, response, body) =>
+  {
+    body = JSON.parse(body);
+    console.log(body);
+    res.render('home', 
+    {
+      isHomePage: true,
+      pageTitle: body.firstName+' '+body.lastName,
+      medicineList: body.medicine,
+      id: body.id
+    });
+  });
+}
+
+
 exports.view = (req, res) =>
 {
-  console.log(req.params);
+  const host = 'http://localhost:3000';
+  const path = '/api/profiles';
 
-  res.render('viewProfiles',
+  request.get(
   {
-    pageTitle: "Manage Profiles"
+    headers: 
+    {
+      'content-type' : 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer '+req.body.token
+    },
+    url: host+path,
+  }, 
+  (error, response, body) => 
+  {
+    body = JSON.parse(body);
+    res.render('viewProfiles', 
+    {
+      pageTitle: 'Manage Profiles',
+      profileList: body,
+    });
   });
+
 };
 
 exports.viewProfile = (req, res) =>
 {
   console.log('viewProfile')
-  const profile_id = req.body.profile_id;
-  console.log('requested profile id = '+req.body.profile_id);
+  const profile_id = req.params.profile_id;
+
+  const host = 'http://localhost:3000';
+  const path = '/api/profiles/' + profile_id;
 
   request.get(
   {
@@ -24,7 +70,7 @@ exports.viewProfile = (req, res) =>
       'content-type' : 'application/x-www-form-urlencoded',
       'Authorization': 'Bearer '+req.body.token
     },
-    url: 'http://localhost:3000/api/profiles/'+profile_id,
+    url: host+path,
   },
   (error, response, body) =>
   {
@@ -36,7 +82,9 @@ exports.viewProfile = (req, res) =>
       profile_id: profile_id,
       firstName: body.firstName,
       lastName: body.lastName,
-      dob: body.dob
+      dob: body.dob,
+      token: body.token,
+      id: body.id
     });
   });
 

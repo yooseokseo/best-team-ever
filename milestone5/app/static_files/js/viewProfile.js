@@ -10,8 +10,24 @@ $(document).ready(() => {
     $('#deleteProfile').hide();
     $('#cancelProfile').removeClass('cancelProfile-close');
   })
-  $('#saveProfile').click(()=>{
+
+  $('#deleteProfile').click(()=>{
+    // should run Ajax call to delete profile
+
+
+    
+    // after deleting is done
+    // go back to previous page
+    backtopage();
+  })
+
+
+});
+
+function save(profile_id)
+  {
     console.log('save');
+    console.log('profile_id = '+profile_id);
 
     var body = {};
 
@@ -29,11 +45,27 @@ $(document).ready(() => {
     (!gender)?                     {} : body.gender = gender;
 
     console.log(body);
-    console.log(jQuery.isEmptyObject(body));
 
-    if ( !jQuery.isEmptyObject(body) )
+
+    if ( !(jQuery.isEmptyObject(body)) )
     {
-
+      const host = 'http://localhost:3000'
+      $.ajax({
+        url: host+'/api/profiles/edit/'+profile_id,
+        type: 'PATCH',
+        dataType : 'json', // this URL returns data in JSON format
+        data: body,
+        beforeSend: function (xhr) {   //Include the bearer token in header
+            xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+        },
+        success: (data) => {
+          console.log('You received some data!', data);
+        },
+        error: (xhr, textStatus, error) => 
+        {
+          console.log(xhr.statusText+': '+xhr.responseJSON.error);
+        }
+      });
     }
     
 
@@ -49,19 +81,8 @@ $(document).ready(() => {
     $('#editProfile').show();
     $('#saveProfile').addClass('saveProfile-close');
 
-  });
-  $('#deleteProfile').click(()=>{
-    // should run Ajax call to delete profile
+  }
 
-
-    
-    // after deleting is done
-    // go back to previous page
-    backtopage();
-  })
-
-
-});
 
 function check(id){
   console.log($('#gender-male').is(":checked"));

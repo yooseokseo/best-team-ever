@@ -10,6 +10,7 @@
   <div class="user-profile-container flex-center">
     <div class="user-profile-content-container">
       <div class="profile-list-container">
+        <div class="user-profile-name-box page-title">SOEM SHIT</div><hr>
         <!-- for default user profile-->
         <div id="default-user-profile" class="user-profile-name-box page-title">
 
@@ -32,35 +33,29 @@
     <div id="home-content-title" class="home-title">
       Today
     </div>
+
+
     <div id="med-list-container">
-      <a href="/viewPillDetail">
-        <div class="med-item-box med-taken-done border-black">
-          <div class="med-item-check flex-center">
-            <img class="checked-icon-img " src="/images/icons/checked-480.png" alt="">
+
+      {{#each medicineList}}
+        <a href="/viewPillDetail">
+          <div class="med-item-box border-black">
+            <div class="med-item-icon flex-center">
+              <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+            </div>
+            <div class="med-item-name flex-center med-name" id="{{id}}">{{medicinename}}</div>
+            <div class="med-item-time flex-center med-time">10:00 AM'</div>
           </div>
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-          </div>
-          <div class="med-item-name flex-center med-name">
-            Aspirin
-          </div>
-          <div class="med-item-time flex-center med-time">
-            10:00 AM
-          </div>
-        </div>
-      </a>
-
-
-
-
-
-
-
+        </a>
+      {{/each}}
 
     </div>
+
+
+ 
     <div id="home-btns-container">
       <div id="view-all-btn" class="home-btn home-btns flex-center">
-        <a id="view-all-btn-a">View All</a></div>
+        <a id="view-all-btn-a" href="/viewAllMed/{{id}}">View All</a></div>
       <div id="add-new-btn" class="home-btn home-btns flex-center">
         <a href="/addNewMed">Add New</a>
       </div>
