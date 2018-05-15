@@ -49,7 +49,6 @@ exports.getAllMedicine = (req, res) =>
         });
         console.log('all med: \n', allMed);
         req.profile.medicine = allMed;
-        console.log(req.profile);
         res.status(200).json(req.profile)        
       }
     }

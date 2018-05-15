@@ -47,11 +47,22 @@ exports.view = (req, res) =>
   (error, response, body) => 
   {
     body = JSON.parse(body);
-    res.render('viewProfiles', 
+    const defaultProf = body.forEach(e => e.default == 1);
+    console.log('default = ', defaultProf);
+    body.forEach((e) => 
     {
-      pageTitle: 'Manage Profiles',
-      profileList: body,
+      if (e.default == 1)
+      {
+        res.render('viewProfiles', 
+        {
+          pageTitle: 'Manage Profiles',
+          profileList: body,
+          default: e.firstName+' '+e.lastName
+        });
+      }
     });
+
+    
   });
 
 };
@@ -75,13 +86,22 @@ exports.viewProfile = (req, res) =>
   (error, response, body) =>
   {
     body = JSON.parse(body);
-    console.log(body.firstName+' '+body.lastName+' '+body.dob+' '+body.gender);
+
+    // gender boolean to check the appropriate checkbox
+    const male = body.gender == 'male';
+    const female = body.gender == 'female';
+    const other = (male || female)? '' : body.gender;
+
     res.render('viewProfile', {
       backbuttonShow: true,
       pageTitle: "View Profile",
       profile_id: profile_id,
       firstName: body.firstName,
       lastName: body.lastName,
+      gender_male: male,
+      gender_female: female,
+      gender_other: other,
+      default: body.isDefault == 1,
       dob: body.dob,
       token: body.token,
       id: body.id

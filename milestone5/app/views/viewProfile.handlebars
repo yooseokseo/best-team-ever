@@ -31,38 +31,36 @@
         <input id="dob" type="date"/ value="{{dob}}" disabled>
       </div>
     </div>
+
+    <!-- gender information -->
     <div class="">
-      <div class="box-title">
-        Gender
-      </div>
+      <div class="box-title"> Gender </div>
       <div id="gender-box" class="box-content">
+        <!-- male checkbox -->
         <div class="gender-box">
-          <input id="gender-male" type="checkbox" name="checkbox" onclick="check(this)"  /> Male
+          <input id="gender-male" type="checkbox" name="checkbox" onclick="check(this)" {{#if gender_male}}checked{{/if}} disabled /> Male
         </div>
+        <!-- female check box -->
         <div class="gender-box">
-          <input id="gender-female" type="checkbox" name="checkbox" onclick="check(this)"  /> Female
+          <input id="gender-female" type="checkbox" name="checkbox" onclick="check(this)" {{#if gender_female}}checked{{/if}} disabled /> Female
         </div>
-        <!--
-        <div class="gender-box">
-          <input type="checkbox"/> Prefer not to say
-        </div>
-        -->
+        <!-- other gender -->
         <div class="gender-box">
           Other:  
-          <input id="gender-other" name="checkbox" placeholder="  Whatever floats your boat" size="24" class="border-black" type="text"  />
+          <input id="gender-other" name="checkbox" placeholder="  Whatever floats your boat" size="24" class="border-black" type="text"  value="{{gender_other}}" disabled />
         </div>
       </div>
     </div>
-    <div class="box-title">
-      <input type="checkbox"  /> Set as Default
 
+    <div class="box-title">
+      <input type="checkbox" id="setDefault" {{#if default}}checked{{/if}} disabled /> Set as Default
     </div>
 
   </div>
   <div id="btns-container" class="add-new-profile-btn">
     <div class="btn flex-center border-right-black">
       <div id="deleteProfile" class="a-box flex-center">Delete</div>
-      <div id="cancelProfile" class="a-box flex-center cancelProfile-close " onclick="backtopage();">Cancel</div>
+      <div id="cancelProfile" class="a-box flex-center cancelProfile-close ">Cancel</div>
     </div>
 
     <div class="btn flex-center">

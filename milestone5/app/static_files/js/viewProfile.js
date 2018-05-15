@@ -5,10 +5,15 @@ $(document).ready(() => {
     $('#firstname').attr('disabled', false);
     $('#lastname').attr('disabled', false);
     $('#dob').attr('disabled', false);
+    $('#gender-male').attr('disabled', false);
+    $('#gender-female').attr('disabled', false);
+    $('#gender-other').attr('disabled', false);
+    $('#setDefault').attr('disabled', false);
     $('#editProfile').hide();
     $('#saveProfile').removeClass('saveProfile-close');
     $('#deleteProfile').hide();
     $('#cancelProfile').removeClass('cancelProfile-close');
+
   })
 
   $('#deleteProfile').click(()=>{
@@ -19,6 +24,22 @@ $(document).ready(() => {
     // after deleting is done
     // go back to previous page
     backtopage();
+  });
+
+  // return page to normal un-editable page
+  $('#cancelProfile').click(()=>
+  {
+    $('#deleteProfile').show();
+    $('#cancelProfile').addClass('cancelProfile-close');
+    $('#editProfile').show();
+    $('#saveProfile').addClass('saveProfile-close');
+    $('#firstname').attr('disabled', true);
+    $('#lastname').attr('disabled', true);
+    $('#dob').attr('disabled', true);
+    $('#gender-male').attr('disabled', true);
+    $('#gender-female').attr('disabled', true);
+    $('#gender-other').attr('disabled', true);
+    $('#setDefault').attr('disabled', true);
   })
 
 
@@ -67,19 +88,8 @@ function save(profile_id)
         }
       });
     }
-    
-
-
-    // should run Ajax call to edit profile
-
-
-
-    // after saving is done,
-    // Save => Edit , Cancel => Delete
-    $('#deleteProfile').show();
-    $('#cancelProfile').addClass('cancelProfile-close');
-    $('#editProfile').show();
-    $('#saveProfile').addClass('saveProfile-close');
+    // after saving is done, return to default page (not editable)
+    $('#cancelProfile').click();
 
   }
 

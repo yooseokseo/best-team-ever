@@ -251,8 +251,10 @@ exports.getProfile = (req, res, next) =>
   const account_id = req.userData.account_id;
 
   db.get(
-    `SELECT profiles.id, firstname, lastname, gender, dob, account_id, isCurrent FROM accounts, 
-     profiles WHERE profiles.id = $profile_id AND accounts.id = $account_id`,
+    `SELECT profiles.id, firstname, lastname, gender, dob, 
+            account_id, isDefault, isCurrent 
+     FROM accounts, profiles 
+     WHERE profiles.id = $profile_id AND accounts.id = $account_id`,
     {
       $profile_id: profile_id,
       $account_id: account_id
