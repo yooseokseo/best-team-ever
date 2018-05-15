@@ -18,14 +18,26 @@ exports.home = (req, res) =>
   (error, response, body) =>
   {
     body = JSON.parse(body);
-    console.log(body);
-    res.render('home', 
+    if (response.statusCode >= 400)
     {
-      isHomePage: true,
-      pageTitle: body.firstName+' '+body.lastName,
-      medicineList: body.medicine,
-      id: body.id
-    });
+      console.log(body);
+      // determine type of error later
+      res.render('error', 
+      {
+        errorStatus: response.statusCode+': '+response.statusMessage,
+        errorMessage: body.error || body.message
+      });
+    }
+    else
+    {
+      res.render('home', 
+      {
+        isHomePage: true,
+        pageTitle: body.firstName+' '+body.lastName,
+        medicineList: body.medicine,
+        id: body.id
+      });
+    }
   });
 }
 
@@ -54,7 +66,16 @@ exports.view = (req, res) =>
     {
       res.render('noUserProfile'); 
     }
-    else // has profiles; find default profile
+    else if (response.statusCode >= 400) // some error
+    {      
+      // determine type of error later
+      res.render('error', 
+      {
+        errorStatus: response.statusCode+': '+response.statusMessage,
+        errorMessage: body.error || body.message
+      });
+    }
+    else
     {
       body.forEach((e) => 
       {
@@ -97,25 +118,38 @@ exports.viewProfile = (req, res) =>
   {
     body = JSON.parse(body);
 
-    // gender boolean to check the appropriate checkbox
-    const male = body.gender == 'male';
-    const female = body.gender == 'female';
-    const other = (male || female)? '' : body.gender;
+    if (response.statusCode >= 400)
+    {
+      console.log(body);
+      // determine type of error later
+      res.render('error', 
+      {
+        errorStatus: response.statusCode+': '+response.statusMessage,
+        errorMessage: body.error || body.message
+      });
+    }
+    else
+    {  
+      // gender boolean to check the appropriate checkbox
+      const male = body.gender == 'male';
+      const female = body.gender == 'female';
+      const other = (male || female)? '' : body.gender;
 
-    res.render('viewProfile', {
-      backbuttonShow: true,
-      pageTitle: "View Profile",
-      profile_id: profile_id,
-      firstName: body.firstName,
-      lastName: body.lastName,
-      gender_male: male,
-      gender_female: female,
-      gender_other: other,
-      default: body.isDefault == 1,
-      dob: body.dob,
-      token: body.token,
-      id: body.id
-    });
+      res.render('viewProfile', {
+        backbuttonShow: true,
+        pageTitle: "View Profile",
+        profile_id: profile_id,
+        firstName: body.firstName,
+        lastName: body.lastName,
+        gender_male: male,
+        gender_female: female,
+        gender_other: other,
+        default: body.isDefault == 1,
+        dob: body.dob,
+        token: body.token,
+        id: body.id
+      });
+    }
   }); // end of request callback
 
 } // end of viewProfile()

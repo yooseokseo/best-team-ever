@@ -57,13 +57,26 @@ exports.settings = (req, res) =>
   (error, response, body) => 
   {
     body = JSON.parse(body);
-    res.render('settings', 
+    if (response.statusCode >= 400)
     {
-      pageTitle: "Account Settings",
-      email: body.email,
-      username: body.username,
-      id: body.id
-    });
+      console.log(body);
+      // determine type of error later
+      res.render('error', 
+      {
+        errorStatus: response.statusCode+': '+response.statusMessage,
+        errorMessage: body.error || body.message
+      });
+    }
+    else
+    {
+      res.render('settings', 
+      {
+        pageTitle: "Account Settings",
+        email: body.email,
+        username: body.username,
+        id: body.id
+      });
+    }
 
   });
 
