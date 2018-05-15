@@ -100,7 +100,7 @@ app.get('/changePassword', accounts.changePassword);
 app.get('/deleteAccount', accounts.deleteAccount);
 
 // Add new router for settings page
-app.get('/settings', accounts.settings);
+app.post('/settings', accounts.settings);
 
 
 

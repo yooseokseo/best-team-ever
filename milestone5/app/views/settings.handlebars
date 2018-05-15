@@ -4,33 +4,35 @@
   {{>navigation}}
   {{>nonscript}}
   <div class="view-account-info-container">
+
     <div class="view-account-info-email">
       <div class="box-title">
           Email
       </div>
 
       <div class="border-black view-account-info-text flex-center">
-        john@example.com
+        {{email}}
       </div>
     </div>
+
+
     <div class="view-account-info-username">
       <div class="box-title">
           Username
       </div>
 
       <div class="border-black view-account-info-text flex-center">
-        johndoe
+        {{username}}
       </div>
     </div>
+
     <div class="view-account-info-dob">
       <div class="box-title">
-          Date of birth
-      </div>
-
-      <div class="border-black view-account-info-text flex-center">
-        Jan 1, 1957
+          Account ID: {{id}}
       </div>
     </div>
+
+    
 
     <a href="/editAccountInfo">
       <div class="flex-center btn edit-account-info-btn">

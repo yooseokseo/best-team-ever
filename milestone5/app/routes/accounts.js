@@ -1,3 +1,5 @@
+const request = require('request');
+
 exports.login = (req, res) => 
 {
   res.render('login');
@@ -40,8 +42,29 @@ exports.deleteAccount = (req, res) =>
 
 exports.settings = (req, res) => 
 {
-  res.render('settings', 
+  const host = 'http://localhost:3000';
+  const path = '/api/accounts/info';
+
+  request.get(
   {
-    pageTitle: "Account Settings"
+    headers: 
+    {
+      'content-type' : 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer '+req.body.token
+    },
+    url: host+path,
+  }, 
+  (error, response, body) => 
+  {
+    body = JSON.parse(body);
+    res.render('settings', 
+    {
+      pageTitle: "Account Settings",
+      email: body.email,
+      username: body.username,
+      id: body.id
+    });
+
   });
+
 };
