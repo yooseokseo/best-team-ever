@@ -119,9 +119,6 @@ app.post('/viewProfile/:profile_id', profiles.viewProfile);
 // Add new router for Add a new profile page
 app.get('/addNewProfile', profiles.addNewProfile);
 
-// Add new router for no user profile page
-app.get('/noUserProfile', profiles.noUserProfile);
-
 
 
 

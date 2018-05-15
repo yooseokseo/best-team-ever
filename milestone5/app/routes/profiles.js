@@ -29,7 +29,9 @@ exports.home = (req, res) =>
   });
 }
 
-
+/**
+ * Function for rendering all profiles
+ */
 exports.view = (req, res) =>
 {
   const host = 'http://localhost:3000';
@@ -47,26 +49,34 @@ exports.view = (req, res) =>
   (error, response, body) => 
   {
     body = JSON.parse(body);
-    const defaultProf = body.forEach(e => e.default == 1);
-    console.log('default = ', defaultProf);
-    body.forEach((e) => 
+
+    if (body.length == 0) // no profiles
     {
-      if (e.default == 1)
+      res.render('noUserProfile'); 
+    }
+    else // has profiles; find default profile
+    {
+      body.forEach((e) => 
       {
-        res.render('viewProfiles', 
+        if (e.default == 1)
         {
-          pageTitle: 'Manage Profiles',
-          profileList: body,
-          default: e.firstName+' '+e.lastName
-        });
-      }
-    });
+          res.render('viewProfiles', 
+          {
+            pageTitle: 'Manage Profiles',
+            profileList: body,
+            default: e.firstName+' '+e.lastName
+          });
+        }
+      });
+    }
 
-    
-  });
+  }); // request callback
 
-};
+} // end of view()
 
+/**
+ * Function for rendering a specific profile
+ */
 exports.viewProfile = (req, res) =>
 {
   console.log('viewProfile')
@@ -106,12 +116,13 @@ exports.viewProfile = (req, res) =>
       token: body.token,
       id: body.id
     });
-  });
+  }); // end of request callback
 
-  
+} // end of viewProfile()
 
-}
-
+/**
+ * Function for adding new profile
+ */
 exports.addNewProfile = (req, res) =>
 {
   res.render('addNewProfile',
@@ -119,8 +130,4 @@ exports.addNewProfile = (req, res) =>
     backbuttonShow: true,
     pageTitle: "Add a New Profile"
   });
-};
-
-exports.noUserProfile = (req, res) => {
-   res.render('noUserProfile');
-};
+}; // end of addNewProfile()
