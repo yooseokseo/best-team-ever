@@ -103,7 +103,7 @@
 
               {{#each shapeList}}
                 <div class="flex-center">
-                  <img src="/images/icons/pills/{{type}}-white.png" alt="{{type}}" />
+                  <img src="/images/icons/pills/{{.}}-white.png" alt="{{.}}" />
                 </div>
               {{/each}}
 
@@ -121,7 +121,7 @@
 
               {{#each colorList}}
                 <div class="flex-center">
-                  <div class="color {{color}}">
+                  <div class="color {{.}}">
                   </div>
                 </div>
               {{/each}}

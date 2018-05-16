@@ -22,17 +22,14 @@ exports.viewPillDetail = (req, res) =>
 
 exports.addNewMed = (req, res) =>
 {
-  const color = ['red', 'orange', 'yellow', 'green', 'blue', 
-                 'purple', 'black', 'gray', 'white'];
-  const colorList = color.map( (e) => { return {color: e} } );  
-  console.log(colorList);
   res.render('addNewMed',
   {
     backbuttonShow: true,
     pageTitle: "Add New Medicine",
     profile_id: req.params.profile_id,
-    shapeList: [{type: 'split'}, {type: 'hole'}, {type: 'circle'}, {type: 'oval'}],
-    colorList: colorList
+    shapeList: ['split', 'hole', 'circle', 'oval'],
+    colorList: ['red', 'orange', 'yellow', 'green', 'blue', 
+                 'purple', 'black', 'gray', 'white']
   });
 };
 
