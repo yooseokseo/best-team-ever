@@ -95,84 +95,45 @@
       </div>
       <div class="box-content-shape flex-center">
         <div class="med-shape-container">
+          
           <div class="med-shape-box">
+            
+            <!-- med shape div -->
             <div class="med-shape">
+
+              {{#each shapeList}}
+                <div class="flex-center">
+                  <img src="/images/icons/pills/{{type}}-white.png" alt="{{type}}" />
+                </div>
+              {{/each}}
+
               <div class="flex-center">
-                A-type
-              </div>
-              <div class="flex-center">
-                B-type
-              </div>
-              <div class="flex-center">
-                C-type
-              </div>
-              <div class="flex-center">
-                <!--
-                D-type
-              -->
                 <input class="test-input border-black" id="med_type" type="text">
               </div>
+
             </div>
+
+            <!-- med color div -->
             <div class="med-color">
               <div class="flex-center">
-
                 <input class="test-input border-black" id="med_color" type="text">
-                    <!--
-                <div class="color red">
-
-                </div>
-                  -->
-              </div>
-              <div class="flex-center">
-                <div class="color orange">
-
-                </div>
-              </div>
-              <div class="flex-center">
-                <div class="color yellow">
-
-                </div>
-              </div>
-              <div class="flex-center">
-                <div class="color green">
-
-                </div>
-              </div>
-              <div class="flex-center">
-                <div class="color blue">
-
-                </div>
-              </div>
-              <div class="flex-center">
-                <div class="color purple">
-
-                </div>
-              </div>
-              <div class="flex-center">
-                <div class="color black">
-
-                </div>
-              </div>
-              <div class="flex-center">
-                <div class="color gray">
-
-                </div>
-              </div>
-              <div class="flex-center">
-                <div class="color white">
-
-                </div>
               </div>
 
+              {{#each colorList}}
+                <div class="flex-center">
+                  <div class="color {{color}}">
+                  </div>
+                </div>
+              {{/each}}
             </div>
-          </div>
 
+          </div>
 
 
         </div>
 
-
       </div>
+
     </div>
     <div class="add-new-med-box">
       <div class="box-title">
