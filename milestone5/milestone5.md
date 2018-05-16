@@ -4,6 +4,9 @@ RUBRIC:
 2. milestone5.md contains screenshots of your latest UI webpages embedded directly within the file.
 3. milestone5.md contains a written explanation of how your UI's screenshots have improved upon the 
 versions shown in milestone4.md.
+
+Our UI have mostly been finalized. It is quite similar to the UI versions shown in milestone4 because we worked on the UI a lot previously, and we plan on sticking with this look. We are currently focusing more on the functionalities for the next milestones. However, any UI feedback is appreciated. 
+
 4. milestone5.md contains a written description of at least two non-trivial actions that users can perform when they use your app. These should not be simply logging in or opening static webpages; they need to be substantive actions that demonstrate your app's core functionality, and also differ from one another in a significant way (2 points).
 5. For User Action 1 described in milestone5.md, your TA is able to successfully perform that action in your app during your grading session just by reading your written description (2 points; you get 1 point if they have a lot of trouble and you need to help them out).
 6. For User Action 1, you can convince your TA that it is part of your app's core functionality.
