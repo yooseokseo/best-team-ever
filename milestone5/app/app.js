@@ -127,13 +127,12 @@ app.get('/addNewProfile', profiles.addNewProfile);
 // Add new router for View All med page
 app.get('/viewAllMed/:profile_id', medicine.viewAllMed);
 
-// Add new router for View pill detail page
-app.get('/viewPillDetail', medicine.viewPillDetail);
-
 // Add new router for Add New page
 // Add a flag value so that it tells whether it should generate '<-' button in navigation or not'
-app.get('/addNewMed', medicine.addNewMed);
+app.get('/addNewMed/:profile_id', medicine.addNewMed);
 
+// Add new router for View pill detail page
+app.post('/viewPillDetail/:medicine_id', medicine.viewPillDetail);
 
 
 

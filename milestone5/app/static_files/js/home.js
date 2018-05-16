@@ -31,6 +31,8 @@ $(document).ready(() => {
       for (const e of data) {
         $('.profile-list-container').append('<div class="user-profile-name-box page-title" id="'+e.id+'">'+ e.firstName +' '+ e.lastName +'</div><hr>');
       }
+
+
       $('.user-profile-name-box').click((e)=>{
         const e_id = e.target.id;
         const profile_id = e.target.id;
@@ -49,14 +51,23 @@ $(document).ready(() => {
           },
           success: (data) =>
           {
+            $('#profile_id').text(data.id);
             //console.log('You received some data!', data);
             //console.log(data.medicine);
             $('#med-list-container').html('');
             for (const e of data.medicine) {
-              $('#med-list-container').append('<a href="/viewPillDetail"><div class="med-item-box border-black">'
+              const htmlStr = '<div class="med-item-box border-black">'
               + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pill.svg" alt=""></div> '
               + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
-              + '</div></div></a>');
+              + '</div></div>';
+              let element = document.createElement('a');
+              element.innerHTML = htmlStr;
+              element.firstChild.addEventListener( 'click', () =>
+              {
+                post('/viewPillDetail/'+e.id);
+              });
+
+              $('#med-list-container').append(element.firstChild);
             }
           },
           error: (err) =>
@@ -73,3 +84,8 @@ $(document).ready(() => {
 
   });
 });
+
+function addNewMed()
+{
+  window.location.href = '/addNewMed/'+$('#profile_id').text();
+}

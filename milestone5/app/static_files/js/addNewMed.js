@@ -1,15 +1,17 @@
 $(document).ready(() => {
-  $('#createMedicine').click(()=>
-  {
-    //check if input fields are blank
-    if ($('#medicinename').val().trim() == '')
-    {
-      alert('Please enter all info');
-      $('#infoDiv').html('');
-        $('#status').html('');
-      return;
-    }
 
+})
+
+
+function createMedicine(profile_id)
+{
+  //check if input fields are blank
+  if ($('#medicinename').val() == '')
+  {
+    alert('Please enter all info');
+  }
+  else
+  {
     var body = {
                  'medicinename' : $('#medicinename').val(),
                  'dosage' : $('#dosage').val(),
@@ -24,18 +26,19 @@ $(document).ready(() => {
                  'med_color' : $('#medColor').val(),
                };
 
-    const requestURL = '/api/medicine/new';
+    const requestURL = '/api/medicine/new/'+profile_id;
     $.ajax({
       // all URLs are relative to http://localhost:3000/
       url: requestURL,
       type: 'POST',
       dataType : 'json', // this URL returns data in JSON format
       data: body,
-      beforeSend: function (xhr) {   //Include the bearer token in header
+      beforeSend: (xhr) => {   //Include the bearer token in header
           xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
       },
       success: (data) => {
         console.log('You received some data!', data);
+        post('/home')
 
 
       },
@@ -44,7 +47,6 @@ $(document).ready(() => {
 
       }
     });
-    window.location.replace('/home');
-  }); // end of createMedicine()
+  } // end of else
 
-})
+} // end of createMedicine()

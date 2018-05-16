@@ -99,7 +99,7 @@ exports.newMedicine = (req, res) =>
       $med_color : req.body.med_color,
       $med_pic : req.body.med_type+'-type-'+req.body.med_color+'.png',
       $account_id : req.userData.account_id,
-      $profile_id : req.userData.profile_id
+      $profile_id : req.params.profile_id
     },
     // callback function to run when the query finishes:
     (err) => 

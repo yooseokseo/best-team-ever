@@ -43,7 +43,7 @@
               <input id="recurrence_hour" class="med-frequency-every-input" type="text" name="" value=""> Hours
             </div>
             <div>
-              <input id="recurrence_day" class="med-frequency-every-input" type="text" name="" value=""> Times a day
+              <input id="times_per_day" class="med-frequency-every-input" type="text" name="" value=""> Times a day
             </div>
           </div>
 
@@ -62,26 +62,26 @@
             <div class="">
               Start Date
             </div>
-             <input id="startDate" class="border-black duration-input" type="date" name="" value="">
+             <input id="start_date" class="border-black duration-input" type="date" name="" value="">
           </div>
           <div class="med-duration-box">
             <div class="">
               Start Time
             </div>
-             <input id="startTime" class="border-black duration-input" type="time" name="" value="">
+             <input id="start_time" class="border-black duration-input" type="time" name="" value="">
           </div>
           <hr id="divider-hr">
           <div class="med-duration-box">
             <div class="">
               End Date
             </div>
-             <input id="endDate" class="border-black duration-input" type="date" name="" value="">
+             <input id="end_date" class="border-black duration-input" type="date" name="" value="">
           </div>
           <div class="med-duration-box">
             <div class="">
               End Time
             </div>
-             <input id="endTime" class="border-black duration-input" type="time" name="" value="">
+             <input id="end_time" class="border-black duration-input" type="time" name="" value="">
           </div>
 
         </div>
@@ -110,13 +110,13 @@
                 <!--
                 D-type
               -->
-                <input class="test-input border-black" id="medType" type="text">
+                <input class="test-input border-black" id="med_type" type="text">
               </div>
             </div>
             <div class="med-color">
               <div class="flex-center">
 
-                <input class="test-input border-black" id="medColor" type="text">
+                <input class="test-input border-black" id="med_color" type="text">
                     <!--
                 <div class="color red">
 
@@ -195,7 +195,7 @@
     <div class="btn flex-center border-right-black" onclick="backtopage();">
       Cancel
     </div>
-    <div id="createMedicine" class="btn flex-center">
+    <div id="createMedicine" onclick="createMedicine({{profile_id}})" class="btn flex-center">
       Save
     </div>
   </div>

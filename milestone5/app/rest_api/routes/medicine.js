@@ -9,7 +9,7 @@ const checkAuth = require('../middleware/check-auth');
 router.get('/', checkAuth, MedsController.getAllMedicine);
 
 // Create new medicine (ex. localhost:3000/medicine/new)
-router.post('/new', checkAuth, MedsController.newMedicine);
+router.post('/new/:profile_id', checkAuth, MedsController.newMedicine);
 
 // Get specific medicine data (ex. localhost:3000/medicine/2)
 router.get('/:medicine_id', checkAuth, MedsController.getMedicine);

@@ -7,6 +7,8 @@
     // after document is ready, it should fetch a list of user profiles for downdrop nav
 
   </script>
+
+  <!-- profile drop down menu -->
   <div class="user-profile-container flex-center">
     <div class="user-profile-content-container">
       <div class="profile-list-container">
@@ -29,6 +31,11 @@
     </div>
 
   </div>
+
+
+  <p id="profile_id" style="display:none" >{{id}}</p>
+
+
   <div id="home-content-container">
     <div id="home-content-title" class="home-title">
       Today
@@ -38,7 +45,7 @@
     <div id="med-list-container">
 
       {{#each medicineList}}
-        <a href="/viewPillDetail">
+        <a onclick="post('/viewPillDetail/{{id}}')">
           <div class="med-item-box border-black">
             <div class="med-item-icon flex-center">
               <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
@@ -57,7 +64,7 @@
       <div id="view-all-btn" class="home-btn home-btns flex-center">
         <a id="view-all-btn-a" href="/viewAllMed/{{id}}">View All</a></div>
       <div id="add-new-btn" class="home-btn home-btns flex-center">
-        <a href="/addNewMed">Add New</a>
+        <a onclick='addNewMed()'>Add New</a>
       </div>
     </div>
   </div>

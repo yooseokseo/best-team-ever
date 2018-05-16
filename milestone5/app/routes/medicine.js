@@ -21,11 +21,12 @@ exports.viewPillDetail = (req, res) =>
 
 
 exports.addNewMed = (req, res) =>
-{
+{  
   res.render('addNewMed',
   {
     backbuttonShow: true,
-    pageTitle: "Add New Medicine"
+    pageTitle: "Add New Medicine",
+    profile_id: req.params.profile_id
   });
 };
 
