@@ -53,19 +53,13 @@ exports.settings = (req, res) =>
       'Authorization': 'Bearer '+req.body.token
     },
     url: host+path,
+    'json' : true
   }, 
   (error, response, body) => 
   {
-    body = JSON.parse(body);
     if (response.statusCode >= 400)
     {
-      console.log(body);
-      // determine type of error later
-      res.render('error', 
-      {
-        errorStatus: response.statusCode+': '+response.statusMessage,
-        errorMessage: body.error || body.message
-      });
+      renderError('error', response, body, res);
     }
     else
     {
@@ -81,3 +75,18 @@ exports.settings = (req, res) =>
   });
 
 };
+
+/** 
+ * Helper function for rendering error page; this code needed in every
+ * function that makes a request, so this function prevents rewriting
+ * same code
+ */
+function renderError(page, response, body, res)
+{
+  console.log(body);
+  res.render(page, 
+  {
+    errorStatus: response.statusCode+': '+response.statusMessage,
+    errorMessage: body.error || body.message
+  });
+}

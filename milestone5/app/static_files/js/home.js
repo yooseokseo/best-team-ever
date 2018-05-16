@@ -18,12 +18,11 @@ $(document).ready(() => {
     url: requestURL,
     type: 'GET',
     dataType : 'json',
-    beforeSend: function (xhr) {   //Include the bearer token in header
+    beforeSend: (xhr) => {   //Include the bearer token in header
       xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
     },
     success: (data) =>
     {
-      //console.log(data);
       for (const e of data) {
         const profile_id = 'profile_id-'+e.id;
         $('.profile-list-container').append('<div class="user-profile-name-box page-title" id="'+profile_id+'">'+ e.firstName +' '+ e.lastName +'</div><hr>');
@@ -42,7 +41,7 @@ $(document).ready(() => {
           url: '/api/profiles/'+ profile_id,
           type: 'GET',
           dataType : 'json', // this URL returns data in JSON format
-          beforeSend: function (xhr) {   //Include the bearer token in header
+          beforeSend: (xhr) => {   //Include the bearer token in header
               xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
           },
           success: (data) =>

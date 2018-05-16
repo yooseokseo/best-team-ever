@@ -14,19 +14,13 @@ exports.home = (req, res) =>
       'Authorization': 'Bearer '+req.body.token
     },
     url: host+path,
+    'json' : true
   },
   (error, response, body) =>
   {
-    body = JSON.parse(body);
     if (response.statusCode >= 400)
     {
-      console.log(body);
-      // determine type of error later
-      res.render('error', 
-      {
-        errorStatus: response.statusCode+': '+response.statusMessage,
-        errorMessage: body.error || body.message
-      });
+      renderError('error', response, body, res);
     }
     else
     {
@@ -57,23 +51,17 @@ exports.view = (req, res) =>
       'Authorization': 'Bearer '+req.body.token
     },
     url: host+path,
+    'json': true
   }, 
   (error, response, body) => 
   {
-    body = JSON.parse(body);
-
-    if (body.length == 0 || !body[0]) // no profiles
+    if (response.statusCode >= 400) // some error
+    {      
+      renderError('error', response, body, res);
+    }
+    else if (body.length == 0 || !body[0]) // no profiles
     {
       res.render('noUserProfile'); 
-    }
-    else if (response.statusCode >= 400) // some error
-    {      
-      // determine type of error later
-      res.render('error', 
-      {
-        errorStatus: response.statusCode+': '+response.statusMessage,
-        errorMessage: body.error || body.message
-      });
     }
     else
     {
@@ -107,20 +95,13 @@ exports.viewProfile = (req, res) =>
       'Authorization': 'Bearer '+req.body.token
     },
     url: host+path,
+    'json' : true
   },
   (error, response, body) =>
   {
-    body = JSON.parse(body);
-
     if (response.statusCode >= 400)
     {
-      console.log(body);
-      // determine type of error later
-      res.render('error', 
-      {
-        errorStatus: response.statusCode+': '+response.statusMessage,
-        errorMessage: body.error || body.message
-      });
+      renderError('error', response, body, res);
     }
     else
     {  
@@ -159,3 +140,19 @@ exports.addNewProfile = (req, res) =>
     pageTitle: "Add a New Profile"
   });
 }; // end of addNewProfile()
+
+
+/** 
+ * Helper function for rendering error page; this code needed in every
+ * function that makes a request, so this function prevents rewriting
+ * same code
+ */
+function renderError(page, response, body, res)
+{
+  console.log(body);
+  res.render(page, 
+  {
+    errorStatus: response.statusCode+': '+response.statusMessage,
+    errorMessage: body.error || body.message
+  });
+}

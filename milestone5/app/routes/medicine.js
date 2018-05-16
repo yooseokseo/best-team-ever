@@ -28,3 +28,19 @@ exports.addNewMed = (req, res) =>
     pageTitle: "Add New Medicine"
   });
 };
+
+/** 
+ * Helper function for rendering error page; this code needed in every
+ * function that makes a request, so this function prevents rewriting
+ * same code
+ */
+function renderError(page, response, body, res)
+{
+  console.log(body);
+  res.render(page, 
+  {
+    errorStatus: response.statusCode+': '+response.statusMessage,
+    errorMessage: body.error || body.message
+  });
+}
+
