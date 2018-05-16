@@ -53,7 +53,7 @@ ____
 10. For User Action 2, you can convince your TA that it is part of your app's core functionality.
 11. For User Action 2, you are able to explain the actual code you wrote to implement that action.
 12. For User Action 2, you can convince your TA that it was non-trivial to implement (e.g., not simply putting a link on a webpage).
-
+ 
 ![Image of login](screenshots/login.png)
 ![Image of create-account](screenshots/create-account.png)
 ![Image of no-profile](screenshots/no-profile.png)
