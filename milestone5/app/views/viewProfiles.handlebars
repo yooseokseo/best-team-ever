@@ -5,13 +5,28 @@
   {{>nonscript}}
   <div class="view-profile-container">
     <div class="flex-center box-title">
-      <p>Default Profile : {{default}}</p>
+      <p>Default Profile</p>
     </div>
     <div class="view-profile-bottom-box">
       
       <!-- loop through all profile array and list them all -->
       <div class="view-profile-box-list">
         
+        <!-- default profile -->
+        <a onclick='post("/viewProfile/{{defaultProfile.id}}")'>
+          <div class="view-profile-box border-black">
+            <div class="flex-center">
+              <img class="profile-image-view" src="/images/icons/user.svg" alt="">
+            </div>
+            <div class="flex-center box-title">
+              {{defaultProfile.firstName}} {{defaultProfile.lastName}}
+            </div>
+          </div>
+        </a>
+        
+        <br> <hr> <br>
+
+        <!-- other profiles -->
         {{#each profileList}}  
           <a onclick='post("/viewProfile/{{id}}")'>
             <div class="view-profile-box border-black">

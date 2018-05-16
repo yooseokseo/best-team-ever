@@ -62,7 +62,7 @@ exports.view = (req, res) =>
   {
     body = JSON.parse(body);
 
-    if (body.length == 0) // no profiles
+    if (body.length == 0 || !body[0]) // no profiles
     {
       res.render('noUserProfile'); 
     }
@@ -77,17 +77,11 @@ exports.view = (req, res) =>
     }
     else
     {
-      body.forEach((e) => 
+      res.render('viewProfiles', 
       {
-        if (e.default == 1)
-        {
-          res.render('viewProfiles', 
-          {
-            pageTitle: 'Manage Profiles',
-            profileList: body,
-            default: e.firstName+' '+e.lastName
-          });
-        }
+        pageTitle: 'Manage Profiles',
+        defaultProfile: body.pop(), // default profile is last in array
+        profileList: body,
       });
     }
 

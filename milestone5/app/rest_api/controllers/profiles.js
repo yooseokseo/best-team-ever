@@ -52,7 +52,9 @@ exports.getAllProfiles = (req, res) =>
 
 
   db.all(
-    'SELECT * FROM profiles WHERE profiles.account_id = $account_id',
+    `SELECT id, firstName, lastName, isDefault
+     FROM profiles 
+     WHERE account_id = $account_id`,
     {
       $account_id: account_id
     },
@@ -66,18 +68,15 @@ exports.getAllProfiles = (req, res) =>
       }
       else
       {
-        let allProfiles = rows.map(e => 
-        { 
-          return { id: e.id, 
-                   firstName: e.firstName, 
-                   lastName: e.lastName, 
-                   default: e.isDefault } 
-        });
-        console.log(allProfiles);
-
+        // move default profile to end of array
+        const arrayMove = require('array-move');
+        const defaultProfileIndex = rows.findIndex(e => e.isDefault == 1);
+        const all = arrayMove(rows, defaultProfileIndex, rows.length);
+        
+        console.log('all profiles: \n', all);
         (rows.length > 0)?
-          res.status(200).json(allProfiles) :
-          res.status(404).json( {error: '\"'+username+'\" doesn\'t have any profiles'} );
+          res.status(200).json(all) : 
+          res.status(200).json([])
       } 
     } // end of (err, rows) => {}
   ); // end of db.all(..)

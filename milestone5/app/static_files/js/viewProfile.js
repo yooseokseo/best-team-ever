@@ -47,8 +47,6 @@ $(document).ready(() => {
 
 function save(profile_id)
   {
-    console.log('save');
-    console.log('profile_id = '+profile_id);
 
     var body = {};
 
@@ -80,7 +78,7 @@ function save(profile_id)
             xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
         },
         success: (data) => {
-          console.log('You received some data!', data);
+          console.log('edited', data);
         },
         error: (xhr, textStatus, error) => 
         {
@@ -95,7 +93,6 @@ function save(profile_id)
 
 
 function check(id){
-  console.log($('#gender-male').is(":checked"));
   var checkbox = document.getElementsByName("checkbox");
   Array.prototype.forEach.call(checkbox,function(el){
     el.checked = false;
