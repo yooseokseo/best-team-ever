@@ -4,14 +4,20 @@
   {{>navigation}}
   {{>nonscript}}
   <div class="view-profile-container">
-    <div class="flex-center box-title">
-      <p>Default Profile</p>
-    </div>
-    <div class="view-profile-bottom-box">
+    
+    
+    <!-- NEED TO REMOVE DIV WITHOUT WEIRD BUG THING -->
+    <div> </div>
+    <!-- __________________________________________ -->
+
+
+<!--     <div class="view-profile-bottom-box"> -->
       
       <!-- loop through all profile array and list them all -->
       <div class="view-profile-box-list">
-        
+        <div class="flex-center box-title">
+          <p>Default Profile</p>
+        </div>
         <!-- default profile -->
         <a onclick='post("/viewProfile/{{defaultProfile.id}}")'>
           <div class="view-profile-box border-black">
@@ -42,7 +48,9 @@
 
       </div>
       
-    </div>
+<!--     </div> -->
+    
+
     <div id="btns-container">
       <div class="btn flex-center border-right-black">
         Edit

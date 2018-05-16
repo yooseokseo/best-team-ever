@@ -23,14 +23,17 @@ $(document).ready(() => {
     },
     success: (data) =>
     {
-      for (const e of data) {
-        const profile_id = 'profile_id-'+e.id;
-        $('.profile-list-container').append('<div class="user-profile-name-box page-title" id="'+profile_id+'">'+ e.firstName +' '+ e.lastName +'</div><hr>');
+      // default profile goes first
+      const defaultProfile = data.pop();
+      $('.profile-list-container').append('<div class="user-profile-name-box page-title" id="'+defaultProfile.id+'">'+ defaultProfile.firstName +' '+ defaultProfile.lastName +'</div><hr>');
 
+      // other profiles
+      for (const e of data) {
+        $('.profile-list-container').append('<div class="user-profile-name-box page-title" id="'+e.id+'">'+ e.firstName +' '+ e.lastName +'</div><hr>');
       }
       $('.user-profile-name-box').click((e)=>{
         const e_id = e.target.id;
-        const profile_id = e.target.id.substring(e_id.indexOf('-')+1, e_id.length);
+        const profile_id = e.target.id;
 
         $('.tri-svg').removeClass('down-nav-clicked');
         $('.user-profile-container').removeClass('user-profile-container-down');

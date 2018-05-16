@@ -264,8 +264,8 @@ exports.getAccountInfo = (req, res) =>
   const id = req.userData.account_id;
   const username = req.userData.username;
 
-  const query = `SELECT * FROM accounts WHERE id=? AND username=?`;
-  db.all(query, [id, username], (err, rows) =>
+  const query = `SELECT id, username, email FROM accounts WHERE id=?`;
+  db.all(query, [id], (err, rows) =>
   {
     if (rows.length > 0) 
     {

@@ -16,16 +16,6 @@ $(document).ready(() => {
 
   })
 
-  $('#deleteProfile').click(()=>{
-    // should run Ajax call to delete profile
-
-
-    
-    // after deleting is done
-    // go back to previous page
-    backtopage();
-  });
-
   // return page to normal un-editable page
   $('#cancelProfile').click(()=>
   {
@@ -46,49 +36,69 @@ $(document).ready(() => {
 });
 
 function save(profile_id)
+{
+
+  var body = {};
+
+  const male = ($('#gender-male').is(":checked"))? 'male' : undefined;
+  const female = ($('#gender-female').is(":checked"))? 'female' : undefined;
+  const other = ($('#gender-other').val())? $('#gender-other').val() : undefined;
+  const gender = male || female || other;
+
+
+  // only send PATCH request for values that user want to update (non-empty values)
+  // check if input value is empty; if not empty, add it to body, otherwise do nothing
+  ($('#firstname').val() == '')? {} : body.firstName = $('#firstname').val();
+  ($('#lastname').val() == '')?  {} : body.lastName = $('#lastname').val();
+  ($('#dob').val() == '')?       {} : body.dob = $('#dob').val();
+  (!gender)?                     {} : body.gender = gender;
+
+  console.log(body);
+
+
+  if ( !(jQuery.isEmptyObject(body)) )
   {
-
-    var body = {};
-
-    const male = ($('#gender-male').is(":checked"))? 'male' : undefined;
-    const female = ($('#gender-female').is(":checked"))? 'female' : undefined;
-    const other = ($('#gender-other').val())? $('#gender-other').val() : undefined;
-    const gender = male || female || other;
-
-
-    // only send PATCH request for values that user want to update (non-empty values)
-    // check if input value is empty; if not empty, add it to body, otherwise do nothing
-    ($('#firstname').val() == '')? {} : body.firstName = $('#firstname').val();
-    ($('#lastname').val() == '')?  {} : body.lastName = $('#lastname').val();
-    ($('#dob').val() == '')?       {} : body.dob = $('#dob').val();
-    (!gender)?                     {} : body.gender = gender;
-
-    console.log(body);
-
-
-    if ( !(jQuery.isEmptyObject(body)) )
-    {
-      $.ajax({
-        url: '/api/profiles/edit/'+profile_id,
-        type: 'PATCH',
-        dataType : 'json', // this URL returns data in JSON format
-        data: body,
-        beforeSend: (xhr) => {   //Include the bearer token in header
-          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-        },
-        success: (data) => {
-          console.log('edited', data);
-        },
-        error: (xhr, textStatus, error) => 
-        {
-          console.log(xhr.statusText+': '+xhr.responseJSON.error);
-        }
-      });
-    }
-    // after saving is done, return to default page (not editable)
-    $('#cancelProfile').click();
-
+    $.ajax({
+      url: '/api/profiles/edit/'+profile_id,
+      type: 'PATCH',
+      dataType : 'json', // this URL returns data in JSON format
+      data: body,
+      beforeSend: (xhr) => {   //Include the bearer token in header
+        xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('edited', data);
+      },
+      error: (xhr, textStatus, error) => 
+      {
+        console.log(xhr.statusText+': '+xhr.responseJSON.error);
+      }
+    });
   }
+  // after saving is done, return to default page (not editable)
+  $('#cancelProfile').click();
+
+}
+
+function deleteProfile (profile_id) 
+{    
+  $.ajax({
+    url: '/api/profiles/delete/'+profile_id,
+    type: 'DELETE',
+    dataType : 'json', // this URL returns data in JSON format
+    beforeSend: (xhr) => {   //Include the bearer token in header
+      xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+    },
+    success: (data) => {
+      alert('profile deleted')
+      backtopage();
+    },
+    error: (xhr, textStatus, error) => 
+    {
+      console.log(xhr.statusText+': '+xhr.responseJSON.error);
+    }
+  });
+}// end of delete profile
 
 
 function check(id){

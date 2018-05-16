@@ -47,7 +47,7 @@
         <!-- other gender -->
         <div class="gender-box">
           Other:  
-          <input id="gender-other" name="checkbox" placeholder="  Whatever floats your boat" size="24" class="border-black" type="text"  value="{{gender_other}}" disabled />
+          <input id="gender-other" name="checkbox" placeholder="  Whatever floats your boat" size="24" class="border-black" type="text"  value="{{gender_other}}" onclick="check(this)" disabled />
         </div>
       </div>
     </div>
@@ -59,7 +59,7 @@
   </div>
   <div id="btns-container" class="add-new-profile-btn">
     <div class="btn flex-center border-right-black">
-      <div id="deleteProfile" class="a-box flex-center">Delete</div>
+      <div id="deleteProfile" onclick="deleteProfile({{id}})" class="a-box flex-center">Delete</div>
       <div id="cancelProfile" class="a-box flex-center cancelProfile-close ">Cancel</div>
     </div>
 

@@ -31,10 +31,10 @@
       </div>
       <div id="gender-box" class="box-content">
         <div class="gender-box">
-          <input type="checkbox"/> Male
+          <input type="checkbox" id="gender-male"/> Male
         </div>
         <div class="gender-box">
-          <input type="checkbox"/> Female
+          <input type="checkbox" id="gender-female"/> Female
         </div>
         <!--
         <div class="gender-box">
@@ -42,7 +42,7 @@
         </div>
         -->
         <div class="gender-box">
-          <input id="gender" class="border-black" type="text">
+          <input id="gender-other" class="border-black" type="text">
         </div>
       </div>
     </div>
@@ -57,7 +57,7 @@
       Cancel
     </div>
     <div class="btn flex-center">
-      <a id="createProfile" class="a-box flex-center" href="/home">Save</a>
+      <a id="createProfile" class="a-box flex-center" onclick="post('/viewProfiles')">Save</a>
     </div>
   </div>
 

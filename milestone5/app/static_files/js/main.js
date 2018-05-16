@@ -3,7 +3,7 @@ function backtopage() {
 	// splitting '/viewProfiles/1' returns ['', 'viewProfiles', '1']
   const path = window.location.pathname.split('/')[1];
   
-  if (path == 'viewProfile') // go back to viewProfiles page
+  if (path == 'viewProfile' || path == 'addNewProfile')
   {
   	post('/viewProfiles');
   }

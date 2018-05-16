@@ -280,9 +280,9 @@ exports.getProfile = (req, res, next) =>
             let query = `SELECT * FROM profiles WHERE account_id=? AND isCurrent=?`;
             db.get(query, [account_id, 1], (err, row) =>
             {
-              console.log('previously selected profile: ', row.firstName+' '+row.lastName);
               if (row)
               { 
+                console.log('previously selected profile: ', row.firstName+' '+row.lastName);
                 const previousCurrentProfile = row.id;
 
                 let query = `UPDATE profiles SET isCurrent=0 
@@ -411,7 +411,7 @@ exports.deleteProfile = (req, res) =>
   console.log('---');
   console.log('DELETE PROFILE');
 
-  const profile_id = req.userData.profile_id;
+  const profile_id = req.params.profile_id;
   const account_id = req.userData.account_id;
 
   let query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
@@ -428,9 +428,26 @@ exports.deleteProfile = (req, res) =>
       db.all(query, [account_id, profile_id], (err) =>
       {
         console.log('delete profile; err = '+err);
-        (err)? 
-          res.status(500).json( {error: err} ) : 
-          res.status(200).json( {message: 'Profile deleted'} )
+        if (err)
+        {
+          res.status(500).json( {error: err} ) 
+        }
+        else
+        {
+          let query = `UPDATE profiles SET isCurrent=1 
+                       WHERE isDefault=1 AND account_id=?`;
+          db.all(query, [account_id], (err) =>
+          {
+            if (err)
+              res.status(500).json( {error: err} );
+            else
+            {
+              res.status(200).json( {message: 'Profile deleted'} )
+            }
+          }); 
+
+        } 
+          
       });
     }
   }); //end of db.all(..)
