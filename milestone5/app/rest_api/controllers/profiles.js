@@ -268,67 +268,49 @@ exports.getProfile = (req, res, next) =>
       }
       else 
       {
-        console.log('fetched profile (current profile): \n',row);
+        console.log('fetched profile: \n',row);
         const fetchedProfile = row;
-        if (fetchedProfile) //found profile
+
+        if (row && row.isCurrent == 1) //found profile and is already current
         {
-          const newCurrentProfile = fetchedProfile.id;
-          // check if profile is already current; if not, set as current
-          if (fetchedProfile.isCurrent != 1) // not already current
+          fetchedProfile.token = getToken(username, account_id, profile_id);
+          req.profile = fetchedProfile;
+          next();
+        }
+        else if (row && row.isCurrent != 1) //found profile but not current
+        {
+          // set all "isCurrent" boolean to false
+          let query = `UPDATE profiles SET isCurrent=0 WHERE account_id=?`;
+          db.all(query, [account_id], (err) =>
           {
-            // get current profile id
-            let query = `SELECT * FROM profiles WHERE account_id=? AND isCurrent=?`;
-            db.get(query, [account_id, 1], (err, row) =>
+            if (err) // error updating  
             {
-              if (row)
-              { 
-                console.log('previously selected profile: ', row.firstName+' '+row.lastName);
-                const previousCurrentProfile = row.id;
-
-                let query = `UPDATE profiles SET isCurrent=0 
-                             WHERE id=? AND account_id=?`;
-                db.all(query, [previousCurrentProfile, account_id], (err) =>
-                {
-                  console.log('err = '+err);
-
-                  if (err)
-                    res.status(500).json( {error: err} );
-                  else
-                  {
-                    let query = `UPDATE profiles SET isCurrent=1 
-                                 WHERE id=? AND account_id=?`;
-                    db.all(query, [newCurrentProfile, account_id], (err) =>
-                    {
-                      if (err)
-                        res.status(500).json( {error: err} );
-                      else
-                      {
-                        fetchedProfile.token = getToken(username, account_id, profile_id);
-                        console.log()
-                        req.profile = fetchedProfile;
-                        next();
-                      }
-                    });  
-                  }
-                  
-                }); // end of db.all(..) for editing
-                
-                
-              }
-              else
+              res.status(500).json( {error: err} ); 
+            }
+            else // no error updating
+            {
+              // set selected profile to be current profile
+              let query = `UPDATE profiles SET isCurrent=1 
+                           WHERE id=? AND account_id=?`;
+              db.all(query, [fetchedProfile.id, account_id], (err) =>
               {
-                res.status(200).json({error: 'No profiles found'});
-              }
-            });  
-          } // end of checking if profile is already current
-          else // profile already current
-          {
-            fetchedProfile.token = getToken(username, account_id, profile_id);
-            req.profile = fetchedProfile;
-            next();
-          }
-        } // end of if(row) to check if profile found
-        else
+                if (err) // error setting boolean
+                {
+                  res.status(500).json( {error: err} ); 
+                }
+                else // no error setting boolean
+                {
+                  fetchedProfile.token = getToken(username, account_id, profile_id);
+                  req.profile = fetchedProfile;
+                  next();
+                }
+              });  
+            } 
+
+          }); // end of db.all(..) for resetting "isCurrent" boolean
+
+        } // end of else for found non-current profile
+        else // didn't find profile
         {
           res.status(404).json( {error: 'Profile id '+profile_id+' does not exist'} );
         }
