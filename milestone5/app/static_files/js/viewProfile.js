@@ -68,14 +68,13 @@ function save(profile_id)
 
     if ( !(jQuery.isEmptyObject(body)) )
     {
-      const host = 'http://localhost:3000'
       $.ajax({
-        url: host+'/api/profiles/edit/'+profile_id,
+        url: '/api/profiles/edit/'+profile_id,
         type: 'PATCH',
         dataType : 'json', // this URL returns data in JSON format
         data: body,
-        beforeSend: function (xhr) {   //Include the bearer token in header
-            xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+        beforeSend: (xhr) => {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
         },
         success: (data) => {
           console.log('edited', data);
