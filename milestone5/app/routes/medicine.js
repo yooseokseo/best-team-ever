@@ -6,7 +6,44 @@ exports.viewAllMed = (req, res) =>
   const profile_id = req.params.profile_id;
 
   const host = 'http://localhost:3000';
-  const path = '/api/medicine/'+profile_id;
+  const path = '/api/profiles/'+profile_id+'/medicine';
+  request.get(
+  {
+    headers: {
+      'content-type' : 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer '+req.body.token
+    },
+    url: host+path,
+    'json' : true
+  },
+  (error, response, body) =>
+  {
+    if (response.statusCode >= 400)
+    {
+      renderError('error', response, body, res);
+    }
+    else
+    {
+      res.render('viewAllMed', 
+      {
+        isHomePage: true,
+        pageTitle: "All Medication",
+        medicineList: body.medicine,
+        profile_id: body.profile_id
+      });
+    }
+  });
+
+
+}
+
+
+exports.viewPillDetail = (req, res) =>
+{
+  const medicine_id = req.params.medicine_id;
+
+  const host = 'http://localhost:3000';
+  const path = '/api/medicine/'+medicine_id;
   request.get(
   {
     headers: {
@@ -25,26 +62,15 @@ exports.viewAllMed = (req, res) =>
     else
     {
       console.log(body);
-      res.render('viewAllMed', 
+      res.render('viewPillDetail', 
       {
         isHomePage: true,
-        pageTitle: "All Medication",
-        medicineList: body,
+        pageTitle: "Medication Detail",
+        medicine: body,
       });
     }
   });
 
-
-}
-
-
-exports.viewPillDetail = (req, res) =>
-{
-  res.render('viewPillDetail',
-  {
-    backbuttonShow: true,
-    pageTitle: "Medication Detail"
-  });
 };
 
 

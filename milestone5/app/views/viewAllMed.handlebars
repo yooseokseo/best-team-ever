@@ -6,22 +6,22 @@
   <div class="view-all-med-container">
     <div class="flex-center box-title">
       <p>April 15, 2018</p>
-      <div id="profile-id-hidden" style="display:none;">
-        {{{profile_id}}}
-      </div>
+
     </div>
     <div class="view-all-med-bottom-box">
       <div class="view-all-med-list">
-        
+
         {{#each medicineList}}
-          <div class="med-item-box-all border-black">
-            <div class="med-item-icon flex-center">
-              <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+          <a onclick="post('/viewPillDetail/{{id}}')">
+            <div class="med-item-box-all border-black">
+              <div class="med-item-icon flex-center">
+                <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+              </div>
+              <div class="med-item-name flex-center med-name">
+                {{medicinename}}
+              </div>
             </div>
-            <div class="med-item-name flex-center med-name">
-              {{medicinename}}
-            </div>
-          </div>
+          </a>
         {{/each}}
 
       </div>
@@ -114,7 +114,7 @@
           Edit
         </div>
         <div class="btn flex-center">
-          <a href="/addNewMed">Add New</a>
+          <a href="/addNewMed/{{profile_id}}">Add New</a>
         </div>
       </div>
     </div>

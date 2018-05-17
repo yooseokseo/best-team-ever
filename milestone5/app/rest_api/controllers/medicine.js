@@ -57,7 +57,7 @@ exports.getAllMedicine = (req, res) =>
         }
         else // request directly from backend
         {
-          res.status(200).json(allMed);
+          res.status(200).json( {profile_id: profile_id, medicine: allMed} );
         }
         
       }
@@ -171,11 +171,10 @@ exports.getMedicine = (req, res) =>
   console.log('GET MEDICINE');
 
   const id = req.params.medicine_id;
-  const profile_id = req.userData.profile_id;
   const account_id = req.userData.account_id;
 
-  const query = `SELECT * FROM medicine WHERE id=? AND account_id=? AND profile_id=?`;
-  db.get(query, [id, account_id, profile_id], (err, row) => 
+  const query = `SELECT * FROM medicine WHERE id=? AND account_id=?`;
+  db.get(query, [id, account_id], (err, row) => 
     {
       if (err)
       {
@@ -185,7 +184,6 @@ exports.getMedicine = (req, res) =>
       else
       {
         console.log('medicine: ',row);
-        console.log(row);
         (row)? //check if medicine found
           res.status(200).json(row) :
           res.status(200).json( {} )  

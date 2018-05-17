@@ -6,11 +6,11 @@
   <div class="view-pill-detail-container">
     <div class="view-pill-detail-icon-box">
       <div class="flex-center">
-        <img class="view-pill-icon-img" src="/images/icons/pill.svg" alt="">
+        <img class="view-pill-icon-img" src="/images/icons/pills/{{medicine.med_pic}}" onerror="this.src='/images/icons/pill.svg'">
       </div>
       <div class="flex-center">
-        <p>Pill name</p>
-        <p>140mg / pill</p>
+        <p>{{medicine.medicinename}}</p>
+        <p>{{medicine.dosage}} mg / pill</p>
       </div>
 
     </div>
@@ -21,7 +21,7 @@
       </div>
 
       <div class="border-black view-pill-detail-text">
-        1 pill 2 times a day
+        {{medicine.num_pills}} pill(s) {{medicine.times_per_day}} times a day
       </div>
     </div>
     <div class="view-pill-detail-note">

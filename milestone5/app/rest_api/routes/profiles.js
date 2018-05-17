@@ -35,6 +35,9 @@ router.patch('/edit/:profile_id', checkAuth, ProfilesController.editProfile);
 // Delete specific profile (ex. localhost:3000/profiles/delete/2)
 router.delete('/delete/:profile_id', checkAuth, ProfilesController.deleteProfile);
 
+// Get all profile's medicine (ex. localhost:3000/medicine)
+router.get('/:profile_id/medicine', checkAuth, MedsController.getAllMedicine);
+
 
 
 module.exports = router;
