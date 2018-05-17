@@ -974,3 +974,16 @@ a:hover
 .test-input {
   width: 10vw;
 }
+
+.selected-circle,
+.selected-color {
+   border:2px solid red;
+   border-radius: 100%;
+
+}
+
+.selected-oval{
+   border:3px solid red;
+   border-radius: 130% 40%;
+   
+}

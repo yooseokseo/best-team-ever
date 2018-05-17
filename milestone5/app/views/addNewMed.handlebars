@@ -93,32 +93,30 @@
       <div class="box-title">
         Shape & Color
       </div>
+
+      <div class="flex-center">
+        <input class="test-input border-black" id="med_type" type="text">
+      </div>
+
+      <div class="flex-center">
+        <input class="test-input border-black" id="med_color" type="text">
+      </div>
+
       <div class="box-content-shape flex-center">
         <div class="med-shape-container">
-          
           <div class="med-shape-box">
             
             <!-- med shape div -->
             <div class="med-shape">
-
               {{#each shapeList}}
                 <div class="flex-center">
-                  <img src="/images/icons/pills/{{.}}-white.png" alt="{{.}}" />
+                  <img id="{{.}}" style="width: 10vw;" src="/images/icons/pills/{{.}}-white.png" alt="{{.}}" />
                 </div>
               {{/each}}
-
-              <div class="flex-center">
-                <input class="test-input border-black" id="med_type" type="text">
-              </div>
-
             </div>
 
             <!-- med color div -->
             <div class="med-color">
-              <div class="flex-center">
-                <input class="test-input border-black" id="med_color" type="text">
-              </div>
-
               {{#each colorList}}
                 <div class="flex-center">
                   <div class="color {{.}}">
@@ -128,10 +126,7 @@
             </div>
 
           </div>
-
-
         </div>
-
       </div>
 
     </div>

@@ -50,3 +50,35 @@ function createMedicine(profile_id)
   } // end of else
 
 } // end of createMedicine()
+
+
+/**
+ * Helper function for deselecting color around the pill image and color circle
+ * @params {type} specifies whether to remove from pill image or color circle
+ */
+function rmSelect(type)
+{
+  if (type == 's') // remove highlight around pill shapes
+  {
+    $('.selected-oval').removeClass('selected-oval'); 
+    $('.selected-circle').removeClass('selected-circle');
+  }
+  else // remove around color
+  {
+    console.log('color');
+    $('.selected-color').removeClass('selected-color'); 
+  }
+
+}
+
+// click any of the pill images
+$('#hole').click(() => { rmSelect('s'); $('#hole').addClass('selected-circle'); } );
+$('#circle').click(() => { rmSelect('s'); $('#circle').addClass('selected-circle'); } );
+$('#split').click(() => { rmSelect('s'); $('#split').addClass('selected-oval'); } );
+$('#oval').click(() => { rmSelect('s'); $('#oval').addClass('selected-oval'); } );
+
+// click any of the color circles
+$('.color').click(function(){
+   rmSelect('c');
+   $(this).addClass('selected-color'); // adds the class to the clicked color
+});
