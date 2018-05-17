@@ -12,18 +12,22 @@ function createMedicine(profile_id)
   }
   else
   {
+    // determine type and color; leave as blank if not determined
+    const med_type = $('.selected-circle, .selected-oval')[0];
+    const med_color = $('.selected-color')[0];
+
     var body = {
                  'medicinename' : $('#medicinename').val(),
                  'dosage' : $('#dosage').val(),
                  'num_pills' : $('#numPills').val(),
                  'recurrence_hour' : $('#recurrence_hour').val(),
                  'times_per_day' : $('#recurrence_day').val(),
-                 'start_date' : $('#startDate').val(),
-                 'start_time' : $('#startTime').val(),
-                 'end_date' : $('#endDate').val(),
-                 'end_time' : $('#endTime').val(),
-                 'med_type' : $('#medType').val(),
-                 'med_color' : $('#medColor').val(),
+                 'start_date' : $('#start_date').val(),
+                 'start_time' : $('#start_time').val(),
+                 'end_date' : $('#end_date').val(),
+                 'end_time' : $('#end_time').val(),
+                 'med_type' : (med_type)? med_type.id : '',
+                 'med_color' : (med_color)? med_color.id : '',
                };
 
     const requestURL = '/api/medicine/new/'+profile_id;
@@ -65,7 +69,6 @@ function rmSelect(type)
   }
   else // remove around color
   {
-    console.log('color');
     $('.selected-color').removeClass('selected-color'); 
   }
 
