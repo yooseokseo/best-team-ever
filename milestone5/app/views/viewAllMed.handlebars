@@ -15,7 +15,7 @@
           <a onclick="post('/viewPillDetail/{{id}}')">
             <div class="med-item-box-all border-black">
               <div class="med-item-icon flex-center">
-                <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+                <img class="pill-icon-img" src="/images/icons/pills/{{image}}" onerror="this.src='/images/icons/pill.svg'" />
               </div>
               <div class="med-item-name flex-center med-name">
                 {{medicinename}}

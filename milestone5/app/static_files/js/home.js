@@ -3,9 +3,8 @@ $(document).ready(() => {
 
   let todayDate = new Date();
   console.log(todayDate);
-
-  console.log(todayDate.getMonth());
-  console.log(todayDate.getDay());
+  //console.log(todayDate.getMonth());
+  //console.log(todayDate.getDay());
 
 
   // when a home page is fully loaded, it should fetch a list of profile names from database and display
