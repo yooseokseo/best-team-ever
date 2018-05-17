@@ -12,62 +12,18 @@
     </div>
     <div class="view-all-med-bottom-box">
       <div class="view-all-med-list">
-        <div class="med-item-box-all border-black">
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+        
+        {{#each medicineList}}
+          <div class="med-item-box-all border-black">
+            <div class="med-item-icon flex-center">
+              <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
+            </div>
+            <div class="med-item-name flex-center med-name">
+              {{medicinename}}
+            </div>
           </div>
-          <div class="med-item-name flex-center med-name">
-            C Complex
-          </div>
-        </div>
-        <div class="med-item-box-all border-black">
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-          </div>
-          <div class="med-item-name flex-center med-name">
-            C Complex
-          </div>
-        </div>
-        <div class="med-item-box-all border-black">
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-          </div>
-          <div class="med-item-name flex-center med-name">
-            C Complex
-          </div>
-        </div>
-        <div class="med-item-box-all border-black">
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-          </div>
-          <div class="med-item-name flex-center med-name">
-            C Complex
-          </div>
-        </div>
-        <div class="med-item-box-all border-black">
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-          </div>
-          <div class="med-item-name flex-center med-name">
-            C Complex
-          </div>
-        </div>
-        <div class="med-item-box-all border-black">
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-          </div>
-          <div class="med-item-name flex-center med-name">
-            C Complex
-          </div>
-        </div>
-        <div class="med-item-box-all border-black">
-          <div class="med-item-icon flex-center">
-            <img class="pill-icon-img" src="/images/icons/pill.svg" alt="">
-          </div>
-          <div class="med-item-name flex-center med-name">
-            C Complex
-          </div>
-        </div>
+        {{/each}}
+
       </div>
       <div class="flex-center">
         <div class="index-style">

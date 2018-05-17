@@ -90,4 +90,9 @@ function addNewMed()
   window.location.href = '/addNewMed/'+$('#profile_id').text();
 }
 
+function viewAllMed()
+{
+  post('/viewAllMed/'+$('#profile_id').text());
+}
+
 

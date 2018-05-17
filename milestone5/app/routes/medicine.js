@@ -1,12 +1,40 @@
+const request = require('request');
+
+
 exports.viewAllMed = (req, res) =>
 {
   const profile_id = req.params.profile_id;
-  res.render('viewAllMed',
+
+  const host = 'http://localhost:3000';
+  const path = '/api/medicine/'+profile_id;
+  request.get(
   {
-    backbuttonShow: true,
-    pageTitle: "Current Medications",
-    profile_id: profile_id
+    headers: {
+      'content-type' : 'application/x-www-form-urlencoded',
+      'Authorization': 'Bearer '+req.body.token
+    },
+    url: host+path,
+    'json' : true
+  },
+  (error, response, body) =>
+  {
+    if (response.statusCode >= 400)
+    {
+      renderError('error', response, body, res);
+    }
+    else
+    {
+      console.log(body);
+      res.render('viewAllMed', 
+      {
+        isHomePage: true,
+        pageTitle: "All Medication",
+        medicineList: body,
+      });
+    }
   });
+
+
 }
 
 

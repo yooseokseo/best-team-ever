@@ -125,7 +125,7 @@ app.get('/addNewProfile', profiles.addNewProfile);
 // --------- Medicine related routes ---------
 
 // Add new router for View All med page
-app.get('/viewAllMed/:profile_id', medicine.viewAllMed);
+app.post('/viewAllMed/:profile_id', medicine.viewAllMed);
 
 // Add new router for Add New page
 // Add a flag value so that it tells whether it should generate '<-' button in navigation or not'

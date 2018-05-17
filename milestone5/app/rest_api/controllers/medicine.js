@@ -24,7 +24,7 @@ exports.getAllMedicine = (req, res) =>
   console.log('---');
   console.log('GET ALL MEDICINE')
 
-  const profile_id = req.profile.id;
+  const profile_id = req.params.profile_id || req.profile.id;
 
   db.all(
     `SELECT * FROM medicine 
@@ -48,8 +48,18 @@ exports.getAllMedicine = (req, res) =>
           return {id: e.id, medicinename: e.medicinename, image: e.med_pic} 
         });
         console.log('all med: \n', allMed);
-        req.profile.medicine = allMed;
-        res.status(200).json(req.profile)        
+
+        // request came from find profile
+        if (req.profile)
+        {
+          req.profile.medicine = allMed;
+          res.status(200).json(req.profile);
+        }
+        else // request directly from backend
+        {
+          res.status(200).json(allMed);
+        }
+        
       }
     }
   ); // end of db.all(...)
@@ -97,7 +107,7 @@ exports.newMedicine = (req, res) =>
       $end_time : req.body.end_time,
       $med_type : req.body.med_type,
       $med_color : req.body.med_color,
-      $med_pic : req.body.med_type+'-type-'+req.body.med_color+'.png',
+      $med_pic : req.body.med_type+'-'+req.body.med_color+'.png',
       $account_id : req.userData.account_id,
       $profile_id : req.params.profile_id
     },
