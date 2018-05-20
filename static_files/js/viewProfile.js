@@ -1,5 +1,18 @@
 $(document).ready(() => {
 
+  const firstName = $('#firstname').val();
+  const lastName = $('#lastname').val();
+  const dob = $('#dob').val();
+  const isDefault = $('#setDefault').is(":checked")
+
+  const male = ($('#gender-male').is(":checked"))? 'male' : undefined;
+  const female = ($('#gender-female').is(":checked"))? 'female' : undefined;
+  const other = ($('#gender-other').val())? $('#gender-other').val() : undefined;
+  const gender = male || female || other;
+
+  
+  oldVal(firstName, lastName, dob, gender, isDefault);
+
   // when a user clicks "Edit" button, Edit => Save, Delete => Cancel
   $('#editProfile').click(()=>{
     $('#firstname').attr('disabled', false);
@@ -30,28 +43,43 @@ $(document).ready(() => {
     $('#gender-female').attr('disabled', true);
     $('#gender-other').attr('disabled', true);
     $('#setDefault').attr('disabled', true);
-  })
+  });
+
 
 
 });
 
+// old values for checking if user changed something
+let firstName, lastName, dob, gender, isDefault;
+function oldVal(firstName, lastName, dob, gender, isDefault)  
+{
+  this.firstName = firstName;
+  this.lastName = lastName;
+  this.dob = dob;
+  this.gender = gender;
+  this.isDefault = isDefault;
+}
+
 function save(profile_id)
 {
-
+  
   var body = {};
 
   const male = ($('#gender-male').is(":checked"))? 'male' : undefined;
   const female = ($('#gender-female').is(":checked"))? 'female' : undefined;
   const other = ($('#gender-other').val())? $('#gender-other').val() : undefined;
   const gender = male || female || other;
+  const isDefault = $('#setDefault').is(":checked");
 
 
-  // only send PATCH request for values that user want to update (non-empty values)
-  // check if input value is empty; if not empty, add it to body, otherwise do nothing
-  ($('#firstname').val() == '')? {} : body.firstName = $('#firstname').val();
-  ($('#lastname').val() == '')?  {} : body.lastName = $('#lastname').val();
-  ($('#dob').val() == '')?       {} : body.dob = $('#dob').val();
-  (!gender)?                     {} : body.gender = gender;
+  // only send PATCH request for values that user want to update (changed values)
+  // check if input value is changed; if changed, add it to body, otherwise do nothing
+  ($('#firstname').val() == this.firstName)? {} : body.firstName = $('#firstname').val();
+  ($('#lastname').val() == this.lastName)?   {} : body.lastName = $('#lastname').val();
+  ($('#dob').val() == this.dob)?             {} : body.dob = $('#dob').val();
+  (gender == this.gender)?                   {} : body.gender = gender;
+  (isDefault == this.isDefault)?             {} : body.isDefault = 1;
+
 
   console.log(body);
 
