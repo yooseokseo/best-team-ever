@@ -1,6 +1,0 @@
-{
-    "env": {
-        "MONGO_ATLAS_PW": "REST_practice",
-        "JWT_KEY": "secret"
-    }
-}
