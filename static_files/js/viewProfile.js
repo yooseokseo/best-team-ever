@@ -74,11 +74,11 @@ function save(profile_id)
 
   // only send PATCH request for values that user want to update (changed values)
   // check if input value is changed; if changed, add it to body, otherwise do nothing
-  ($('#firstname').val() == this.firstName)? {} : body.firstName = $('#firstname').val();
-  ($('#lastname').val() == this.lastName)?   {} : body.lastName = $('#lastname').val();
-  ($('#dob').val() == this.dob)?             {} : body.dob = $('#dob').val();
-  (gender == this.gender)?                   {} : body.gender = gender;
-  (isDefault == this.isDefault)?             {} : body.isDefault = 1;
+  ($('#firstname').val() != this.firstName)? body.firstName = $('#firstname').val() : '';
+  ($('#lastname').val() != this.lastName)?   body.lastName = $('#lastname').val() : '';
+  ($('#dob').val() != this.dob)?             body.dob = $('#dob').val() : '';
+  (gender != this.gender)?                   body.gender = gender : '';
+  (isDefault != this.isDefault)?             body.isDefault = 1 : '';
 
 
   console.log(body);

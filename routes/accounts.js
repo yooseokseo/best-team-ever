@@ -42,7 +42,7 @@ exports.deleteAccount = (req, res) =>
 
 exports.settings = (req, res) => 
 {
-  const host = 'http://localhost:3000';
+  const host = req.headers.origin;
   const path = '/api/accounts/info';
 
   request.get(

@@ -8,7 +8,7 @@ exports.home = (req, res) =>
   // make call to database if post request
   if (req.method == 'POST')
   {
-    const host = 'http://localhost:3000';
+    const host = req.headers.origin;
     const path = '/api/profiles/current';
     request.get(
     {
@@ -52,7 +52,7 @@ exports.view = (req, res) =>
   // make call to database if post request
   if (req.method == 'POST')
   {
-    const host = 'http://localhost:3000';
+    const host = req.headers.origin;
     const path = '/api/profiles';
 
     request.get(
@@ -105,7 +105,7 @@ exports.viewProfile = (req, res) =>
     console.log('viewProfile')
     const profile_id = req.params.profile_id;
 
-    const host = 'http://localhost:3000';
+    const host = req.headers.origin;
     const path = '/api/profiles/' + profile_id;
 
     request.get(

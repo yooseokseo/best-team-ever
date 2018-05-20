@@ -8,7 +8,7 @@ exports.viewAllMed = (req, res) =>
   // make call to database if post request
   if (req.method == 'POST')
   {
-    const host = 'http://localhost:3000';
+    const host = req.headers.origin;
     const path = '/api/profiles/'+profile_id+'/medicine';
     request.get(
     {
@@ -53,7 +53,7 @@ exports.viewPillDetail = (req, res) =>
   if (req.method == 'POST')
   {
 
-    const host = 'http://localhost:3000';
+    const host = req.headers.origin;
     const path = '/api/medicine/'+medicine_id;
     request.get(
     {

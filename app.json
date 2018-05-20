@@ -1,0 +1,16 @@
+{
+  "name": "COGS 121 Project",
+  "description": "Medicine tracker",
+  "keywords": [
+    "productivity",
+    "HTML5",
+    "nodejs"
+  ],
+  "repository": "https://github.com/yooseokseo/best-team-ever",
+  "success_url": "/",
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}
