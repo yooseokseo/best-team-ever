@@ -350,6 +350,17 @@ exports.editProfile = (req, res) =>
   const id = req.params.profile_id;
   const account_id = req.userData.account_id;
 
+  // set previous default profile's isDefault boolean to false
+  if (req.body.isDefault)
+  {
+    let query = `UPDATE profiles SET isDefault=0 WHERE account_id=?`;
+    db.all(query, [account_id], (err) =>
+    {
+      if (err) // error updating  
+        res.status(500).json( {error: err} ); 
+    }); // end of db.all(..) for resetting "isDefault" boolean
+  }
+
   // to update, need to do `UPDATE profiles SET column='value', col2='value'`
   // 'str' iterates through all of the requested columns to be edited and
   // makes string for the `column='value', column2='value'`
