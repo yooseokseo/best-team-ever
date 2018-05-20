@@ -108,13 +108,13 @@ app.post('/settings', accounts.settings);
 // --------- Profile related routes ----------
 
 // Add new router for Home page
-app.post('/home', profiles.home);
+app.use('/home', profiles.home);
 
 // For viewing profile page
-app.post('/viewProfiles', profiles.view);
+app.use('/viewProfiles', profiles.view);
 
-// FOr viewing specific profile
-app.post('/viewProfile/:profile_id', profiles.viewProfile);
+// For viewing specific profile
+app.use('/viewProfile/:profile_id', profiles.viewProfile);
 
 // Add new router for Add a new profile page
 app.get('/addNewProfile', profiles.addNewProfile);
@@ -125,14 +125,14 @@ app.get('/addNewProfile', profiles.addNewProfile);
 // --------- Medicine related routes ---------
 
 // Add new router for View All med page
-app.post('/viewAllMed/:profile_id', medicine.viewAllMed);
+app.use('/viewAllMed/:profile_id', medicine.viewAllMed);
 
 // Add new router for Add New page
 // Add a flag value so that it tells whether it should generate '<-' button in navigation or not'
 app.get('/addNewMed/:profile_id', medicine.addNewMed);
 
 // Add new router for View pill detail page
-app.post('/viewPillDetail/:medicine_id', medicine.viewPillDetail);
+app.use('/viewPillDetail/:medicine_id', medicine.viewPillDetail);
 
 
 

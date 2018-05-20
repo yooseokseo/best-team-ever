@@ -1,6 +1,7 @@
 $(document).ready(() => {
-  //to set today's date
 
+
+  //to set today's date
   let todayDate = new Date();
   console.log(todayDate);
   //console.log(todayDate.getMonth());
@@ -56,7 +57,7 @@ $(document).ready(() => {
             $('#med-list-container').html('');
             for (const e of data.medicine) {
               const htmlStr = '<div class="med-item-box border-black">'
-              + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pill.svg" alt=""></div> '
+              + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pills/'+e.image+'" onerror="this.src=`/images/icons/pill.svg`" ></div> '
               + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
               + '</div></div>';
               let element = document.createElement('a');

@@ -5,34 +5,43 @@ const request = require('request');
 
 exports.home = (req, res) =>
 {
-  const host = 'http://localhost:3000';
-  const path = '/api/profiles/current';
-  request.get(
+  // make call to database if post request
+  if (req.method == 'POST')
   {
-    headers: {
-      'content-type' : 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer '+req.body.token
+    const host = 'http://localhost:3000';
+    const path = '/api/profiles/current';
+    request.get(
+    {
+      headers: {
+        'content-type' : 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer '+req.body.token
+      },
+      url: host+path,
+      'json' : true
     },
-    url: host+path,
-    'json' : true
-  },
-  (error, response, body) =>
-  {
-    if (response.statusCode >= 400)
+    (error, response, body) =>
     {
-      renderError('error', response, body, res);
-    }
-    else
-    {
-      res.render('home', 
+      if (response.statusCode >= 400)
       {
-        isHomePage: true,
-        pageTitle: body.firstName+' '+body.lastName,
-        medicineList: body.medicine,
-        id: body.id
-      });
-    }
-  });
+        renderError('error', response, body, res);
+      }
+      else
+      {
+        res.render('home', 
+        {
+          isHomePage: true,
+          pageTitle: body.firstName+' '+body.lastName,
+          medicineList: body.medicine,
+          id: body.id
+        });
+      }
+    });
+  }
+  else // GET request
+  {
+    res.render('home',{ url: '/home'} );
+  }
+  
 }
 
 /**
@@ -40,40 +49,48 @@ exports.home = (req, res) =>
  */
 exports.view = (req, res) =>
 {
-  const host = 'http://localhost:3000';
-  const path = '/api/profiles';
+  // make call to database if post request
+  if (req.method == 'POST')
+  {
+    const host = 'http://localhost:3000';
+    const path = '/api/profiles';
 
-  request.get(
-  {
-    headers: 
+    request.get(
     {
-      'content-type' : 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer '+req.body.token
-    },
-    url: host+path,
-    'json': true
-  }, 
-  (error, response, body) => 
-  {
-    if (response.statusCode >= 400) // some error
-    {      
-      renderError('error', response, body, res);
-    }
-    else if (body.length == 0 || !body[0]) // no profiles
-    {
-      res.render('noUserProfile'); 
-    }
-    else
-    {
-      res.render('viewProfiles', 
+      headers: 
       {
-        pageTitle: 'Manage Profiles',
-        defaultProfile: body.pop(), // default profile is last in array
-        profileList: body,
-      });
-    }
+        'content-type' : 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer '+req.body.token
+      },
+      url: host+path,
+      'json': true
+    }, 
+    (error, response, body) => 
+    {
+      if (response.statusCode >= 400) // some error
+      {      
+        renderError('error', response, body, res);
+      }
+      else if (body.length == 0 || !body[0]) // no profiles
+      {
+        res.render('noUserProfile'); 
+      }
+      else
+      {
+        res.render('viewProfiles', 
+        {
+          pageTitle: 'Manage Profiles',
+          defaultProfile: body.pop(), // default profile is last in array
+          profileList: body,
+        });
+      }
 
-  }); // request callback
+    }); // request callback
+  }
+  else // GET request; make POST call for user in front end
+  {
+    res.render('viewProfiles',{ url: '/viewProfiles'} );
+  }
 
 } // end of view()
 
@@ -82,50 +99,58 @@ exports.view = (req, res) =>
  */
 exports.viewProfile = (req, res) =>
 {
-  console.log('viewProfile')
-  const profile_id = req.params.profile_id;
-
-  const host = 'http://localhost:3000';
-  const path = '/api/profiles/' + profile_id;
-
-  request.get(
+  // make call to database if post request
+  if (req.method == 'POST')
   {
-    headers: {
-      'content-type' : 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer '+req.body.token
-    },
-    url: host+path,
-    'json' : true
-  },
-  (error, response, body) =>
-  {
-    if (response.statusCode >= 400)
+    console.log('viewProfile')
+    const profile_id = req.params.profile_id;
+
+    const host = 'http://localhost:3000';
+    const path = '/api/profiles/' + profile_id;
+
+    request.get(
     {
-      renderError('error', response, body, res);
-    }
-    else
-    {  
-      // gender boolean to check the appropriate checkbox
-      const male = body.gender == 'male';
-      const female = body.gender == 'female';
-      const other = (male || female)? '' : body.gender;
+      headers: {
+        'content-type' : 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer '+req.body.token
+      },
+      url: host+path,
+      'json' : true
+    },
+    (error, response, body) =>
+    {
+      if (response.statusCode >= 400)
+      {
+        renderError('error', response, body, res);
+      }
+      else
+      {  
+        // gender boolean to check the appropriate checkbox
+        const male = body.gender == 'male';
+        const female = body.gender == 'female';
+        const other = (male || female)? '' : body.gender;
 
-      res.render('viewProfile', {
-        backbuttonShow: true,
-        pageTitle: "View Profile",
-        profile_id: profile_id,
-        firstName: body.firstName,
-        lastName: body.lastName,
-        gender_male: male,
-        gender_female: female,
-        gender_other: other,
-        default: body.isDefault == 1,
-        dob: body.dob,
-        token: body.token,
-        id: body.id
-      });
-    }
-  }); // end of request callback
+        res.render('viewProfile', {
+          backbuttonShow: true,
+          pageTitle: "View Profile",
+          profile_id: profile_id,
+          firstName: body.firstName,
+          lastName: body.lastName,
+          gender_male: male,
+          gender_female: female,
+          gender_other: other,
+          default: body.isDefault == 1,
+          dob: body.dob,
+          token: body.token,
+          id: body.id
+        });
+      }
+    }); // end of request callback
+  }
+  else // GET request; make POST call for user in front end
+  {
+    res.render('viewProfile', { url: '/viewProfile/'+req.params.profile_id } );
+  }
 
 } // end of viewProfile()
 

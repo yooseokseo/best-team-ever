@@ -4,10 +4,8 @@
 <body>
   {{>navigation}} {{>nonscript}}
 
-<!--
-    account_id: {{account_id}} <br>
-    profile_id: {{profile_id}}
-  -->
+  <!-- make POST request if user access page with GET request (via url) -->
+  {{>post}}
 
   <div class="add-new-profile-container">
     <div class="add-new-profile-name-box profile-image-box">
@@ -76,4 +74,4 @@
 
 
 <script src="/js/viewProfile.js"></script>
-  {{>script}}
+{{>script}}

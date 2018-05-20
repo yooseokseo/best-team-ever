@@ -5,35 +5,42 @@ exports.viewAllMed = (req, res) =>
 {
   const profile_id = req.params.profile_id;
 
-  const host = 'http://localhost:3000';
-  const path = '/api/profiles/'+profile_id+'/medicine';
-  request.get(
+  // make call to database if post request
+  if (req.method == 'POST')
   {
-    headers: {
-      'content-type' : 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer '+req.body.token
+    const host = 'http://localhost:3000';
+    const path = '/api/profiles/'+profile_id+'/medicine';
+    request.get(
+    {
+      headers: {
+        'content-type' : 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer '+req.body.token
+      },
+      url: host+path,
+      'json' : true
     },
-    url: host+path,
-    'json' : true
-  },
-  (error, response, body) =>
-  {
-    if (response.statusCode >= 400)
+    (error, response, body) =>
     {
-      renderError('error', response, body, res);
-    }
-    else
-    {
-      res.render('viewAllMed', 
+      if (response.statusCode >= 400)
       {
-        isHomePage: true,
-        pageTitle: "All Medication",
-        medicineList: body.medicine,
-        profile_id: body.profile_id
-      });
-    }
-  });
-
+        renderError('error', response, body, res);
+      }
+      else
+      {
+        res.render('viewAllMed', 
+        {
+          isHomePage: true,
+          pageTitle: "All Medication",
+          medicineList: body.medicine,
+          profile_id: body.profile_id
+        });
+      }
+    });
+  }
+  else // GET request; make POST call for user in front end
+  {
+    res.render('viewAllMed', { url: '/viewAllMed/'+profile_id } );
+  }
 
 }
 
@@ -42,34 +49,43 @@ exports.viewPillDetail = (req, res) =>
 {
   const medicine_id = req.params.medicine_id;
 
-  const host = 'http://localhost:3000';
-  const path = '/api/medicine/'+medicine_id;
-  request.get(
+  // make call to database if post request
+  if (req.method == 'POST')
   {
-    headers: {
-      'content-type' : 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer '+req.body.token
+
+    const host = 'http://localhost:3000';
+    const path = '/api/medicine/'+medicine_id;
+    request.get(
+    {
+      headers: {
+        'content-type' : 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer '+req.body.token
+      },
+      url: host+path,
+      'json' : true
     },
-    url: host+path,
-    'json' : true
-  },
-  (error, response, body) =>
-  {
-    if (response.statusCode >= 400)
+    (error, response, body) =>
     {
-      renderError('error', response, body, res);
-    }
-    else
-    {
-      console.log(body);
-      res.render('viewPillDetail', 
+      if (response.statusCode >= 400)
       {
-        isHomePage: true,
-        pageTitle: "Medication Detail",
-        medicine: body,
-      });
-    }
-  });
+        renderError('error', response, body, res);
+      }
+      else
+      {
+        console.log(body);
+        res.render('viewPillDetail', 
+        {
+          isHomePage: true,
+          pageTitle: "Medication Detail",
+          medicine: body,
+        });
+      }
+    });
+  }
+  else // GET request; make POST call for user in front end
+  {
+    res.render('viewPillDetail', { url: '/viewPillDetail/'+medicine_id } );
+  }
 
 };
 
