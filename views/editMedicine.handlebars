@@ -1,32 +1,37 @@
 <title>Add New Medication</title>
 </head>
-<body>
+<body onload="check('{{med_type}}', '{{med_color}}')">
   {{>navigation}}
   {{>nonscript}}
 
-
   <div id="add-new-med-content-container">
 
-
+    <!-- medicine icon -->
+    <div class="view-pill-detail-icon-box">
+      <div class="flex-center">
+        <img class="view-pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'">
+      </div>
+      <div class="flex-center"> <p>{{medicinename}}</p> </div>
+    </div>
+    
+    <!-- medicine name -->
     <div class="add-new-med-box">
-      <div class="box-title"> Medicine Name </div>
+      <div class="box-title"> Medicine name </div>
       <div class="box-content flex-center">
-        <!-- it should fetch all medicine info -->
-        <input id="medicinename" class="med-name-input" type="text" placeholder="Search(Autofill functionality will be here)">
+        <input id="medicinename" class="med-name-input" type="text" value="{{medicinename}}">
       </div>
     </div>
 
 
-
+    <!-- dosage -->
     <div class="add-new-med-box">
       <div class="box-title"> Dosage per pill </div>
       
       <div class="box-content flex-center">
         <div class="med-dosage-container">
-          <input id="dosage" class="med-dosage-input" type="text" placeholder="Dosage">
+          <input id="dosage" class="med-dosage-input" type="text" value="{{dosage}}">
           <select class="amount-select" name="">
             <option value="mg">mg</option>
-            <option value="g">g</option>
           </select>
         </div>
 
@@ -34,20 +39,20 @@
     </div>
 
 
-
+    <!-- frequency -->
     <div class="add-new-med-box">
       <div class="box-title"> Frequency </div>
       
       <div class="box-content-frequency flex-center">
         <div class="med-frequency-container">
-          <input id="numPills" class="med-frequency-input" type="text" placeholder="# of pills"> Pills
+          <input id="numPills" class="med-frequency-input" type="text" value="{{num_pills}}"> Pills
           <hr id="divider-hr">
           <div class="med-frequency-option">
             <div>
-              Every <input id="recurrence_hour" class="med-frequency-every-input" type="text"> Hours
+              Every <input id="recurrence_hour" class="med-frequency-every-input" type="text" value="{{recurrence_hour}}"> Hours
             </div>
             <div>
-              <input id="times_per_day" class="med-frequency-every-input" type="text"> Times a day
+              <input id="times_per_day" class="med-frequency-every-input" type="text" value="{{times_per_day}}"> Times a day
             </div>
           </div>
         </div>
@@ -56,7 +61,7 @@
     </div>
 
 
-
+    <!-- duration -->
     <div class="add-new-med-box">     
       <div class="box-title"> Duration </div>
 
@@ -65,23 +70,23 @@
           
           <div class="med-duration-box">
             <div class=""> Start Date </div>
-            <input id="start_date" class="border-black duration-input" type="date">
+            <input id="start_date" class="border-black duration-input" type="date" value="{{start_date}}">
           </div>
 
           <div class="med-duration-box">
             <div class=""> Start Time </div>
-            <input id="start_time" class="border-black duration-input" type="time">
+            <input id="start_time" class="border-black duration-input" type="time" value="{{start_time}}">
           </div>
           <hr id="divider-hr">
           
           <div class="med-duration-box">
             <div class=""> End Date </div>
-            <input id="end_date" class="border-black duration-input" type="date">
+            <input id="end_date" class="border-black duration-input" type="date" value="{{end_date}}">
           </div>
 
           <div class="med-duration-box">
             <div class=""> End Time </div>
-            <input id="end_time" class="border-black duration-input" type="time">
+            <input id="end_time" class="border-black duration-input" type="time" value="{{end_time}}">
           </div>
 
         </div>
@@ -91,22 +96,23 @@
 
 
 
+    <!-- shape and color -->
     <div class="add-new-med-box">
       <div class="box-title"> Shape & Color </div>
 
       <div class="box-content-shape flex-center">
         <div class="med-shape-container">
           <div class="med-shape-box">
-            
+
             <!-- med shape div -->
             <div class="med-shape">
               {{#each shapeList}}
                 <div class="flex-center">
-                  <img id="{{.}}" style=,"width: 10vw;" src="/images/icons/pills/{{.}}-white.png"/>
+                  <img id="{{.}}" class="shape" style="width: 10vw;" src="/images/icons/pills/{{.}}-white.png" alt="{{.}}" />
                 </div>
               {{/each}}
             </div>
-
+            
             <!-- med color div -->
             <div class="med-color">
               {{#each colorList}}
@@ -118,11 +124,13 @@
 
           </div>
         </div>
-
       </div>
+
     </div>
 
 
+
+    <!-- note -->
     <div class="add-new-med-box">
       <div class="box-title"> Note </div>
       
@@ -145,5 +153,6 @@
       Save
     </div>
   </div>
-  <script src="/js/addNewMed.js"></script>
-</body>
+  
+  <script src="/js/editMedicine.js"/>
+  {{>script}}

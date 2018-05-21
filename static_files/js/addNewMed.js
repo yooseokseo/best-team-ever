@@ -74,13 +74,15 @@ function rmSelect(type)
 
 }
 
-// click any of the pill images
-$('#hole').click(() => { rmSelect('s'); $('#hole').addClass('selected-circle'); } );
-$('#circle').click(() => { rmSelect('s'); $('#circle').addClass('selected-circle'); } );
-$('#split').click(() => { rmSelect('s'); $('#split').addClass('selected-oval'); } );
-$('#oval').click(() => { rmSelect('s'); $('#oval').addClass('selected-oval'); } );
+// click on shape; remove previous highlight and highlight the clicked shape
+$('.shape').click((e) =>
+{
+  rmSelect('s');
+  const type = (e.target.id == 'oval' || e.target.id == 'split')? 'oval' : 'circle';
+  $("[id*="+e.target.id+"]").addClass('selected-'+type);
+});
 
-// click any of the color circles
+// click on color; remove previous highlight and highlight the clicked color
 $('.color').click(function(){
    rmSelect('c');
    $(this).addClass('selected-color'); // adds the class to the clicked color

@@ -105,21 +105,11 @@ exports.addNewMed = (req, res) =>
 
 exports.editMedicine = (req, res) =>
 {
-  console.log(req.body);
-  // let parsed = JSON.parse(req.body.medicine);
-  // console.log(JSON.stringify(parsed));
-  
-  // let str = parsed[0] + parsed[1] + parsed[2];
-  // for (let i = 0; i < parsed.length ; i++)
-  // {
-  //   str += parsed[i];
-  // }
-  // console.log(str);
-  // let str = '';
-  // for (const e in JSON.parse(req.bod.medicine)
-  //   str += e;
-  // console.log(str);
-  res.render('editMedicine');
+  console.log('edit medicine route: ', req.body);
+  req.body.shapeList = ['split', 'hole', 'circle', 'oval'];
+  req.body.colorList = ['red', 'orange', 'yellow', 'green', 'blue', 
+                        'purple', 'black', 'gray', 'white'];
+  res.render('editMedicine', req.body);
 }
 
 /** 
