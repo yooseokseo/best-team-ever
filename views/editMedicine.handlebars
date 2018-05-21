@@ -45,7 +45,7 @@
       
       <div class="box-content-frequency flex-center">
         <div class="med-frequency-container">
-          <input id="numPills" class="med-frequency-input" type="text" value="{{num_pills}}"> Pills
+          <input id="num_pills" class="med-frequency-input" type="text" value="{{num_pills}}"> Pills
           <hr id="divider-hr">
           <div class="med-frequency-option">
             <div>
@@ -136,7 +136,7 @@
       
       <div class="box-content-note flex-center">
         <div class="med-note-container">
-          <textarea class="med-note-text"></textarea>
+          <textarea id="note" class="med-note-text"></textarea>
         </div>
 
       </div>
@@ -149,7 +149,7 @@
     <div class="btn flex-center border-right-black" onclick="backtopage();">
       Cancel
     </div>
-    <div id="createMedicine" onclick="createMedicine({{profile_id}})" class="btn flex-center">
+    <div id="createMedicine" onclick="save({{id}})" class="btn flex-center">
       Save
     </div>
   </div>
