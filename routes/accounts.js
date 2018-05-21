@@ -17,13 +17,7 @@ exports.getAccountInfo = (req, res) =>
   res.render('')
 }
 
-exports.editAccountInfo = (req, res) => 
-{
-  res.render('editAccountInfo', 
-  {
-    pageTitle: "Edit Info"
-  });
-};
+
 
 exports.changePassword = (req, res) => 
 {

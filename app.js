@@ -90,8 +90,6 @@ app.get('/signup', accounts.signup);
 // Account info page
 app.get('/getAccountInfo', accounts.getAccountInfo);
 
-// Add new router for Edit Account Info page
-app.get('/editAccountInfo', accounts.editAccountInfo);
 
 // Add new router for Change Password page
 app.get('/changePassword', accounts.changePassword);

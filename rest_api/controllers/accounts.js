@@ -302,31 +302,6 @@ function substringForEdit(body, callback)
 }
 
 /**
- * Helper function for editing account.
- * 
- * Used for hashing password. User may or may not want to edit password. If user
- * doesn't want to edit password, then body will not contain password data, 
- * and thus, req.body.password will be undefined. If password is undefined,
- * do nothing. Otherwise, hash the password.
- */
-function hashPassword(password, callback)
-{
-  if (password) // user wants to change password; hash it
-  {
-    bcrypt.hash(password, 10, (err, hash) =>
-    {
-      (err)?
-        callback({error: err}) : // error while hashing
-        callback(hash)           // successful hash
-    });
-  }
-  else // password undefined; user doesn't want to change password
-  {
-    callback('');
-  }
-}
-
-/**
  * PATCH request for editing account. Must be logged in.
  * Edits the account with the requested id.
  * Front end will pass only the columns that user want edited and
@@ -350,37 +325,84 @@ exports.editAccount = (req, res) =>
   console.log('EDIT ACCOUNT');
 
   const account_id = req.userData.account_id;
-  const username = req.body.username;
-  const password = req.body.password;
-  const email = req.body.email;
 
-  // check if username and/or email is taken; doesn't matter if user didn't
-  // input anything since it'll be 'undefined', which will make it
-  // unique anyway
-  db.all(
-    `SELECT * FROM accounts WHERE username=? OR email=?`, [username, email], 
-    (err, rows) => 
+  if (req.body.newPassword) // editing password
+  {
+    const currentPassword = req.body.currentPassword;
+
+    db.get(`SELECT * FROM accounts WHERE id=?`, [account_id], (err, row) => 
     {
       if (err)
       {
         console.log(err);
         res.status(500).json( {error: err} );
-      }
-      else
+      } 
+      else // no error fetching account
       {
-        // valid username and email; continue with editing process
-        if (rows.length == 0) 
+        //check if password is correct
+        bcrypt.compare(currentPassword, row.password, (err, result) =>
         {
-          hashPassword(password, (hash) =>
+          if (err || !result)  // incorrect password
           {
-            if (hash.error) // error with hashing
-              res.status(500).json( {error: hash.error} );
+            console.log("Incorrect password")
+            res.status(401).json( {error: "incorrect password"} );
+          }
+          if (result) // correct password
+          {
+            console.log("Correct password");
 
-            else if (hash != '') // if user wants to edit password
-              req.body.password = hash; // replace password in body w/ hashed version
+            //attempt to hash password
+            bcrypt.hash(req.body.newPassword, 10, (err, hash) =>
+            {
+              if (!err) // no error hashing passsword
+              {
+                let query = `UPDATE accounts SET password='`+hash+`' WHERE id=?`;
+                db.all(query, [account_id], (err) =>
+                {
+                  console.log('err = '+err);
+                  (err)?
+                    res.status(500).json( {error: err} ) :
+                    res.status(200).json( {account_id: row.id, 
+                                           token: getToken(row.username, row.id)} ); 
+                });
 
+              }
+              else // error hashing password
+              {
+                console.log(err);
+                return res.status(500).json( {error: err} );
+              }
+            }); // end of hashing password
+          }
+
+        }); // end of bcrypt comparing password
+      } // end of else for no error fetching account
+    }); // end of db.get(..)
+
+  }
+  else  // editing username and/or email
+  {
+    const username = req.body.username;
+    const email = req.body.email;
+
+    // check if username and/or email is taken; doesn't matter if user didn't
+    // input anything since it'll be 'undefined', which will make it
+    // unique anyway
+    db.all(
+      `SELECT * FROM accounts WHERE username=? OR email=?`, [username, email], 
+      (err, rows) => 
+      {
+        if (err)
+        {
+          console.log(err);
+          res.status(500).json( {error: err} );
+        }
+        else
+        {
+          // valid username and email; continue with editing process
+          if (rows.length == 0) 
+          {
             console.log('replace current info with: \n',req.body);
-
             substringForEdit(req.body, (str) => // get substring for query
             {
               let query = `UPDATE accounts SET `+str+` WHERE id=?`;
@@ -405,15 +427,15 @@ exports.editAccount = (req, res) =>
                 }
               }); // end of db.all(..) for editing account
             });  // end of substringForEdit callback
-          }); // end of hashPassword(..) callback
-        } // end of check for valid username and email
-        else
-        {
-          console.log('username and/or email already exists')
-          res.status(409).json( {error: 'username and/or email already exists'} );
+          } // end of check for valid username and email
+          else
+          {
+            console.log('username and/or email already exists')
+            res.status(409).json( {error: 'username and/or email already exists'} );
+          }
         }
-      }
-    }); // end of db.all(..)
+      }); // end of db.all(..)
+  } // end of else for editing username and/or email
 
 } // end of editAccount()
 
