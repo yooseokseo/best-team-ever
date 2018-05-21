@@ -961,7 +961,11 @@ a:hover
   padding-left: 1vh;
 }
 
-.pill-date-item-close, .saveProfile-close, .cancelProfile-close {
+.pill-date-item-close, 
+.saveProfile-close, 
+.saveAccount-close,
+.cancelProfile-close, 
+.cancelAccount-close {
   display: none;
 }
 .pill-date-item-shown {
