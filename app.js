@@ -87,18 +87,11 @@ app.get('/', accounts.login);
 app.get('/signup', accounts.signup);
 
 
-// Account info page
-app.get('/getAccountInfo', accounts.getAccountInfo);
-
-
 // Add new router for Change Password page
 app.get('/changePassword', accounts.changePassword);
 
-// Delete page
-app.get('/deleteAccount', accounts.deleteAccount);
-
 // Add new router for settings page
-app.post('/settings', accounts.settings);
+app.use('/settings', accounts.settings);
 
 
 
@@ -131,6 +124,9 @@ app.get('/addNewMed/:profile_id', medicine.addNewMed);
 
 // Add new router for View pill detail page
 app.use('/viewPillDetail/:medicine_id', medicine.viewPillDetail);
+
+// Add new router for editing medicine
+app.use('/editMedicine/:medicine_id', medicine.editMedicine);
 
 
 

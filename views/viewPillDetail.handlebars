@@ -48,7 +48,27 @@
 
     <div id="btns-container" class="view-pill-detail-btns">
       <div class="btn flex-center border-right-black">
-        <a href="/addNewMed">Edit</a>
+        <!-- send medicine info to route so it doesn't have to waste time
+             making request to database -->
+        <a onclick='
+          post("/editMedicine/{{medicine.id}}", 
+          {
+            id: "{{medicine.id}}",
+            medicinename: "{{medicine.medicinename}}",
+            dosage: "{{medicine.dosage}}",
+            num_pills: "{{medicine.num_pills}}",
+            recurrence_hour: "{{medicine.recurrence_hour}}",
+            times_per_day: "{{medicine.times_per_day}}",
+            start_date: "{{medicine.start_date}}",
+            start_time: "{{medicine.start_time}}",
+            end_date: "{{medicine.end_date}}",
+            end_time: "{{medicine.end_time}}",
+            med_type: "{{medicine.med_type}}",
+            med_color: "{{medicine.med_color}}",
+            med_pic: "{{medicine.med_pic}}",
+            account_id: "{{medicine.account_id}}",
+            profile_id: "{{medicine.profile_id}}" 
+          })'> Edit </a>
       </div>
       <div class="btn flex-center" onclick="backtopage();">
         Delete

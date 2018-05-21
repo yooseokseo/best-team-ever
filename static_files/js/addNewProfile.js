@@ -16,6 +16,7 @@ $(document).ready(() => {
       const female = ($('#gender-female').is(":checked"))? 'female' : undefined;
       const other = ($('#gender-other').val())? $('#gender-other').val() : undefined;
       const gender = male || female || other;
+
       var body = {
                    'firstName' : $('#firstname').val(),
                    'lastName': $('#lastname').val(),

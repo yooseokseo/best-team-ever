@@ -12,12 +12,6 @@ exports.signup = (req, res) =>
 
 
 
-exports.getAccountInfo = (req, res) =>
-{
-  res.render('')
-}
-
-
 
 exports.changePassword = (req, res) => 
 {
@@ -27,46 +21,48 @@ exports.changePassword = (req, res) =>
   });
 };
 
-exports.deleteAccount = (req, res) =>
-{
-  res.render('')
-}
-
-
 
 exports.settings = (req, res) => 
 {
-  const host = req.headers.origin;
-  const path = '/api/accounts/info';
+  // make call to database if post request
+  if (req.method == 'POST')
+  {
+    const host = req.headers.origin;
+    const path = '/api/accounts/info';
 
-  request.get(
-  {
-    headers: 
+    request.get(
     {
-      'content-type' : 'application/x-www-form-urlencoded',
-      'Authorization': 'Bearer '+req.body.token
-    },
-    url: host+path,
-    'json' : true
-  }, 
-  (error, response, body) => 
-  {
-    if (response.statusCode >= 400)
-    {
-      renderError('error', response, body, res);
-    }
-    else
-    {
-      res.render('settings', 
+      headers: 
       {
-        pageTitle: "Account Settings",
-        email: body.email,
-        username: body.username,
-        id: body.id
-      });
-    }
+        'content-type' : 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer '+req.body.token
+      },
+      url: host+path,
+      'json' : true
+    }, 
+    (error, response, body) => 
+    {
+      if (response.statusCode >= 400)
+      {
+        renderError('error', response, body, res);
+      }
+      else
+      {
+        res.render('settings', 
+        {
+          pageTitle: "Account Settings",
+          email: body.email,
+          username: body.username,
+          id: body.id
+        });
+      }
 
-  });
+    });
+  }
+  else // GET request; make POST call for user in front end
+  {
+    res.render('settings',{ url: '/settings'} );
+  }
 
 };
 

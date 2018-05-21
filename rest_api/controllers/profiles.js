@@ -135,36 +135,15 @@ exports.newProfile = (req, res) =>
             $dob: dob,
             $gender: gender,
             $isDefault: isDefault,
-            $isCurrent: isDefault,
+            $isCurrent: 0,
             $account_id: account_id
           },
-          // callback function to run when the query finishes:
           (err) => 
           {
-            if (err) 
-            {
-              console.log(err);
-              res.status(500).json( {error: err} );
-            } 
-            else 
-            {
-              // find ID of the newly created profile to create token from it
-              const query = 'SELECT * FROM profiles WHERE account_id=?';
-              db.all(query, [account_id], (err, rows) =>
-              {
-                const allId = rows.map(e => e.id);
-
-                // if multiple profiles w/ same name, new one will have highest id
-                const max = Math.max(...allId);
-
-                console.log('found '+allId.length+' profile(s) within this account');
-                console.log('IDs found: ', JSON.stringify(allId));
-                console.log('ID of the new profile = ' + max);
-
-                const token = getToken(username, account_id, max);
-                res.status(201).json( {id: max, token: token} );
-              }); // end of db.all(..) for new profile id
-            }
+            console.log('err = '+err);
+            (err)?
+              res.status(500).json( {error: err} ) :
+              res.status(201).json( {message: 'Profile created'} );
           } // end of (err) =>
         ); // end of db.run(`INSERT..`) for creating profile 
       } 
@@ -199,6 +178,7 @@ exports.getDefault = (req, res, next) =>
     }
   })
 }
+
 
 exports.getCurrent = (req, res, next) =>
 {
@@ -373,6 +353,7 @@ exports.editProfile = (req, res) =>
   str = str.substring(0, str.length-2); // remove the final comma from string
 
   let query = `UPDATE profiles SET `+str+` WHERE id=? AND account_id=?`;
+  console.log(query);
   db.all(query, [id, account_id], (err) =>
   {
     console.log('err = '+err);
