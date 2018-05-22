@@ -47,6 +47,8 @@
 
 
     <div id="btns-container" class="view-pill-detail-btns">
+      
+      <!-- edit button -->
       <div class="btn flex-center border-right-black">
         <!-- send medicine info to route so it doesn't have to waste time
              making request to database -->
@@ -70,10 +72,14 @@
             profile_id: "{{medicine.profile_id}}" 
           })'> Edit </a>
       </div>
-      <div class="btn flex-center" onclick="backtopage();">
-        Delete
+
+      <!-- delete button -->
+      <div class="btn flex-center">
+        <a id="delete" onclick="deleteMedicine({{medicine.id}})">
+          Delete
+        </a>
       </div>
     </div>
   </div>
 
-</body>
+  <script src="/js/viewPillDetail.js"></script>
