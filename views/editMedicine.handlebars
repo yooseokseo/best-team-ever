@@ -99,6 +99,8 @@
     <!-- shape and color -->
     <div class="add-new-med-box">
       <div class="box-title"> Shape & Color </div>
+      <p id="shape-name" style="display:none">{{med_type}}</p>
+      <p id="color-name" style="display:none">{{med_color}}</p>
 
       <div class="box-content-shape flex-center">
         <div class="med-shape-container">
@@ -146,10 +148,10 @@
   </div>
 
   <div id="btns-container">
-    <div class="btn flex-center border-right-black" onclick="backtopage();">
+    <div class="btn flex-center border-right-black" onclick="post('/viewPillDetail/{{id}}')">
       Cancel
     </div>
-    <div id="createMedicine" onclick="save({{id}})" class="btn flex-center">
+    <div id="editMedicine" onclick="save({{id}})" class="btn flex-center">
       Save
     </div>
   </div>

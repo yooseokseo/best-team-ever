@@ -97,7 +97,6 @@ db.serialize(() => {
       end_time TEXT,
       med_type TEXT,
       med_color TEXT,
-      med_pic TEXT,
       account_id INTEGER,
       profile_id INTEGER,
       FOREIGN KEY(account_id) REFERENCES accounts(id),
@@ -105,11 +104,11 @@ db.serialize(() => {
     )`
   );
 
-  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_pic) VALUES ('vitaminA', 1, 3, 'split-purple.png')`);
-  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_pic) VALUES ('vitaminC', 1, 3, 'hole-green.png')`);
-  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_pic) VALUES ('vitaminB', 1, 4, 'circle-red.png')`);
-  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_pic) VALUES ('vitaminD', 1, 4, 'oval-yellow.png')`);
-  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_pic) VALUES ('NyQuil', 2, 1, 'split-blue.png')`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_type, med_color) VALUES ('vitaminA', 1, 3, 'split','purple')`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_type, med_color) VALUES ('vitaminC', 1, 3, 'hole', 'green')`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_type, med_color) VALUES ('vitaminB', 1, 4, 'circle', 'red')`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_type, med_color) VALUES ('vitaminD', 1, 4, 'oval', 'yellow')`);
+  db.run(`INSERT INTO medicine (medicinename, account_id, profile_id, med_type, med_color) VALUES ('NyQuil', 2, 1, 'split', 'blue')`);
 
   db.all(
     `SELECT * FROM medicine

@@ -45,7 +45,8 @@ exports.getAllMedicine = (req, res) =>
       {
         const allMed = rows.map(e => 
         { 
-          return {id: e.id, medicinename: e.medicinename, image: e.med_pic} 
+          return {id: e.id, medicinename: e.medicinename, 
+                  image: e.med_type+'-'+e.med_color+'.png'} 
         });
         console.log('all med: \n', allMed);
 
@@ -93,7 +94,7 @@ exports.newMedicine = (req, res) =>
     `INSERT INTO medicine
      VALUES ($id, $medicinename, $dosage, $num_pills, $recurrence_hour, 
              $times_per_day, $start_date, $start_time, $end_date, $end_time,
-             $med_type, $med_color, $med_pic, $account_id, $profile_id)`,
+             $med_type, $med_color, $account_id, $profile_id)`,
     {
       $id : null,
       $medicinename : req.body.medicinename,
@@ -107,7 +108,6 @@ exports.newMedicine = (req, res) =>
       $end_time : req.body.end_time,
       $med_type : req.body.med_type,
       $med_color : req.body.med_color,
-      $med_pic : req.body.med_type+'-'+req.body.med_color+'.png',
       $account_id : req.userData.account_id,
       $profile_id : req.params.profile_id
     },
@@ -183,6 +183,7 @@ exports.getMedicine = (req, res) =>
       }
       else
       {
+        row.med_pic = row.med_type+'-'+row.med_color+'.png';
         console.log('medicine: ',row);
         (row)? //check if medicine found
           res.status(200).json(row) :
@@ -219,7 +220,7 @@ exports.editMedicine = (req, res) =>
   console.log('---');
   console.log('EDIT MEDICINE');
   const id = req.params.medicine_id;
-  const profile_id = req.userData.profile_id;
+  const account_id = req.userData.account_id;
 
   // to update, need to do `UPDATE medicine SET column='value', col2='value'`
   // 'str' iterates through all of the requested columns to be edited and
@@ -231,8 +232,8 @@ exports.editMedicine = (req, res) =>
   }
   str = str.substring(0, str.length-2); // remove the final comma from string
 
-  let query = `UPDATE medicine SET `+str+` WHERE id=? AND profile_id=?`;
-  db.all(query, [id, profile_id], (err) =>
+  let query = `UPDATE medicine SET `+str+` WHERE id=? AND account_id=?`;
+  db.all(query, [id, account_id], (err) =>
   {
     console.log('err = '+err);
 
@@ -264,11 +265,10 @@ exports.deleteMedicine = (req, res) =>
   console.log('DELETE MEDICINE');
 
   const id = req.params.medicine_id;
-  const profile_id = req.userData.profile_id;
   const account_id = req.userData.account_id;
 
-  const query = `DELETE FROM medicine WHERE id=? AND profile_id=? AND account_id=?`;
-  db.all(query, [id, profile_id, account_id], (err, rows) =>
+  const query = `DELETE FROM medicine WHERE id=? AND account_id=?`;
+  db.all(query, [id, account_id], (err, rows) =>
   {
     console.log('err = '+err);
     console.log(rows);

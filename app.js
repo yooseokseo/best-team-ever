@@ -108,7 +108,7 @@ app.use('/viewProfiles', profiles.view);
 app.use('/viewProfile/:profile_id', profiles.viewProfile);
 
 // Add new router for Add a new profile page
-app.get('/addNewProfile', profiles.addNewProfile);
+app.post('/addNewProfile', profiles.addNewProfile);
 
 
 
@@ -120,7 +120,7 @@ app.use('/viewAllMed/:profile_id', medicine.viewAllMed);
 
 // Add new router for Add New page
 // Add a flag value so that it tells whether it should generate '<-' button in navigation or not'
-app.get('/addNewMed/:profile_id', medicine.addNewMed);
+app.post('/addNewMed/:profile_id', medicine.addNewMed);
 
 // Add new router for View pill detail page
 app.use('/viewPillDetail/:medicine_id', medicine.viewPillDetail);

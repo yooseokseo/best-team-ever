@@ -1,30 +1,6 @@
 $(document).ready(() => {
-  
-  const oldValues = 
-  {
-    medicinename : $('#medicinename').val(),
-    dosage : $('#dosage').val(),
-    num_pills : $('#num_pills').val(),
-    recurrence_hour : $('#recurrence_hour').val(),
-    times_per_day : $('#times_per_day').val(),
-    start_date : $('#start_date').val(),
-    start_time : $('#start_time').val(),
-    end_date : $('#end_date').val(),
-    end_time : $('#end_time').val(),
-    med_type : $('.selected-circle, .selected-oval')[0],
-    med_color : $('.selected-color')[0],
-    note : $('#note').val()
-  }
-  oldVal(oldValues);
 
-});
-
-// old values for checking if user changed something
-let oldValues;
-function oldVal(oldValues)  
-{
-  this.oldValues = oldValues;
-}
+})
 
 
 function createMedicine(profile_id)

@@ -105,7 +105,6 @@ exports.addNewMed = (req, res) =>
 
 exports.editMedicine = (req, res) =>
 {
-  console.log('edit medicine route: ', req.body);
   req.body.shapeList = ['split', 'hole', 'circle', 'oval'];
   req.body.colorList = ['red', 'orange', 'yellow', 'green', 'blue', 
                         'purple', 'black', 'gray', 'white'];

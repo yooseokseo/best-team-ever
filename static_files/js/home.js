@@ -87,7 +87,7 @@ $(document).ready(() => {
 
 function addNewMed()
 {
-  window.location.href = '/addNewMed/'+$('#profile_id').text();
+  post('/addNewMed/'+$('#profile_id').text());
 }
 
 function viewAllMed()
