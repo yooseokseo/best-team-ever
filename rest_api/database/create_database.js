@@ -118,6 +118,36 @@ db.serialize(() => {
   });
 
 
+  //-----------------------------------------------------------------------
+  //history table
+  db.run(
+    `CREATE TABLE history
+    (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      date TEXT,
+      time TEXT,
+      isTaken INTEGER,
+      account_id INTEGER,
+      profile_id INTEGER,
+      medicine_id INTEGER,
+      FOREIGN KEY(account_id) REFERENCES accounts(id),
+      FOREIGN KEY(profile_id) REFERENCES profiles(id),
+      FOREIGN KEY(medicine_id) REFERENCES medicine(id)
+    )`
+  );
+
+  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-29', '12:00', 1, 3, 1)`);
+  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-30', '08:00', 1, 3, 2)`);
+  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-21', '12:00', 1, 4, 3)`);
+  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-31', '12:00', 1, 4, 4)`);
+  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-06-02', '12:00', 2, 1, 5)`);
+
+  db.all(`SELECT h.id, m.medicinename, h.date, h.time 
+          FROM history h, medicine m 
+          WHERE m.id=h.medicine_id`, (err, rows) =>
+  {
+    console.log(rows);
+  });
 
 
 });
