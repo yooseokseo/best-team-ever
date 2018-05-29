@@ -8,6 +8,7 @@
   {{>post}}
 
   <div class="view-pill-detail-container">
+    
     <div class="view-pill-detail-icon-box">
       <div class="flex-center">
         <img class="view-pill-icon-img" src="/images/icons/pills/{{medicine.med_pic}}" onerror="this.src='/images/icons/pill.svg'">
@@ -38,10 +39,12 @@
       </div>
     </div>
 
-    <a href="/viewPillHistory">
+
+
+    <a onclick='post("/viewPillHistory/{{medicine.profile_id}}/{{medicine.id}}")'>
       <div class="flex-center btn view-pill-history-btn">
         View Pill History
-      </div>
+      </div> 
     </a>
 
 
@@ -75,7 +78,7 @@
 
       <!-- delete button -->
       <div class="btn flex-center">
-        <a id="delete" onclick="deleteMedicine({{medicine.id}})">
+        <a id="delete" onclick="deleteMedicine('{{medicine.id}}')">
           Delete
         </a>
       </div>

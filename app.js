@@ -43,9 +43,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Variables for linking to database
-const accountsRoutes = require("./rest_api/routes/accounts");
-const profilesRoutes = require("./rest_api/routes/profiles");
-const medicineRoutes = require("./rest_api/routes/medicine");
+const accountsRoutes = require('./rest_api/routes/accounts');
+const profilesRoutes = require('./rest_api/routes/profiles');
+const medicineRoutes = require('./rest_api/routes/medicine');
+const historyRoutes  = require('./rest_api/routes/history');
 const checkAuth      = require('./rest_api/middleware/check-auth');
 
 
@@ -142,7 +143,7 @@ app.get('/viewHistoryDate', history.viewHistoryDate);
 app.get('/viewHistoryDateDetail', history.viewHistoryDateDetail);
 
 // Add new router for View Pill History page
-app.get('/viewPillHistory', history.viewPillHistory);
+app.use('/viewPillHistory/:profile_id/:medicine_id', history.viewPillHistory);
 
 
 
@@ -159,9 +160,10 @@ app.get('/viewPreview', extra.viewPreview);
 //-----------------------------------------
 //-----------ROUTES FOR DATABASE-----------
 //-----------------------------------------
-app.use("/api/accounts", accountsRoutes); // handle all requests for /accounts
-app.use("/api/profiles", profilesRoutes); // handle all requests for /profiles
-app.use("/api/medicine", medicineRoutes); // handle all requests for /medicine
+app.use('/api/accounts', accountsRoutes); // handle all requests for /api/accounts
+app.use('/api/profiles', profilesRoutes); // handle all requests for /api/profiles
+app.use('/api/medicine', medicineRoutes); // handle all requests for /api/medicine
+app.use('/api/history',  historyRoutes);  // handle all requests for /api/history
 app.use('/testauth', checkAuth, (req, res) => // check if token is valid
 {
   res.send(req.userData);

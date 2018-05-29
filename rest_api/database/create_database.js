@@ -126,7 +126,7 @@ db.serialize(() => {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       date TEXT,
       time TEXT,
-      isTaken INTEGER,
+      isTaken TEXT,
       account_id INTEGER,
       profile_id INTEGER,
       medicine_id INTEGER,
@@ -136,11 +136,12 @@ db.serialize(() => {
     )`
   );
 
-  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-29', '12:00', 1, 3, 1)`);
-  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-30', '08:00', 1, 3, 2)`);
-  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-21', '12:00', 1, 4, 3)`);
-  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-05-31', '12:00', 1, 4, 4)`);
-  db.run(`INSERT INTO history (date, time, account_id, profile_id, medicine_id) VALUES ('2018-06-02', '12:00', 2, 1, 5)`);
+  db.run(`INSERT INTO history (date, time, isTaken, account_id, profile_id, medicine_id) VALUES ('2018-05-29', '12:00', 'Yes', 1, 3, 1)`);
+  db.run(`INSERT INTO history (date, time, isTaken, account_id, profile_id, medicine_id) VALUES ('2018-05-30', '08:00', 'Yes',  1, 3, 2)`);
+  db.run(`INSERT INTO history (date, time, isTaken, account_id, profile_id, medicine_id) VALUES ('2018-05-21', '20:00', 'No', 1, 4, 3)`);
+  db.run(`INSERT INTO history (date, time, isTaken, account_id, profile_id, medicine_id) VALUES ('2018-05-21', '08:00', 'Yes', 1, 4, 3)`);
+  db.run(`INSERT INTO history (date, time, isTaken, account_id, profile_id, medicine_id) VALUES ('2018-05-31', '12:00', 'No', 1, 4, 4)`);
+  db.run(`INSERT INTO history (date, time, isTaken, account_id, profile_id, medicine_id) VALUES ('2018-06-02', '12:00', 'No', 2, 1, 5)`);
 
   db.all(`SELECT h.id, m.medicinename, h.date, h.time 
           FROM history h, medicine m 
