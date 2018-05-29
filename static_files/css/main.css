@@ -430,14 +430,14 @@ nav {
 
 .view-pill-history-box{
   display: grid;
-  grid-template-columns:  1fr 2fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns:  2fr 1fr 1fr;
+  grid-template-rows: 1fr;
   grid-template-areas:
-  "info start"
-  "info end";
+  "info end start ";
   width: 90vw;
   margin: auto;
   margin-bottom: 5vh;
+  height: 10vh;
 
 }
 .view-pill-history-box-list{
@@ -818,6 +818,11 @@ a:hover
   margin-bottom: auto;
 }
 /*************4. State Rule *************/
+.notShown {
+  display: none;
+}
+
+
 .med-taken-done {
   grid-template-columns: 1fr 1fr 2fr 2fr;
   grid-template-areas:

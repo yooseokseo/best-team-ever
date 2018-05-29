@@ -17,7 +17,7 @@
     <!-- Pill list -->
     <div class="view-pill-history-box-list">
       {{#each medicine}}
-      	
+
       	<center>{{date}}</center>
 
       	{{#each values}}
@@ -28,8 +28,15 @@
 
 	            </div>
 
-            	<div class="flex-center"> Taken: {{isTaken}} </div>
-	            <div class="view-pill-history-end flex-center"> Time : {{time}} </div>
+              <div class="view-pill-history-end flex-center"> {{time}} </div>
+            	<div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
+              </div>
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
+              </div>
+
 
 	          </div>
 	         </a>
@@ -39,5 +46,26 @@
     </div>
 
   </div>
+  <script>
+  $(document).ready(() => {
+    const isTaken = $('.isTaken');
+    for (var i = 0; i < isTaken.length; i++) {
 
+      let text = isTaken[i].textContent;
+
+      if(text == 'Yes '){ // taken
+
+        $('.isTakenImage-yes')[i].classList.remove('notShown');
+        $('.isTakenImage-yes')[i].classList.add('flex-center');
+
+      }
+      else { // Not taken
+
+        $('.isTakenImage-no')[i].classList.remove('notShown');
+        $('.isTakenImage-no')[i].classList.add('flex-center');
+      }
+    }
+
+  });
+  </script>
 </body>
