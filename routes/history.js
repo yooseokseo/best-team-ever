@@ -1,6 +1,10 @@
 const request = require('request');
 
 
+/**
+ * Render page with list of all profiles; clicking on any of the profiles
+ * will redirect to page with history for that profile
+ */
 exports.viewHistory = (req, res) => 
 {
   // make call to database if post request
@@ -49,16 +53,10 @@ exports.viewHistory = (req, res) =>
   
 };
 
-// exports.viewProfileHistory = (req, res) =>
-// {
 
-//   res.render('viewProfileHistory',
-//   {
-//     pageTitle: '\'s Medicine History',
-
-//   });
-// }
-
+/**
+ * View all medicine for specific profile 
+ */
 exports.viewProfileHistory = (req, res) => 
 {
   const profile_id = req.params.profile_id;
@@ -122,6 +120,9 @@ exports.viewHistoryDateDetail = (req, res) =>
 };
 
 
+/**
+ * View all history for specific medicine
+ */
 exports.viewPillHistory = (req, res) => 
 {
   const profile_id = req.params.profile_id;

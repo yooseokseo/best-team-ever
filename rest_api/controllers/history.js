@@ -53,39 +53,37 @@ function sort(rows, callback)
 		}
 	});
 }
+
+
 /**
- * GET list of all of user's profile. Must be logged in.
- * If logged in, find the with requested name. 
+ * GET history of all medicine for specified account.
  *
- * Route signature: GET /profiles
- * Example call: localhost:3000/profiles
+ * Route signature: GET api/history/
+ * Example call: localhost:3000/api/history/
  * Expected: token
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
  *            -> {keys -> error}
- *         2) array of profiles if found or 
- *            -> [ {keys -> id, firstName, lastName}, {..}, {..} ]
- *         3) error 404 (Not Found) if no profiles
- *            -> {keys -> error}
+ *         2) array of medicine history sorted by date if found
+ *            -> [ {keys -> date, values: [ {...}, {...}, ..] } ]
  */
 exports.getAccountHistory = (req, res) =>
 {
 }
 
+
+
 /**
- * GET list of all of user's profile. Must be logged in.
- * If logged in, find the with requested name. 
+ * GET history of all medicine for specified profile.
  *
- * Route signature: GET /profiles
- * Example call: localhost:3000/profiles
+ * Route signature: GET api/history/:profile_id
+ * Example call: localhost:3000/api/history/4
  * Expected: token
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
  *            -> {keys -> error}
- *         2) array of profiles if found or 
- *            -> [ {keys -> id, firstName, lastName}, {..}, {..} ]
- *         3) error 404 (Not Found) if no profiles
- *            -> {keys -> error}
+ *         2) array of medicine history sorted by date if found
+ *            -> [ {keys -> date, values: [ {...}, {...}, ..] } ]
  */
 exports.getProfileHistory = (req, res) =>
 {
@@ -95,14 +93,13 @@ exports.getProfileHistory = (req, res) =>
 	const account_id = req.userData.account_id;
 	const profile_id = req.params.profile_id;
 
-  const query = `SELECT DISTINCT hist.id, med.medicinename, hist.date, hist.time, 
+  const query = `SELECT hist.id, med.medicinename, hist.date, hist.time, 
   							        hist.isTaken, med.med_type, med.med_color, hist.medicine_id
   							 FROM history hist, medicine med
   							 WHERE hist.profile_id=? AND 
   							       hist.medicine_id=med.id AND
   							       hist.account_id=?`;
 	db.all(query, [profile_id, account_id], (err, rows) => 
-	// db.all(query, [], (err, rows) => 
   {
     if (err) 
     {
@@ -117,6 +114,7 @@ exports.getProfileHistory = (req, res) =>
 }
 
 
+
 /**
  * GET history of certain medicine.
  *
@@ -126,8 +124,8 @@ exports.getProfileHistory = (req, res) =>
  *
  * @return 1) error 500 if error occured while searching for profile. Otherwise
  *            -> {keys -> error}
- *         2) array of medicine history if found
- *            -> [ {keys -> id, medicinename, date, time, isTaken, type, color} ]
+ *         2) array of medicine history sorted by date if found
+ *            -> [ {keys -> date, values: [ {...}, {...}, ..] } ]
  */
 exports.getMedHistory = (req, res) =>
 {
