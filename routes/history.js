@@ -92,8 +92,6 @@ exports.viewProfileHistory = (req, res) =>
           isHomePage: true,
           pageTitle: "Medication History",
           medicine: body,
-          med_pic: body[0].med_type+'-'+body[0].med_color+'.png',
-          medicinename: body[0].medicinename
         });
       }
     });
@@ -152,14 +150,14 @@ exports.viewPillHistory = (req, res) =>
       }
       else
       {
-        console.log(body);
+        const val = body[0].values[0];
         res.render('viewPillHistory', 
         {
           isHomePage: true,
-          pageTitle: body[0].medicinename+ " History",
+          pageTitle: val.medicinename+ " History",
           medicine: body,
-          med_pic: body[0].med_type+'-'+body[0].med_color+'.png',
-          medicinename: body[0].medicinename
+          medicinename: val.medicinename,
+          med_pic: val.med_pic
         });
       }
     });

@@ -17,25 +17,24 @@
     <!-- Pill list -->
     <div class="view-pill-history-box-list">
       {{#each medicine}}
-        <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-          <div class="view-pill-history-box border-black">
-            <div class="view-pill-history-info">
-              <div class="flex-center">
-                Name: {{medicinename}}
-              </div>
+      	
+      	<center>{{date}}</center>
 
-              <div class="flex-center">
-                Taken: {{isTaken}}
-              </div>
-            </div>
-            <div class="view-pill-history-start flex-center">
-              Date : {{date}}
-            </div>
-            <div class="view-pill-history-end flex-center">
-              Time : {{time}}
-            </div>
-          </div>
-          </a>
+      	{{#each values}}
+	        <a onclick="post('/viewPillDetail/{{medicine_id}}')">
+	          <div class="view-pill-history-box border-black">
+	            <div class="view-pill-history-info">
+	            	<img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" /> {{medicinename}}
+
+	            </div>
+
+            	<div class="flex-center"> Taken: {{isTaken}} </div>
+	            <div class="view-pill-history-end flex-center"> Time : {{time}} </div>
+
+	          </div>
+	         </a>
+         {{/each}}
+
       {{/each}}
     </div>
 

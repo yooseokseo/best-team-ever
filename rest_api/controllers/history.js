@@ -5,6 +5,21 @@ const moment = require('moment');
 const db = new sqlite3.Database('rest_api/database/users.db');
 
 
+/**
+ * Helper function for grouping array by specified keys
+ */
+const groupByArray = (xs, key, callback) =>
+{ 
+  callback( xs.reduce((rv, x) =>
+  { 
+    let v = key instanceof Function ? key(x) : x[key]; 
+    let el = rv.find((r) => r && r[[key]] === v); 
+    if (el) { el.values.push(x); } 
+    else { rv.push({ [key]: v, values: [x] }); } 
+    return rv; 
+  }, []) ); 
+}
+
 
 /**
  * Helper function for sorting medicine by dates. Also formats date
@@ -12,7 +27,7 @@ const db = new sqlite3.Database('rest_api/database/users.db');
  * Callback function after finished
  */
 function sort(rows, callback)
-{
+{	
 	// sort medicine by date and time
 	rows.sort((a, b) =>
 	{
@@ -29,8 +44,13 @@ function sort(rows, callback)
 		var options = { day: 'numeric', month: 'long', year: 'numeric'  };
 		const formatted = new moment(e.date).format('DD MMM YYYY');
 		e.date = formatted;
+		e.med_pic = e.med_type+'-'+e.med_color+'.png';
 
-		if (index == array.length - 1) callback(rows);
+		if (index == array.length - 1) // end of array
+		{
+			// group medicine by date
+			groupByArray(rows, 'date', (grouped) => callback(grouped) );
+		}
 	});
 }
 /**
