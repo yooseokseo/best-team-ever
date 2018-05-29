@@ -69,6 +69,31 @@ exports.getAccountHistory = (req, res) =>
  */
 exports.getProfileHistory = (req, res) =>
 {
+	console.log('---');
+	console.log('GET MEDICINE HISTORY');
+
+	const account_id = req.userData.account_id;
+	const profile_id = req.params.profile_id;
+
+  const query = `SELECT DISTINCT hist.id, med.medicinename, hist.date, hist.time, 
+  							        hist.isTaken, med.med_type, med.med_color, hist.medicine_id
+  							 FROM history hist, medicine med
+  							 WHERE hist.profile_id=? AND 
+  							       hist.medicine_id=med.id AND
+  							       hist.account_id=?`;
+	db.all(query, [profile_id, account_id], (err, rows) => 
+	// db.all(query, [], (err, rows) => 
+  {
+    if (err) 
+    {
+      console.log(err);
+      res.status(500).json( {error: err} );
+    }
+    else
+    {
+    	sort(rows, (sorted) => res.status(200).json( sorted ) );
+    }
+  }); // end of db.all(...)
 }
 
 

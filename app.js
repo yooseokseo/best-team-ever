@@ -134,7 +134,9 @@ app.use('/editMedicine/:medicine_id', medicine.editMedicine);
 // --------- History related routes ---------
 
 // Add new router for View History page
-app.get('/viewHistory', history.viewHistory);
+app.use('/viewHistory', history.viewHistory);
+
+app.use('/viewProfileHistory/:profile_id', history.viewProfileHistory);
 
 // Add new router for View History Date page
 app.get('/viewHistoryDate', history.viewHistoryDate);

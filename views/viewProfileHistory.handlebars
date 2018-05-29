@@ -1,0 +1,44 @@
+<title>View Medication History</title>
+</head>
+<body>
+  {{>navigation}}
+  {{>nonscript}}
+
+  <div class="view-pill-history-container">
+
+    <div class="">
+    	<br><br>
+    	<div class="flex-center box-title">
+        <p>All Medication History</p>
+      </div>
+    </div>
+
+
+    <!-- Pill list -->
+    <div class="view-pill-history-box-list">
+      {{#each medicine}}
+        <a onclick="post('/viewPillDetail/{{medicine_id}}')">
+          <div class="view-pill-history-box border-black">
+            <div class="view-pill-history-info">
+              <div class="flex-center">
+                Name: {{medicinename}}
+              </div>
+
+              <div class="flex-center">
+                Taken: {{isTaken}}
+              </div>
+            </div>
+            <div class="view-pill-history-start flex-center">
+              Date : {{date}}
+            </div>
+            <div class="view-pill-history-end flex-center">
+              Time : {{time}}
+            </div>
+          </div>
+          </a>
+      {{/each}}
+    </div>
+
+  </div>
+
+</body>
