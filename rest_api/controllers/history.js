@@ -94,7 +94,7 @@ exports.getMedHistory = (req, res) =>
 	const medicine_id = req.params.medicine_id;
 
   const query = `SELECT hist.id, med.medicinename, hist.date, hist.time, 
-  							        hist.isTaken, med.med_type, med.med_color 
+  							        hist.isTaken, med.med_type, med.med_color, hist.medicine_id
   							 FROM history hist, medicine med
   	             WHERE hist.medicine_id=? AND 
   	             			 med.id=?           AND 
