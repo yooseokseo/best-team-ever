@@ -101,6 +101,7 @@ nav {
 }
 .pill-icon-img{
   width: 7vh;
+  margin-right: 2vw;
 }
 
 
@@ -490,6 +491,10 @@ nav {
 /*************3. Module Rule *************/
 .view-pill-history-info{
   grid-area:info;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 .view-pill-history-end{
   grid-area:end;
@@ -961,10 +966,10 @@ a:hover
   padding-left: 1vh;
 }
 
-.pill-date-item-close, 
-.saveProfile-close, 
+.pill-date-item-close,
+.saveProfile-close,
 .saveAccount-close,
-.cancelProfile-close, 
+.cancelProfile-close,
 .cancelAccount-close {
   display: none;
 }
@@ -989,5 +994,5 @@ a:hover
 .selected-oval{
    border:3px solid red;
    border-radius: 130% 40%;
-   
+
 }
