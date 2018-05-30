@@ -31,13 +31,15 @@ function sort(rows, callback)
 	// sort medicine by date and time
 	rows.sort((a, b) =>
 	{
+
+
 		const date1 = new Date(a.date+'T'+a.time+'Z').valueOf();
 		const date2 = new Date(b.date+'T'+b.time+'Z').valueOf();
+
 	  if (date1 < date2) return -1;
 	  if (date1 > date2) return 1;
 	  return 0;
 	});
-	console.log('sorted history: ', rows); 
 
 	rows.forEach((e, index, array) =>
 	{
@@ -78,9 +80,9 @@ exports.newHistory = (req, res) =>
 		const timesList = 
 		[
 			['12:00'],
-			['8:00', '20:00'],
-			['9:00', '15:00', '21:00'],
-			['8:00', '12:00', '16:00', '20:00']
+			['08:00', '20:00'],
+			['09:00', '15:00', '21:00'],
+			['08:00', '12:00', '16:00', '20:00']
 		];
 		let times = null;
 		if (times_per_day)
