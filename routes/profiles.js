@@ -27,21 +27,44 @@ exports.home = (req, res) =>
       }
       else
       {
-        // get today's medicine
-        const today = body.medicine.find( e =>
-        { 
-          const date = new Date(e.date).setHours(0,0,0,0);
-          const currentDate = new Date().setHours(0,0,0,0);
-          return date.valueOf() == currentDate.valueOf();
-        });
+        // get yesterday, today, and tomorrow's date
+        const d = new Date();
+        const day = (offset) => new Date(d.getTime() + offset*(24*60*60*1000));
+        let yesterday = day(-1), today = day(0), tomorrow = day(+1);
 
-        res.render('home', 
+        // find medication for yesterday, today, and tomorrow
+        const yesterdayMed = [], todayMed = [], tomorrowMed = [];
+        body.medicine.forEach( (e, i, arr) =>
         {
-          isHomePage: true,
-          pageTitle: body.firstName+' '+body.lastName,
-          medicineList: (today)? [today] : [],
-          id: body.id
-        });
+          const date = new Date(e.date).setHours(0,0,0,0);
+          if ( date == yesterday.setHours(0,0,0,0) ) yesterdayMed.push(e);
+          if ( date == today.setHours(0,0,0,0) )     todayMed.push(e);
+          if ( date == tomorrow.setHours(0,0,0,0) )  tomorrowMed.push(e);
+
+          if (i == arr.length - 1) // essentially callback function
+          {
+            // format date    
+            yesterday = yesterday.toString().split(' ');
+            today     = today.toString().split(' ');
+            tomorrow  = tomorrow.toString().split(' ');
+
+
+
+            res.render('home', 
+            {
+              isHomePage: true,
+              pageTitle: body.firstName+' '+body.lastName,
+              yesterdayMed, yesterdayMed,
+              todayMed: todayMed,
+              tomorrowMed: tomorrowMed,
+              id: body.id,
+              yesterday: yesterday[2] + ' ' + yesterday[1],
+              today:     today[2]     + ' ' + today[1],
+              tomorrow:  tomorrow[2]  + ' ' + tomorrow[1],
+            });
+          } // end of "callback"
+        }); // end of forEach
+        
       }
     });
   }

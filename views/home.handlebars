@@ -43,7 +43,8 @@
 
     <div id="med-list-container">
 
-      {{#each medicineList}}
+      <!-- Show list of today's medicine if any exists -->
+      {{#each todayMed}}
         {{#each values}}
           <a onclick="post('/viewPillDetail/{{id}}')">
             <div class="med-item-box border-black">
@@ -57,7 +58,8 @@
         {{/each}}
       {{/each}}
 
-      {{#unless medicineList}}
+      <!-- Show message for no medicine today -->
+      {{#unless todayMed}}
         You have no medicine today
       {{/unless}}
 
@@ -78,13 +80,13 @@
 
   <div id="date-container">
     <div id="date-prev" class="flex-center date">
-      April 14
+      {{yesterday}}
     </div>
     <div id="date-today" class="flex-center date current-day">
-      April 15
+      {{today}}
     </div>
     <div id="date-next" class="flex-center date">
-      April 16
+      {{tomorrow}}
     </div>
   </div>
 

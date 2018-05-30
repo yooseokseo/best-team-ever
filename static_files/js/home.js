@@ -61,6 +61,7 @@ $(document).ready(() => {
               // only display today
               const date = new Date(el.date).setHours(0,0,0,0);
               const currentDate = new Date().setHours(0,0,0,0);
+
               if ( date.valueOf() == currentDate.valueOf() )
               {
                 medToday = true;
