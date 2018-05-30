@@ -59,7 +59,7 @@ $(document).ready(() => {
         $('.profile-list-container').append('<div class="user-profile-name-box page-title" id="'+e.id+'">'+ e.firstName +' '+ e.lastName +'</div><hr>');
       }
 
-
+      // click on any of the profiles from drop down menu; load info about that profile
       $('.user-profile-name-box').click((e)=>{
         const e_id = e.target.id;
         const profile_id = e.target.id;
@@ -80,15 +80,14 @@ $(document).ready(() => {
           {
             $('#profile_id').text(data.id);
             
-            let medYesterday = false;
-            let medToday = false;
-            let medTomorrow = false;
+            // determine if date has any medication
+            let medYesterday = false, medToday = false, medTomorrow = false;
 
+            // create yesterday, today, and tomorrow's date
             const d = new Date();
             const day = (offset) => new Date(d.getTime() + 
                                     offset*(24*60*60*1000)).setHours(0,0,0,0);
             let yesterday = day(-1), today = day(0), tomorrow = day(+1);
-
 
             $('#med-list-container-yesterday').html('');
             $('#med-list-container-today').html('');
@@ -96,8 +95,7 @@ $(document).ready(() => {
 
             for (const el of data.medicine) 
             {
-
-              const date = new Date(el.date).setHours(0,0,0,0);
+              const date = new Date(el.date).setHours(0,0,0,0); //medication date
 
               // yesterday medication
               if ( date.valueOf() == yesterday )
@@ -158,7 +156,7 @@ $(document).ready(() => {
                   $('#med-list-container-tomorrow').append(element.firstChild);
                 }
               }
-            }
+            } // end of for loop
             if (!medYesterday)
               $('#med-list-container-yesterday').html('You had no medication yesterday');
             if (!medToday)

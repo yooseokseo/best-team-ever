@@ -42,6 +42,14 @@ The profile's history is of course updated to reflect this new medication. The l
 ![Image of all_med_after](screenshots/all_med_after.png)
 Another neat thing to note is that there is only one medicine added to total list. While there are 4 history/notifications of the medicine added, there is only 1 medicine added to the medication list. 
 
+![Image of home_today](screenshots/home_today.png)
+As mentioned above, the homepage will only display relevant information. By default, the view is set to home. This is indicated by the red square box at the bottom and by the text at top. However, users can also choose to switch views and see medication for either the previous day or the next day, as seen below.
+
+![Image of home_yesterday](screenshots/home_yesterday.png)
+Yesterday medication
+
+![Image of home_tomorrow](screenshots/home_tomorrow.png)
+Tomorrow medication
 
 
 - Screenshots:
