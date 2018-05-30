@@ -7,6 +7,26 @@ In milestone 6, we have added our medication icons so users are now able to cust
 (Data visualization Screenshot: Medication History - see last image below in "Screenshots")
 For our data visualization, we are displaying a profile's medication history. This visualization is the result of an internal function that generates data based on a user's input in the backend, and then updates the frontend's visuals with that new information. In other words, a user can add a new medication for a profile, which will cause our function to pull that information and update the profile's medication history to show that new medication.
 
+Data visualization screenshot examples
+![Image of home_before](screenshots/home_before.png)
+As you can see, this is the current home page for this profile. The profile doesn't have any medication to take on this date, and thus nothing shows up. 
+
+![Image of history_before](screenshots/history_before.png)
+Here is what the profile's current medication looks like. As all of these medications are to be taken on different days, nothing is shown on the home page.
+
+
+![Image of add_med](screenshots/add_med.png)
+Here, the medication is being added. Pay attention to the start date and times per day inputted. This particular medication will be taken 4 times on May 30th.
+
+![Image of home_after](screenshots/home_after.png)
+After adding the medication, the backend creates 4 entries to insert into the history table. Notice that the timing of the medication are all different. 
+
+![Image of history_after](screenshots/history_after.png)
+The profile's history is of course updated to reflect this new medication. The list comes nicely sorted.
+
+
+
+
 
 - Screenshots:
 
