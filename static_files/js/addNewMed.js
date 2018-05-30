@@ -21,7 +21,7 @@ function createMedicine(profile_id)
                  'dosage' : $('#dosage').val(),
                  'num_pills' : $('#numPills').val(),
                  'recurrence_hour' : $('#recurrence_hour').val(),
-                 'times_per_day' : $('#recurrence_day').val(),
+                 'times_per_day' : $('#times_per_day').val(),
                  'start_date' : $('#start_date').val(),
                  'start_time' : $('#start_time').val(),
                  'end_date' : $('#end_date').val(),

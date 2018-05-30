@@ -2,12 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const HistoryController = require('../controllers/history');
-
-
 const checkAuth = require('../middleware/check-auth');
-
-// Get all account's history 
-router.get('/', checkAuth, HistoryController.getAccountHistory);
 
 // Get all profile's history 
 router.get('/:profile_id', checkAuth, HistoryController.getProfileHistory);

@@ -54,7 +54,6 @@ function sort(rows, callback)
 	});
 }
 
-
 /**
  * GET history of all medicine for specified account.
  *
@@ -67,8 +66,55 @@ function sort(rows, callback)
  *         2) array of medicine history sorted by date if found
  *            -> [ {keys -> date, values: [ {...}, {...}, ..] } ]
  */
-exports.getAccountHistory = (req, res) =>
+exports.newHistory = (req, res) =>
 {
+	console.log('CREATE HISTORY');
+	const start_date = req.body.start_date;
+	const times_per_day = req.body.times_per_day;
+	const start_time = req.body.start_time;
+
+	if (start_date)
+	{
+		const timesList = 
+		[
+			['12:00'],
+			['8:00', '20:00'],
+			['9:00', '15:00', '21:00'],
+			['8:00', '12:00', '16:00', '20:00']
+		];
+		let times = null;
+		if (times_per_day)
+			times = timesList[ times_per_day - 1 ];
+		else if (start_time)
+			times = [ start_time ];
+
+		if (times)
+		{
+			times.forEach((e, index, array) =>
+			{
+				db.run(
+		    `INSERT INTO history
+		     VALUES ($id, $date, $time, $isTaken, $account_id, $profile_id, $medicine_id)`,
+			    {
+			      $id : null,
+			      $date : start_date,
+			      $time : e,
+			      $isTaken : 'No',
+			      $account_id : req.userData.account_id,
+			      $profile_id : req.params.profile_id,
+			      $medicine_id : req.medicine_id
+			    }
+			   );
+
+				if (index == array.length - 1) // end of array
+					res.status(201).json( {message: 'Medicine created'} );
+			}); // end of forEach
+		}
+	}
+	else
+	{
+		res.status(201).json( {message: 'Medicine created'} );
+	}
 }
 
 

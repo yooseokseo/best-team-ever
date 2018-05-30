@@ -84,7 +84,7 @@ exports.getAllMedicine = (req, res) =>
  *         2) message saying medicine has been created and medicine id 
  *            -> {keys -> message, id}
  */
-exports.newMedicine = (req, res) => 
+exports.newMedicine = (req, res, next) => 
 {
   console.log('---');
   console.log("CREATE NEW MEDICINE");
@@ -122,7 +122,7 @@ exports.newMedicine = (req, res) =>
       else 
       {
         const account_id = req.userData.account_id;
-        const profile_id = req.userData.profile_id
+        const profile_id = req.params.profile_id
 
         // find ID of the newly created medicine to create token from it
         const query = 'SELECT * FROM medicine WHERE account_id=? AND profile_id=?';
@@ -136,8 +136,8 @@ exports.newMedicine = (req, res) =>
           console.log('found '+allId.length+' medicine(s) within this profile');
           console.log('IDs found: ', JSON.stringify(allId));
           console.log('ID of the new medicine = ' + max);
-
-          res.status(201).json( {message: 'Medicine created', id: max} );
+          req.medicine_id = max;
+          next();
         }); // end of db.all(..) for new medicine id
         
       }
