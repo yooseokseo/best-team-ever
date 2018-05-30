@@ -4,8 +4,18 @@ In milestone 6, we have added our medication icons so users are now able to cust
 
 - Explanation of data visualization:
 
-(Data visualization Screenshot: Medication History - see last image below in "Screenshots")
-For our data visualization, we are displaying a profile's medication history. This visualization is the result of an internal function that generates data based on a user's input in the backend, and then updates the frontend's visuals with that new information. In other words, a user can add a new medication for a profile, which will cause our function to pull that information and update the profile's medication history to show that new medication.
+(Data visualization Screenshot: Medication History)
+In high level language: For our data visualization, we are displaying a profile's medication history. This visualization is the result of an internal function that generates data based on a user's input in the backend, and then updates the frontend's visuals with that new information. In other words, a user can add a new medication for a profile, which will cause our function to pull that information and update the profile's medication history to show that new medication.
+
+TL;DR: home page will display all medication you have to take for the day. Adding new medication will create a history of it in backend and determine how many times you need to be reminded to take it.
+--
+
+In low level language: we have 2 tables that store information about medication: medication table and history table. 
+
+The medication table contains all medicine and all information associated with it (ex. name, shape, consumption frequency, etc.). 
+
+The history table will contain multiple entries of the same medication, but at different dates and time. For example, if medication "A" is created with the following key informations: start_date = May 30 & times_per_day = 4, then 4 entries of this medication will be created in the history table, each one having different consumption time.
+--
 
 Data visualization screenshot examples
 ![Image of home_before](screenshots/home_before.png)
@@ -24,7 +34,8 @@ After adding the medication, the backend creates 4 entries to insert into the hi
 ![Image of history_after](screenshots/history_after.png)
 The profile's history is of course updated to reflect this new medication. The list comes nicely sorted.
 
-
+![Image of all_med_after](screenshots/all_med_after.png)
+Another neat thing to note is that there is only one medicine added to total list. While there are 4 history/notifications of the medicine added, there is only 1 medicine added to the medication list. 
 
 
 
@@ -51,6 +62,3 @@ The profile's history is of course updated to reflect this new medication. The l
 ![Image of change-pw](screenshots/change-pw.PNG)
 ![Image of help](screenshots/help.PNG)
 
-(Data visualization: Medication History - image below)
-
-![Image of med-history](screenshots/med-history.PNG)
