@@ -101,6 +101,7 @@ nav {
 }
 .pill-icon-img{
   width: 7vh;
+  margin-right: 2vw;
 }
 
 
@@ -429,14 +430,14 @@ nav {
 
 .view-pill-history-box{
   display: grid;
-  grid-template-columns:  1fr 2fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns:  2fr 1fr 1fr;
+  grid-template-rows: 1fr;
   grid-template-areas:
-  "info start"
-  "info end";
+  "info end start ";
   width: 90vw;
   margin: auto;
   margin-bottom: 5vh;
+  height: 10vh;
 
 }
 .view-pill-history-box-list{
@@ -490,6 +491,10 @@ nav {
 /*************3. Module Rule *************/
 .view-pill-history-info{
   grid-area:info;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 .view-pill-history-end{
   grid-area:end;
@@ -813,6 +818,11 @@ a:hover
   margin-bottom: auto;
 }
 /*************4. State Rule *************/
+.notShown {
+  display: none;
+}
+
+
 .med-taken-done {
   grid-template-columns: 1fr 1fr 2fr 2fr;
   grid-template-areas:
@@ -961,10 +971,10 @@ a:hover
   padding-left: 1vh;
 }
 
-.pill-date-item-close, 
-.saveProfile-close, 
+.pill-date-item-close,
+.saveProfile-close,
 .saveAccount-close,
-.cancelProfile-close, 
+.cancelProfile-close,
 .cancelAccount-close {
   display: none;
 }
@@ -989,5 +999,5 @@ a:hover
 .selected-oval{
    border:3px solid red;
    border-radius: 130% 40%;
-   
+
 }
