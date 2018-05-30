@@ -1,6 +1,11 @@
 - UI Improvement:
 
-In milestone 6, we have added our medication icons so users are now able to customize their pills' appearances. This UI allows users to quickly recognize what medication they have through a visual queue. Furthermore, we have restructured the medication history page such that it shows all the medication in a date-organized list depending on which profile the user selects to view. We have also changed the pill history such that when you select a specific pill, it will display whether that profile has taken the pill, and when they took it.
+In milestone 6, we have added our medication icons so users are now able to customize their pills' appearances. This UI allows users to quickly recognize what medication they have through a visual queue.
+
+Furthermore, we have restructured the medication history page such that it shows all the medication in a date-organized list depending on which profile the user selects to view. Before this, while we did show a list of medication, we simply showed ALL medications and used a hardcoded time. With this milestone, all medication history are sorted by date and time, and only the relavant ones are shown to the user on home page. We have also changed the pill history such that when you select a specific pill, it will display whether that profile has taken the pill, and when they took it.
+
+At this point in time--unless I missed something while going over the code--we should not have any hardcoded data in our UI. Everything, starting from the current dates to the relevant medication are all generated based on real time data and data from the database.
+
 
 - Explanation of data visualization:
 

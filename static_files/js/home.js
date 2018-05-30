@@ -1,12 +1,39 @@
 $(document).ready(() => {
 
 
-  //to set today's date
-  let todayDate = new Date();
-  console.log(todayDate);
-  //console.log(todayDate.getMonth());
-  //console.log(todayDate.getDay());
+  // for switching beetween yesterday, today, and tomorrow's view
+  $('#date-prev').click(()=>
+  {
+    $('#med-list-container-tomorrow').hide();
+    $('#med-list-container-today').hide();
+    $('#med-list-container-yesterday').show();
+    $('#date-prev').addClass('current-day');
+    $('#date-today').removeClass('current-day');
+    $('#date-next').removeClass('current-day');
+    $('#home-content-title').html('Yesterday');
+  });
 
+  $('#date-today').click(()=>
+  {
+    $('#med-list-container-yesterday').hide();
+    $('#med-list-container-tomorrow').hide();
+    $('#med-list-container-today').show();
+    $('#date-prev').removeClass('current-day');
+    $('#date-today').addClass('current-day');
+    $('#date-next').removeClass('current-day');
+    $('#home-content-title').html('Today');
+  });
+
+  $('#date-next').click(()=>
+  {
+    $('#med-list-container-yesterday').hide();
+    $('#med-list-container-today').hide();
+    $('#med-list-container-tomorrow').show();
+    $('#date-prev').removeClass('current-day');
+    $('#date-today').removeClass('current-day');
+    $('#date-next').addClass('current-day');
+    $('#home-content-title').html('Tomorrow');
+  })
 
   // when a home page is fully loaded, it should fetch a list of profile names from database and display
   //
@@ -53,22 +80,33 @@ $(document).ready(() => {
           {
             $('#profile_id').text(data.id);
             
+            let medYesterday = false;
             let medToday = false;
+            let medTomorrow = false;
 
-            $('#med-list-container').html('');
-            for (const el of data.medicine) {
+            const d = new Date();
+            const day = (offset) => new Date(d.getTime() + 
+                                    offset*(24*60*60*1000)).setHours(0,0,0,0);
+            let yesterday = day(-1), today = day(0), tomorrow = day(+1);
 
-              // only display today
+
+            $('#med-list-container-yesterday').html('');
+            $('#med-list-container-today').html('');
+            $('#med-list-container-tomorrow').html('');
+
+            for (const el of data.medicine) 
+            {
+
               const date = new Date(el.date).setHours(0,0,0,0);
-              const currentDate = new Date().setHours(0,0,0,0);
 
-              if ( date.valueOf() == currentDate.valueOf() )
+              // yesterday medication
+              if ( date.valueOf() == yesterday )
               {
-                medToday = true;
+                medYesterday = true;
                 for (const e of el.values) {
                   const htmlStr = '<div class="med-item-box border-black">'
                   + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pills/'+e.med_pic+'" onerror="this.src=`/images/icons/pill.svg`" ></div> '
-                  + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
+                  + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">'+e.time+''
                   + '</div></div>';
                   let element = document.createElement('a');
                   element.innerHTML = htmlStr;
@@ -77,12 +115,56 @@ $(document).ready(() => {
                     post('/viewPillDetail/'+e.id);
                   });
 
-                  $('#med-list-container').append(element.firstChild);
+                  $('#med-list-container-yesterday').append(element.firstChild);
+                }
+              }
+
+              // today medication
+              if ( date.valueOf() == today )
+              {
+                medToday = true;
+                for (const e of el.values) {
+                  const htmlStr = '<div class="med-item-box border-black">'
+                  + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pills/'+e.med_pic+'" onerror="this.src=`/images/icons/pill.svg`" ></div> '
+                  + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">'+e.time+''
+                  + '</div></div>';
+                  let element = document.createElement('a');
+                  element.innerHTML = htmlStr;
+                  element.firstChild.addEventListener( 'click', () =>
+                  {
+                    post('/viewPillDetail/'+e.id);
+                  });
+
+                  $('#med-list-container-today').append(element.firstChild);
+                }
+              }
+
+              // tomorrow medication
+              if ( date.valueOf() == tomorrow )
+              {
+                medTomorrow = true;
+                for (const e of el.values) {
+                  const htmlStr = '<div class="med-item-box border-black">'
+                  + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pills/'+e.med_pic+'" onerror="this.src=`/images/icons/pill.svg`" ></div> '
+                  + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">'+e.time+''
+                  + '</div></div>';
+                  let element = document.createElement('a');
+                  element.innerHTML = htmlStr;
+                  element.firstChild.addEventListener( 'click', () =>
+                  {
+                    post('/viewPillDetail/'+e.id);
+                  });
+
+                  $('#med-list-container-tomorrow').append(element.firstChild);
                 }
               }
             }
+            if (!medYesterday)
+              $('#med-list-container-yesterday').html('You had no medication yesterday');
             if (!medToday)
-              $('#med-list-container').html('You have no medicine today')  
+              $('#med-list-container-today').html('You have no medicine today');
+            if (!medTomorrow)
+              $('#med-list-container-tomorrow').html('You have have no medication tomorrow');
           },
           error: (err) =>
           {
