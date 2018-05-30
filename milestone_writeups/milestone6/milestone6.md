@@ -25,8 +25,10 @@ For our data visualization, we are displaying a profile's medication history. Th
 ![Image of view-profile](screenshots/view-profile.PNG)
 ![Image of edit-profile](screenshots/edit-profile.PNG)
 ![Image of view-history](screenshots/view-history.PNG)
+
 (Data visualization: Medication History - image below)
 ![Image of med-history](screenshots/med-history.PNG)
+
 ![Image of pill-history](screenshots/pill-history.png)
 ![Image of account-settings](screenshots/account-settings.png)
 ![Image of edit-account](screenshots/edit-account.PNG)
