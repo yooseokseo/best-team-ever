@@ -52,23 +52,36 @@ $(document).ready(() => {
           success: (data) =>
           {
             $('#profile_id').text(data.id);
-            //console.log('You received some data!', data);
-            //console.log(data.medicine);
-            $('#med-list-container').html('');
-            for (const e of data.medicine) {
-              const htmlStr = '<div class="med-item-box border-black">'
-              + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pills/'+e.image+'" onerror="this.src=`/images/icons/pill.svg`" ></div> '
-              + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
-              + '</div></div>';
-              let element = document.createElement('a');
-              element.innerHTML = htmlStr;
-              element.firstChild.addEventListener( 'click', () =>
-              {
-                post('/viewPillDetail/'+e.id);
-              });
+            
+            let medToday = false;
 
-              $('#med-list-container').append(element.firstChild);
+            $('#med-list-container').html('');
+            for (const el of data.medicine) {
+
+              // only display today
+              const date = new Date(el.date).setHours(0,0,0,0);
+              const currentDate = new Date().setHours(0,0,0,0);
+              if ( date.valueOf() == currentDate.valueOf() )
+              {
+                medToday = true;
+                for (const e of el.values) {
+                  const htmlStr = '<div class="med-item-box border-black">'
+                  + '<div class="med-item-icon flex-center"><img class="pill-icon-img" src="/images/icons/pills/'+e.med_pic+'" onerror="this.src=`/images/icons/pill.svg`" ></div> '
+                  + '<div class="med-item-name flex-center med-name">'+e.medicinename+'</div><div class="med-item-time flex-center med-time">10:00 AM'
+                  + '</div></div>';
+                  let element = document.createElement('a');
+                  element.innerHTML = htmlStr;
+                  element.firstChild.addEventListener( 'click', () =>
+                  {
+                    post('/viewPillDetail/'+e.id);
+                  });
+
+                  $('#med-list-container').append(element.firstChild);
+                }
+              }
             }
+            if (!medToday)
+              $('#med-list-container').html('You have no medicine today')  
           },
           error: (err) =>
           {

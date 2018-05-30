@@ -3,6 +3,8 @@ const router = express.Router();
 
 const ProfilesController = require('../controllers/profiles');
 const MedsController = require('../controllers/medicine');
+const HistoryController = require('../controllers/history');
+
 
 const checkAuth = require('../middleware/check-auth');
 
@@ -15,17 +17,13 @@ router.get('/', checkAuth, ProfilesController.getAllProfiles);
 router.post('/new', checkAuth, ProfilesController.newProfile);
 
 
-// GEt default profile (ex. localhost:3000/profiles/default)
-router.get('/default', checkAuth, 
-	        ProfilesController.getDefault, MedsController.getAllMedicine);
-
 
 router.get('/current', checkAuth,
-			ProfilesController.getCurrent, MedsController.getAllMedicine);
+			ProfilesController.getCurrent, HistoryController.getProfileHistory);
 
-// Get specific profile data (ex. localhost:3000/profiles/johnnytest/1)
+// Get specific profile data (ex. localhost:3000/profiles/1)
 router.get('/:profile_id', checkAuth, 
-	        ProfilesController.getProfile, MedsController.getAllMedicine);
+	        ProfilesController.getProfile, HistoryController.getProfileHistory);
 
 
 // Edit specific profile (ex. localhost:3000/profiles/edit/2)

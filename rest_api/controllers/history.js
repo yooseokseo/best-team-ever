@@ -137,7 +137,7 @@ exports.getProfileHistory = (req, res) =>
 	console.log('GET MEDICINE HISTORY');
 
 	const account_id = req.userData.account_id;
-	const profile_id = req.params.profile_id;
+	const profile_id = req.params.profile_id || req.profile.id;
 
   const query = `SELECT hist.id, med.medicinename, hist.date, hist.time, 
   							        hist.isTaken, med.med_type, med.med_color, hist.medicine_id
@@ -154,7 +154,18 @@ exports.getProfileHistory = (req, res) =>
     }
     else
     {
-    	sort(rows, (sorted) => res.status(200).json( sorted ) );
+    	sort(rows, (sorted) =>
+      {
+        if (req.profile) // request came from find profile
+        {
+          req.profile.medicine = sorted;
+          res.status(200).json(req.profile);
+        }
+        else // request directly from backend
+        {
+          res.status(200).json( sorted );
+        }
+      }); 
     }
   }); // end of db.all(...)
 }

@@ -44,18 +44,26 @@
     <div id="med-list-container">
 
       {{#each medicineList}}
-        <a onclick="post('/viewPillDetail/{{id}}')">
-          <div class="med-item-box border-black">
-            <div class="med-item-icon flex-center">
-              <img class="pill-icon-img" src="/images/icons/pills/{{image}}" onerror="this.src='/images/icons/pill.svg'" />
+        {{#each values}}
+          <a onclick="post('/viewPillDetail/{{id}}')">
+            <div class="med-item-box border-black">
+              <div class="med-item-icon flex-center">
+                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" />
+              </div>
+              <div class="med-item-name flex-center med-name" id="{{id}}">{{medicinename}}</div>
+              <div class="med-item-time flex-center med-time">{{time}}</div>
             </div>
-            <div class="med-item-name flex-center med-name" id="{{id}}">{{medicinename}}</div>
-            <div class="med-item-time flex-center med-time">10:00 AM'</div>
-          </div>
-        </a>
+          </a>
+        {{/each}}
       {{/each}}
 
+      {{#unless medicineList}}
+        You have no medicine today
+      {{/unless}}
+
     </div>
+
+    
 
 
  

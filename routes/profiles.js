@@ -27,11 +27,19 @@ exports.home = (req, res) =>
       }
       else
       {
+        // get today's medicine
+        const today = body.medicine.find( e =>
+        { 
+          const date = new Date(e.date).setHours(0,0,0,0);
+          const currentDate = new Date().setHours(0,0,0,0);
+          return date.valueOf() == currentDate.valueOf();
+        });
+
         res.render('home', 
         {
           isHomePage: true,
           pageTitle: body.firstName+' '+body.lastName,
-          medicineList: body.medicine,
+          medicineList: (today)? [today] : [],
           id: body.id
         });
       }
