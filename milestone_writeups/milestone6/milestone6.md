@@ -18,37 +18,45 @@ TL;DR: home page will display all medication you have to take for the day. Addin
 In low level language: we have 2 tables that store information about medication: medication table and history table. 
 
 The medication table contains all medicine and all information associated with it (ex. name, shape, consumption frequency, etc.). 
-
 The history table will contain multiple entries of the same medication, but at different dates and time. For example, if medication "A" is created with the following key informations: start_date = May 30 & times_per_day = 4, then 4 entries of this medication will be created in the history table, each one having different consumption time.
 --
 
 Data visualization screenshot examples
 ![Image of home_before](screenshots/home_before.png)
+
 As you can see, this is the current home page for this profile. The profile doesn't have any medication to take on this date, and thus nothing shows up. 
 
 ![Image of history_before](screenshots/history_before.png)
+
 Here is what the profile's current medication looks like. As all of these medications are to be taken on different days, nothing is shown on the home page.
 
 
 ![Image of add_med](screenshots/add_med.png)
+
 Here, the medication is being added. Pay attention to the start date and times per day inputted. This particular medication will be taken 4 times on May 30th.
 
 ![Image of home_after](screenshots/home_after.png)
+
 After adding the medication, the backend creates 4 entries to insert into the history table. Notice that the timing of the medication are all different. 
 
 ![Image of history_after](screenshots/history_after.png)
+
 The profile's history is of course updated to reflect this new medication. The list comes nicely sorted.
 
 ![Image of all_med_after](screenshots/all_med_after.png)
+
 Another neat thing to note is that there is only one medicine added to total list. While there are 4 history/notifications of the medicine added, there is only 1 medicine added to the medication list. 
 
 ![Image of home_today](screenshots/home_today.png)
-As mentioned above, the homepage will only display relevant information. By default, the view is set to home. This is indicated by the red square box at the bottom and by the text at top. However, users can also choose to switch views and see medication for either the previous day or the next day, as seen below.
+
+As mentioned above, the homepage will only display relevant information. By default, the view is set to today. This is indicated by the red square box at the bottom and by the text at top. However, users can also choose to switch views and see medication for either the previous day or the next day, as seen below.
 
 ![Image of home_yesterday](screenshots/home_yesterday.png)
+
 Yesterday medication
 
 ![Image of home_tomorrow](screenshots/home_tomorrow.png)
+
 Tomorrow medication
 
 
