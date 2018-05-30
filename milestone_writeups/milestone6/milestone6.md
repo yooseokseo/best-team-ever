@@ -4,7 +4,7 @@ In milestone 6, we have added our medication icons so users are now able to cust
 
 - Explanation of data visualization:
 
-(Data visualization Screenshot: Medication History - see image below in "Screenshots")
+(Data visualization Screenshot: Medication History - see last image below in "Screenshots")
 For our data visualization, we are displaying a profile's medication history. This visualization is the result of an internal function that generates data based on a user's input in the backend, and then updates the frontend's visuals with that new information. In other words, a user can add a new medication for a profile, which will cause our function to pull that information and update the profile's medication history to show that new medication.
 
 
@@ -25,12 +25,12 @@ For our data visualization, we are displaying a profile's medication history. Th
 ![Image of view-profile](screenshots/view-profile.PNG)
 ![Image of edit-profile](screenshots/edit-profile.PNG)
 ![Image of view-history](screenshots/view-history.PNG)
-
-(Data visualization: Medication History - image below)
-![Image of med-history](screenshots/med-history.PNG)
-
 ![Image of pill-history](screenshots/pill-history.png)
 ![Image of account-settings](screenshots/account-settings.png)
 ![Image of edit-account](screenshots/edit-account.PNG)
 ![Image of change-pw](screenshots/change-pw.PNG)
 ![Image of help](screenshots/help.PNG)
+
+(Data visualization: Medication History - image below)
+
+![Image of med-history](screenshots/med-history.PNG)
