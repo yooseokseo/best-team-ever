@@ -8,6 +8,7 @@
 
     <!-- Pill image and name -->
     <div class="">
+      <br><br>
       <div class="flex-center">
         <img class="view-pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'">
       </div>
@@ -22,30 +23,29 @@
     <div class="view-pill-history-box-list">
       {{#each medicine}}
 
-      <center>{{date}}</center>
+        <center>{{date}}</center>
 
-      {{#each values}}
+        {{#each values}}
           <a onclick="post('/viewPillDetail/{{medicine_id}}')">
             <div class="view-pill-history-box border-black">
-              <div class="view-pill-history-info">
 
-                <div class="flex-center">
-                  Taken: {{isTaken}}
-                </div>
+              <div class="flex-center"> {{time}} </div>
+              <div class="isTaken view-pill-history-end" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
               </div>
-              <div class="view-pill-history-start flex-center">
-                Date : {{date}}
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
               </div>
-              <div class="view-pill-history-end flex-center">
-                Time : {{time}}
-              </div>
+
             </div>
-          </a>
-        {{/each}}
+           </a>
+         {{/each}}
 
       {{/each}}
     </div>
 
   </div>
 
-</body>
+  {{>script}}
+  <script src="/js/history.js"/>

@@ -31,8 +31,6 @@ function sort(rows, callback)
 	// sort medicine by date and time
 	rows.sort((a, b) =>
 	{
-
-
 		const date1 = new Date(a.date+'T'+a.time+'Z').valueOf();
 		const date2 = new Date(b.date+'T'+b.time+'Z').valueOf();
 
