@@ -13,11 +13,15 @@ At this point in time--unless I missed something while going over the code--we s
 In high level language: For our data visualization, we are displaying a profile's medication history. This visualization is the result of an internal function that generates data based on a user's input in the backend, and then updates the frontend's visuals with that new information. In other words, a user can add a new medication for a profile, which will cause our function to pull that information and update the profile's medication history to show that new medication.
 
 TL;DR: home page will display all medication you have to take for the day. Adding new medication will create a history of it in backend and determine how many times you need to be reminded to take it.
+
 --
 
 In low level language: we have 2 tables that store information about medication: medication table and history table. 
+
 The medication table contains all medicine and all information associated with it (ex. name, shape, consumption frequency, etc.). 
+
 The history table will contain multiple entries of the same medication, but at different dates and time. For example, if medication "A" is created with the following key informations: start_date = May 30 & times_per_day = 4, then 4 entries of this medication will be created in the history table, each one having different consumption time.
+
 --
 
 Data visualization screenshot examples
