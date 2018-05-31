@@ -48,8 +48,8 @@
       <!-- Show list of yesterday's medicine if any exists -->
       {{#each yesterdayMed}}
         {{#each values}}
-          <a onclick="showModal('{{medicinename}}','{{medicine_id}}');">
-            <div class="view-pill-history-box border-black">
+          <a onclick="showModal('{{medicinename}}','{{medicine_id}}','{{id}}')">
+            <div class="view-pill-history-box border-black" id="div_id_{{id}}">
 
               <!-- pill image -->
               <div class="view-pill-history-info">
@@ -59,11 +59,11 @@
               <div class="view-pill-history-end flex-center"> {{time}} </div>
 
               <!-- checkbox for whether pill has been taken -->
-              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
-              <div class="isTakenImage-yes notShown">
+              <div class="isTaken flex-center" id="taken_text_{{id}}" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown taken_yes_{{id}}">
                 <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
               </div>
-              <div class="isTakenImage-no notShown">
+              <div class="isTakenImage-no notShown taken_no_{{id}}">
                 <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
               </div>
 
@@ -85,8 +85,9 @@
       <!-- Show list of today's medicine if any exists -->
       {{#each todayMed}}
         {{#each values}}
-          <a onclick="showModal('{{medicinename}}','{{medicine_id}}');">
-            <div class="view-pill-history-box border-black">
+          <!-- <a onclick="showModal('{{medicinename}}','{{medicine_id}}, {{id}}');"> -->
+          <a onclick="showModal('{{medicinename}}','{{medicine_id}}','{{id}}')">
+            <div class="view-pill-history-box border-black" id="div_id_{{id}}">
 
               <!-- pill image -->
               <div class="view-pill-history-info">
@@ -96,11 +97,11 @@
               <div class="view-pill-history-end flex-center"> {{time}} </div>
 
               <!-- checkbox for whether pill has been taken -->
-              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
-              <div class="isTakenImage-yes notShown">
+              <div class="isTaken flex-center" id="taken_text_{{id}}" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown taken_yes_{{id}}">
                 <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
               </div>
-              <div class="isTakenImage-no notShown">
+              <div class="isTakenImage-no notShown taken_no_{{id}}" >
                 <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
               </div>
 
@@ -121,8 +122,9 @@
       <!-- Show list of yesterday's medicine if any exists -->
       {{#each tomorrowMed}}
         {{#each values}}
-          <a onclick="showModal('{{medicinename}}','{{medicine_id}}');">
-            <div class="view-pill-history-box border-black">
+          <!-- <a onclick="showModal('{{medicinename}}','{{medicine_id}}, {{id}}');"> -->
+          <a onclick="showModal('{{medicinename}}','{{medicine_id}}','{{id}}')">
+            <div class="view-pill-history-box border-black" id="div_id_{{id}}">
 
               <!-- pill image -->
               <div class="view-pill-history-info">
@@ -132,11 +134,11 @@
               <div class="view-pill-history-end flex-center"> {{time}} </div>
 
               <!-- checkbox for whether pill has been taken -->
-              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
-              <div class="isTakenImage-yes notShown">
+              <div class="isTaken flex-center" id="taken_text_{{id}}" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown taken_yes_{{id}}">
                 <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
               </div>
-              <div class="isTakenImage-no notShown">
+              <div class="isTakenImage-no notShown taken_no_{{id}}">
                 <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
               </div>
 

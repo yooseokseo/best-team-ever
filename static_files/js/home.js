@@ -54,7 +54,7 @@ $(document).ready(() => {
                                         'style="background-color:#FDCFD5"';
 
     const htmlStr =
-      `<div class="view-pill-history-box border-black" `+color+` >
+      `<div class="view-pill-history-box border-black" id="div_id_`+e.id+`" `+color+` >
 
         <!-- pill image -->
         <div class="view-pill-history-info">
@@ -64,10 +64,11 @@ $(document).ready(() => {
         <div class="view-pill-history-end flex-center"> `+e.time+` </div>
 
         <!-- checkbox for whether pill has been taken -->
-        <div class="isTakenImage-yes `+takenYes+`">
+        <div class="isTaken flex-center" id="taken_text_`+e.id+`" style="display:none">`+e.isTaken+` </div>
+        <div class="isTakenImage-yes `+takenYes+`  taken_yes_`+e.id+`">
           <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
         </div>
-        <div class="isTakenImage-no `+takenNo+`">
+        <div class="isTakenImage-no `+takenNo+`  taken_no_`+e.id+`">
           <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
         </div>
 
@@ -76,7 +77,7 @@ $(document).ready(() => {
     element.innerHTML = htmlStr;
     element.firstChild.addEventListener( 'click', () =>
     {
-      showModal(e.medicinename, e.medicine_id);
+      showModal(e.medicinename, e.medicine_id, e.id);
     });
 
     $('#med-list-container-'+str).append( element.firstChild );
@@ -198,13 +199,15 @@ $(document).ready(() => {
 // modal stuff
 const modal = $('#myModal');
 
-function showModal(medicinename, id)
+function showModal(medicinename, medicine_id, id)
 {
   modal.attr('style', 'display:block');
   $('#modal-header').text(medicinename);
   $('.modal-body').text('Select to mark as taken or view medicine info');
-  $('#medicine_id-modal').text(id);
+  $('#medicine_id-modal').text(medicine_id);
   $('#medicine_id-modal').hide();
+  $('#div_id-modal').text(id);
+  $('#div_id-modal').hide();
 }
 
 $('#moreInfo').click(() =>
@@ -213,22 +216,38 @@ $('#moreInfo').click(() =>
   post('/viewPillDetail/'+medicine_id);
 });
 
-function addNewMed()
+function markTaken()
 {
-  post('/addNewMed/'+$('#profile_id').text());
+  const id = $('#div_id-modal').text();
+  const taken_yes = $('.taken_yes_'+id);
+  const taken_no = $('.taken_no_'+id);
+
+  if ($('#taken_text_'+id).text() == 'No ') // not taken; mark as taken
+  {
+    taken_yes.removeClass('notShown');
+    taken_yes.addClass('flex-center');
+    taken_no.hide();
+    taken_yes.show();
+
+    $('#div_id_'+id).attr('style', 'background-color:#E2FED3');
+    $('#taken_text_'+id).text('Yes ');
+  }
+  else // taken; mark as not taken
+  {
+    taken_no.removeClass('notShown');
+    taken_no.addClass('flex-center');
+    taken_yes.hide();
+    taken_no.show();
+
+    $('#div_id_'+id).attr('style', 'background-color:#FDCFD5');
+    $('#taken_text_'+id).text('No ');
+  }
+
+  $('.close-modal').click();
+
+  
+  
 }
-
-function viewAllMed()
-{
-  post('/viewAllMed/'+$('#profile_id').text());
-}
-
-
-xt()
-  post('/viewPillDetail/'+medicine_id);
-});
-=======
->>>>>>> db3659632bb7ddfaf1a99c15bbcb605d082bd7e7
 
 function addNewMed()
 {

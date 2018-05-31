@@ -28,30 +28,37 @@ const groupByArray = (xs, key, callback) =>
  */
 function sort(rows, callback)
 {	
-	// sort medicine by date and time
-	rows.sort((a, b) =>
-	{
-		const date1 = new Date(a.date+'T'+a.time+'Z').valueOf();
-		const date2 = new Date(b.date+'T'+b.time+'Z').valueOf();
+  if (rows.length > 0)
+  {
+    // sort medicine by date and time
+    rows.sort((a, b) =>
+    {
+      const date1 = new Date(a.date+'T'+a.time+'Z').valueOf();
+      const date2 = new Date(b.date+'T'+b.time+'Z').valueOf();
 
-	  if (date1 > date2) return -1;
-	  if (date1 < date2) return 1;
-	  return 0;
-	});
+      if (date1 > date2) return -1;
+      if (date1 < date2) return 1;
+      return 0;
+    });
 
-	rows.forEach((e, index, array) =>
-	{
-		var options = { day: 'numeric', month: 'long', year: 'numeric'  };
-		const formatted = new moment(e.date).format('DD MMM YYYY');
-		e.date = formatted;
-		e.med_pic = e.med_type+'-'+e.med_color+'.png';
+    rows.forEach((e, index, array) =>
+    {
+      var options = { day: 'numeric', month: 'long', year: 'numeric'  };
+      const formatted = new moment(e.date).format('DD MMM YYYY');
+      e.date = formatted;
+      e.med_pic = e.med_type+'-'+e.med_color+'.png';
 
-		if (index == array.length - 1) // end of array
-		{
-			// group medicine by date
-			groupByArray(rows, 'date', (grouped) => callback(grouped) );
-		}
-	});
+      if (index == array.length - 1) // end of array
+      {
+        // group medicine by date
+        groupByArray(rows, 'date', (grouped) => callback(grouped) );
+      }
+    });
+  }
+  else
+  {
+    callback(rows);
+  }
 }
 
 /**
