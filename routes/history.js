@@ -96,7 +96,7 @@ exports.viewProfileHistory = (req, res) =>
   }
   else // GET request; make POST call for user in front end
   {
-    res.render('viewPillDetail', { url: '/viewPillDetail/'+medicine_id } );
+    res.render('viewPillDetail', { url: '/viewProfileHistory/'+profile_id } );
   }
 };
 
@@ -165,7 +165,7 @@ exports.viewPillHistory = (req, res) =>
   }
   else // GET request; make POST call for user in front end
   {
-    res.render('viewPillDetail', { url: '/viewPillDetail/'+medicine_id } );
+    res.render('viewPillDetail', { url: '/viewPillHistory/'+profile_id+'/'+medicine_id } );
   }
 };
 

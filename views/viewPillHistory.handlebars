@@ -4,6 +4,10 @@
   {{>navigation}}
   {{>nonscript}}
 
+  {{>post}}
+
+  {{>history_modal}}
+
   <div class="view-pill-history-container">
 
     <!-- Pill image and name -->
@@ -26,15 +30,17 @@
         <center>{{date}}</center>
 
         {{#each values}}
-          <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-            <div class="view-pill-history-box border-black">
+          <a onclick="showModal('{{medicinename}}','{{medicine_id}}','{{id}}')">
+            <div class="view-pill-history-box border-black" id="div_id_{{id}}">
 
               <div class="flex-center"> {{time}} </div>
-              <div class="isTaken view-pill-history-end" style="display:none">{{isTaken}} </div>
-              <div class="isTakenImage-yes notShown">
+              
+              <!-- checkbox for whether pill has been taken -->
+              <div class="isTaken flex-center" id="taken_text_{{id}}" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown taken_yes_{{id}}">
                 <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
               </div>
-              <div class="isTakenImage-no notShown">
+              <div class="isTakenImage-no notShown taken_no_{{id}}">
                 <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
               </div>
 

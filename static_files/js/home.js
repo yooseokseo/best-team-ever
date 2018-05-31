@@ -36,13 +36,6 @@ $(document).ready(() => {
   });
 
 
-  // close popup modal
-  $('.close-modal').click(() =>
-  {
-    modal.attr('style', 'display:none');
-  });
-
-
   /**
    * Helper function for appending history
    */
@@ -196,58 +189,7 @@ $(document).ready(() => {
 }); // end of document ready
 
 
-// modal stuff
-const modal = $('#myModal');
 
-function showModal(medicinename, medicine_id, id)
-{
-  modal.attr('style', 'display:block');
-  $('#modal-header').text(medicinename);
-  $('.modal-body').text('Select to mark as taken or view medicine info');
-  $('#medicine_id-modal').text(medicine_id);
-  $('#medicine_id-modal').hide();
-  $('#div_id-modal').text(id);
-  $('#div_id-modal').hide();
-}
-
-$('#moreInfo').click(() =>
-{
-  const medicine_id = $('#medicine_id-modal').text()
-  post('/viewPillDetail/'+medicine_id);
-});
-
-function markTaken()
-{
-  const id = $('#div_id-modal').text();
-  const taken_yes = $('.taken_yes_'+id);
-  const taken_no = $('.taken_no_'+id);
-
-  if ($('#taken_text_'+id).text() == 'No ') // not taken; mark as taken
-  {
-    taken_yes.removeClass('notShown');
-    taken_yes.addClass('flex-center');
-    taken_no.hide();
-    taken_yes.show();
-
-    $('#div_id_'+id).attr('style', 'background-color:#E2FED3');
-    $('#taken_text_'+id).text('Yes ');
-  }
-  else // taken; mark as not taken
-  {
-    taken_no.removeClass('notShown');
-    taken_no.addClass('flex-center');
-    taken_yes.hide();
-    taken_no.show();
-
-    $('#div_id_'+id).attr('style', 'background-color:#FDCFD5');
-    $('#taken_text_'+id).text('No ');
-  }
-
-  $('.close-modal').click();
-
-  
-  
-}
 
 function addNewMed()
 {

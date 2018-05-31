@@ -220,7 +220,108 @@ exports.getMedHistory = (req, res) =>
     }
   }); // end of db.all(...)
 
-}
+} // end of getMedHistory()
+
+
+
+/**
+ * PATCH request for editing medicine. Must be logged in.
+ * Edits the medicine with the requested id and params passed in.
+ * Front end will pass only the columns that user want edited and
+ * this code will replace all of thost columns with new value.
+ * 
+ * The passed in body can contain all of the columns within medicine.
+ * All are optional since users don't have to change all of them.
+ *
+ * Route signature: /medicine/:medicine_id
+ * Example call: /medicine/5
+ * Expected: token, body { optional }
+ *
+ * @return 1) error 500 if error occured while editing medicine. Otherwise
+ *            -> {keys -> error}
+ *         2) success message and medicine id
+ *            -> {keys -> message, id}
+ */
+exports.editMedHistory = (req, res) => 
+{
+  console.log('---');
+  console.log('EDIT HISTORY');
+  const id = req.params.medicine_id;
+  const account_id = req.userData.account_id;
+
+  // to update, need to do `UPDATE medicine SET column='value', col2='value'`
+  // 'str' iterates through all of the requested columns to be edited and
+  // makes string for the `column='value', column2='value'`
+  let str = ``;
+  for (const e in req.body)
+  {
+    str += e+`='`+req.body[[e]]+`', `;
+  }
+  str = str.substring(0, str.length-2); // remove the final comma from string
+
+  let query = `UPDATE medicine SET `+str+` WHERE id=? AND account_id=?`;
+  db.all(query, [id, account_id], (err) =>
+  {
+    console.log('err = '+err);
+
+    (err)? 
+      res.status(500).json( {error: err} ) : 
+      res.status(200).json( {message: 'Medicine edited', id: id} )
+
+  }); // end of db.all(..) for editing
+} // end of editMedicine()
+
+
+
+/**
+ * PATCH request for editing medicine. Must be logged in.
+ * Edits the medicine with the requested id and params passed in.
+ * Front end will pass only the columns that user want edited and
+ * this code will replace all of thost columns with new value.
+ * 
+ * The passed in body can contain all of the columns within medicine.
+ * All are optional since users don't have to change all of them.
+ *
+ * Route signature: /medicine/:medicine_id
+ * Example call: /medicine/5
+ * Expected: token, body { optional }
+ *
+ * @return 1) error 500 if error occured while editing medicine. Otherwise
+ *            -> {keys -> error}
+ *         2) success message and medicine id
+ *            -> {keys -> message, id}
+ */
+exports.editHistory = (req, res) => 
+{
+  console.log('---');
+  console.log('EDIT A HISTORY');
+  const id = req.params.history_id;
+  const account_id = req.userData.account_id;
+
+  // to update, need to do `UPDATE medicine SET column='value', col2='value'`
+  // 'str' iterates through all of the requested columns to be edited and
+  // makes string for the `column='value', column2='value'`
+  let str = ``;
+  for (const e in req.body)
+  {
+    str += e+`='`+req.body[[e]]+`', `;
+  }
+  str = str.substring(0, str.length-2); // remove the final comma from string
+
+  let query = `UPDATE history SET `+str+` WHERE id=? AND account_id=?`;
+  db.all(query, [id, account_id], (err) =>
+  {
+    console.log('err = '+err);
+
+    (err)? 
+      res.status(500).json( {error: err} ) : 
+      res.status(200).json( {message: 'History edited', id: id} )
+
+  }); // end of db.all(..) for editing
+} // end of editMedicine()
+
+
+
 
 
 
