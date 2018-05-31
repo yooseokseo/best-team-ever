@@ -34,8 +34,8 @@ function sort(rows, callback)
 		const date1 = new Date(a.date+'T'+a.time+'Z').valueOf();
 		const date2 = new Date(b.date+'T'+b.time+'Z').valueOf();
 
-	  if (date1 < date2) return -1;
-	  if (date1 > date2) return 1;
+	  if (date1 > date2) return -1;
+	  if (date1 < date2) return 1;
 	  return 0;
 	});
 
