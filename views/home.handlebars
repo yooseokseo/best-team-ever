@@ -47,12 +47,24 @@
       {{#each yesterdayMed}}
         {{#each values}}
           <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-            <div class="med-item-box border-black">
-              <div class="med-item-icon flex-center">
-                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" />
+            <div class="view-pill-history-box border-black">
+
+              <!-- pill image -->
+              <div class="view-pill-history-info">
+                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" /> {{medicinename}}
               </div>
-              <div class="med-item-name flex-center med-name" id="{{medicine_id}}">{{medicinename}}</div>
-              <div class="med-item-time flex-center med-time">{{time}}</div>
+
+              <div class="view-pill-history-end flex-center"> {{time}} </div>
+
+              <!-- checkbox for whether pill has been taken -->
+              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
+              </div>
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
+              </div>
+
             </div>
           </a>
         {{/each}}
@@ -72,12 +84,24 @@
       {{#each todayMed}}
         {{#each values}}
           <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-            <div class="med-item-box border-black">
-              <div class="med-item-icon flex-center">
-                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" />
+            <div class="view-pill-history-box border-black">
+
+              <!-- pill image -->
+              <div class="view-pill-history-info">
+                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" /> {{medicinename}}
               </div>
-              <div class="med-item-name flex-center med-name" id="{{medicine_id}}">{{medicinename}}</div>
-              <div class="med-item-time flex-center med-time">{{time}}</div>
+
+              <div class="view-pill-history-end flex-center"> {{time}} </div>
+
+              <!-- checkbox for whether pill has been taken -->
+              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
+              </div>
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
+              </div>
+
             </div>
           </a>
         {{/each}}
@@ -96,12 +120,24 @@
       {{#each tomorrowMed}}
         {{#each values}}
           <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-            <div class="med-item-box border-black">
-              <div class="med-item-icon flex-center">
-                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" />
+            <div class="view-pill-history-box border-black">
+
+              <!-- pill image -->
+              <div class="view-pill-history-info">
+                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" /> {{medicinename}}
               </div>
-              <div class="med-item-name flex-center med-name" id="{{medicine_id}}">{{medicinename}}</div>
-              <div class="med-item-time flex-center med-time">{{time}}</div>
+
+              <div class="view-pill-history-end flex-center"> {{time}} </div>
+
+              <!-- checkbox for whether pill has been taken -->
+              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
+              </div>
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
+              </div>
+
             </div>
           </a>
         {{/each}}
@@ -139,5 +175,7 @@
   </div>
 
   </div>
+
   <script src="/js/home.js"></script>
-</body>
+  <script src="/js/history.js"/>
+  {{>script}}
