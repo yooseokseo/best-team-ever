@@ -46,6 +46,11 @@ $(document).ready(() => {
   });
 
 
+  // close popup modal
+  $('.close-modal').click(() =>
+  {
+    modal.attr('style', 'display:none');
+  });
 
 });
 
@@ -136,3 +141,21 @@ function check(id){
   });
   id.checked = true;
 }
+
+
+
+// modal stuff
+const modal = $('#myModal');
+
+function showModal(id)
+{
+  modal.attr('style', 'display:block');
+  $('#profile_id-modal').text(id);
+  $('#profile_id-modal').hide();
+}
+
+$('#moreInfo').click(() =>
+{
+  const medicine_id = $('#medicine_id-modal').text()
+  post('/viewPillDetail/'+medicine_id);
+});

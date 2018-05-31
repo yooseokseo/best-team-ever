@@ -7,6 +7,8 @@
   <!-- make POST request if user access page with GET request (via url) -->
   {{>post}}
 
+  {{>delete_modal}}
+
   <div class="add-new-profile-container">
     <div class="add-new-profile-name-box profile-image-box">
       <div id="add-new-profile-image" class="border-black flex-center">
@@ -57,7 +59,7 @@
   </div>
   <div id="btns-container" class="add-new-profile-btn">
     <div class="btn flex-center border-right-black">
-      <div id="deleteProfile" onclick="deleteProfile({{id}})" class="a-box flex-center">Delete</div>
+      <div id="deleteProfile" onclick="showModal('{{id}}')" class="a-box flex-center">Delete</div>
       <div id="cancelProfile" class="a-box flex-center cancelProfile-close ">Cancel</div>
     </div>
 
