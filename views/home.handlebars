@@ -7,6 +7,8 @@
   <!-- make POST request if user access page with GET request (via url) -->
   {{>post}}
 
+  {{>history_modal}}
+
   <!-- profile drop down menu -->
   <div class="user-profile-container flex-center">
     <div class="user-profile-content-container">
@@ -46,13 +48,25 @@
       <!-- Show list of yesterday's medicine if any exists -->
       {{#each yesterdayMed}}
         {{#each values}}
-          <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-            <div class="med-item-box border-black">
-              <div class="med-item-icon flex-center">
-                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" />
+          <a onclick="showModal('{{medicinename}}','{{medicine_id}}');">
+            <div class="view-pill-history-box border-black">
+
+              <!-- pill image -->
+              <div class="view-pill-history-info">
+                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" /> {{medicinename}}
               </div>
-              <div class="med-item-name flex-center med-name" id="{{medicine_id}}">{{medicinename}}</div>
-              <div class="med-item-time flex-center med-time">{{time}}</div>
+
+              <div class="view-pill-history-end flex-center"> {{time}} </div>
+
+              <!-- checkbox for whether pill has been taken -->
+              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
+              </div>
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
+              </div>
+
             </div>
           </a>
         {{/each}}
@@ -71,13 +85,25 @@
       <!-- Show list of today's medicine if any exists -->
       {{#each todayMed}}
         {{#each values}}
-          <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-            <div class="med-item-box border-black">
-              <div class="med-item-icon flex-center">
-                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" />
+          <a onclick="showModal('{{medicinename}}','{{medicine_id}}');">
+            <div class="view-pill-history-box border-black">
+
+              <!-- pill image -->
+              <div class="view-pill-history-info">
+                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" /> {{medicinename}}
               </div>
-              <div class="med-item-name flex-center med-name" id="{{medicine_id}}">{{medicinename}}</div>
-              <div class="med-item-time flex-center med-time">{{time}}</div>
+
+              <div class="view-pill-history-end flex-center"> {{time}} </div>
+
+              <!-- checkbox for whether pill has been taken -->
+              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
+              </div>
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
+              </div>
+
             </div>
           </a>
         {{/each}}
@@ -95,13 +121,25 @@
       <!-- Show list of yesterday's medicine if any exists -->
       {{#each tomorrowMed}}
         {{#each values}}
-          <a onclick="post('/viewPillDetail/{{medicine_id}}')">
-            <div class="med-item-box border-black">
-              <div class="med-item-icon flex-center">
-                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" />
+          <a onclick="showModal('{{medicinename}}','{{medicine_id}}');">
+            <div class="view-pill-history-box border-black">
+
+              <!-- pill image -->
+              <div class="view-pill-history-info">
+                <img class="pill-icon-img" src="/images/icons/pills/{{med_pic}}" onerror="this.src='/images/icons/pill.svg'" /> {{medicinename}}
               </div>
-              <div class="med-item-name flex-center med-name" id="{{medicine_id}}">{{medicinename}}</div>
-              <div class="med-item-time flex-center med-time">{{time}}</div>
+
+              <div class="view-pill-history-end flex-center"> {{time}} </div>
+
+              <!-- checkbox for whether pill has been taken -->
+              <div class="isTaken flex-center" style="display:none">{{isTaken}} </div>
+              <div class="isTakenImage-yes notShown">
+                <img width="40vw" src="/images/icons/checked-checkbox-96.png" alt="">
+              </div>
+              <div class="isTakenImage-no notShown">
+                <img width="40vw" src="/images/icons/unchecked-checkbox-96.png" alt="">
+              </div>
+
             </div>
           </a>
         {{/each}}
@@ -139,5 +177,7 @@
   </div>
 
   </div>
+
   <script src="/js/home.js"></script>
-</body>
+  <script src="/js/history.js"/>
+  {{>script}}
