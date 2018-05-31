@@ -49,7 +49,7 @@ exports.home = (req, res) =>
             tomorrow  = tomorrow.toString().split(' ');
 
 
-
+            console.log(todayMed[0]);
             res.render('home', 
             {
               isHomePage: true,
