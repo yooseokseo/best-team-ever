@@ -1,4 +1,8 @@
 <title>Add New Medication</title>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <script src="//code.jquery.com/jquery-1.12.4.js"></script>
+ <script src="//code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
   {{>navigation}}
@@ -12,7 +16,7 @@
       <div class="box-title"> Medicine Name </div>
       <div class="box-content flex-center">
         <!-- it should fetch all medicine info -->
-        <input id="medicinename" class="med-name-input" type="text" placeholder="Search(Autofill functionality will be here)">
+        <input id="medicinename" class="med-name-input" type="text" placeholder="Search">
       </div>
     </div>
 
@@ -20,7 +24,7 @@
 
     <div class="add-new-med-box">
       <div class="box-title"> Dosage per pill </div>
-      
+
       <div class="box-content flex-center">
         <div class="med-dosage-container">
           <input id="dosage" class="med-dosage-input" type="text" placeholder="Dosage">
@@ -37,7 +41,7 @@
 
     <div class="add-new-med-box">
       <div class="box-title"> Frequency </div>
-      
+
       <div class="box-content-frequency flex-center">
         <div class="med-frequency-container">
           <input id="numPills" class="med-frequency-input" type="text" placeholder="# of pills"> Pills
@@ -57,12 +61,12 @@
 
 
 
-    <div class="add-new-med-box">     
+    <div class="add-new-med-box">
       <div class="box-title"> Duration </div>
 
       <div class="box-content-duration flex-center">
         <div class="med-duration-container">
-          
+
           <div class="med-duration-box">
             <div class=""> Start Date </div>
             <input id="start_date" class="border-black duration-input" type="date">
@@ -73,7 +77,7 @@
             <input id="start_time" class="border-black duration-input" type="time">
           </div>
           <hr id="divider-hr">
-          
+
           <div class="med-duration-box">
             <div class=""> End Date </div>
             <input id="end_date" class="border-black duration-input" type="date">
@@ -99,7 +103,7 @@
       <div class="box-content-shape flex-center">
         <div class="med-shape-container">
           <div class="med-shape-box">
-            
+
             <!-- med shape div -->
             <div class="med-shape">
               {{#each shapeList}}
@@ -128,7 +132,7 @@
 
     <div class="add-new-med-box">
       <div class="box-title"> Note </div>
-      
+
       <div class="box-content-note flex-center">
         <div class="med-note-container">
           <textarea class="med-note-text"></textarea>

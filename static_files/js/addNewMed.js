@@ -1,5 +1,26 @@
 $(document).ready(() => {
 
+  //----Autocomplete Functionality
+
+  $( "#medicinename" ).autocomplete({
+    minLength: 2,
+    source: function(request,response) {
+      $.ajax({
+           dataType: "json",
+           type : 'GET',
+           url: 'https://rxnav.nlm.nih.gov/REST/spellingsuggestions.json?name=' + request.term,
+           success: function(data) {
+            response (data.suggestionGroup.suggestionList.suggestion);
+           },
+           error: function(data) {
+               console.log ("autocomplete: there has been an error");
+           }
+       });
+    }
+  });
+
+  //----End Autocomplete Functionality
+
 })
 
 
@@ -64,12 +85,12 @@ function rmSelect(type)
 {
   if (type == 's') // remove highlight around pill shapes
   {
-    $('.selected-oval').removeClass('selected-oval'); 
+    $('.selected-oval').removeClass('selected-oval');
     $('.selected-circle').removeClass('selected-circle');
   }
   else // remove around color
   {
-    $('.selected-color').removeClass('selected-color'); 
+    $('.selected-color').removeClass('selected-color');
   }
 
 }
