@@ -29,6 +29,7 @@
     "io": "^1.0.0",
     "jsonwebtoken": "^8.2.0",
     "later": "^1.2.0",
+    "mddir": "^1.1.0",
     "method-override": "^2.3.10",
     "moment": "^2.22.1",
     "mongoose": "^5.0.8",
