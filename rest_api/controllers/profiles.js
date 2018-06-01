@@ -390,42 +390,56 @@ exports.deleteProfile = (req, res) =>
   const profile_id = req.params.profile_id;
   const account_id = req.userData.account_id;
 
-  let query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
+  let query = `DELETE FROM history WHERE account_id=? AND profile_id=?`;
   db.all(query, [account_id, profile_id], (err) =>
   {
-    console.log('delete medicine; err = '+err);
+    console.log('delete history; err = '+err);
     if (err)
     {
       res.status(500).json( {error: err} );
     }
     else
     {
-      query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
+      query = `DELETE FROM medicine WHERE account_id=? AND profile_id=?`;
       db.all(query, [account_id, profile_id], (err) =>
       {
-        console.log('delete profile; err = '+err);
+        console.log('delete medicine; err = '+err);
         if (err)
         {
-          res.status(500).json( {error: err} ) 
+          res.status(500).json( {error: err} );
         }
         else
         {
-          let query = `UPDATE profiles SET isCurrent=1 
-                       WHERE isDefault=1 AND account_id=?`;
-          db.all(query, [account_id], (err) =>
+          query = `DELETE FROM profiles WHERE account_id=? AND id=?`;
+          db.all(query, [account_id, profile_id], (err) =>
           {
+            console.log('delete profile; err = '+err);
             if (err)
-              res.status(500).json( {error: err} );
+            {
+              res.status(500).json( {error: err} ) 
+            }
             else
             {
-              res.status(200).json( {message: 'Profile deleted'} )
-            }
-          }); 
+              // set default profile to be current profile
+              let query = `UPDATE profiles SET isCurrent=1 
+                           WHERE isDefault=1 AND account_id=?`;
+              db.all(query, [account_id], (err) =>
+              {
+                if (err)
+                  res.status(500).json( {error: err} );
+                else
+                {
+                  res.status(200).json( {message: 'Profile deleted'} )
+                }
+              }); 
 
-        } 
-          
-      });
+            } 
+              
+          });
+        }
+      }); //end of db.all(..)
     }
-  }); //end of db.all(..)
+  });
+  
 } // end of deleteProfile()
 

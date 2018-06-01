@@ -52,6 +52,8 @@ $(document).ready(() => {
     modal.attr('style', 'display:none');
   });
 
+
+
 });
 
 // old values for checking if user changed something
@@ -110,28 +112,7 @@ function save(profile_id)
   }
   // after saving is done, return to default page (not editable)
   $('#cancelProfile').click();
-
 }
-
-function deleteProfile (profile_id) 
-{    
-  $.ajax({
-    url: '/api/profiles/delete/'+profile_id,
-    type: 'DELETE',
-    dataType : 'json', // this URL returns data in JSON format
-    beforeSend: (xhr) => {   //Include the bearer token in header
-      xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
-    },
-    success: (data) => {
-      alert('profile deleted')
-      backtopage();
-    },
-    error: (xhr, textStatus, error) => 
-    {
-      console.log(xhr.statusText+': '+xhr.responseJSON.error);
-    }
-  });
-}// end of delete profile
 
 
 function check(id){
@@ -150,12 +131,28 @@ const modal = $('#myModal');
 function showModal(id)
 {
   modal.attr('style', 'display:block');
+  $('#modal-header').text('Delete Profile?');
   $('#profile_id-modal').text(id);
   $('#profile_id-modal').hide();
 }
 
-$('#moreInfo').click(() =>
+$('#delete').click(() =>
 {
-  const medicine_id = $('#medicine_id-modal').text()
-  post('/viewPillDetail/'+medicine_id);
+  const profile_id = $('#profile_id-modal').text();
+  $.ajax({
+    url: '/api/profiles/delete/'+profile_id,
+    type: 'DELETE',
+    dataType : 'json', // this URL returns data in JSON format
+    beforeSend: (xhr) => {   //Include the bearer token in header
+      xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
+    },
+    success: (data) => {
+      post('/viewProfiles');
+    },
+    error: (xhr, textStatus, error) => 
+    {
+      console.log(xhr.statusText+': '+xhr.responseJSON.error);
+    }
+  });
+  
 });
