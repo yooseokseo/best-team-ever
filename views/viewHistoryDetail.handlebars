@@ -1,0 +1,110 @@
+<title>View Medication Detail</title>
+</head>
+
+<body>
+  {{>navigation}} {{>nonscript}}
+
+  <!-- make POST request if user access page with GET request (via url) -->
+  {{>post}}
+
+  <div class="view-pill-detail-container">
+    
+    <div class="view-pill-detail-icon-box">
+      <div class="flex-center">
+        <img class="view-pill-icon-img" src="/images/icons/pills/{{body.med_pic}}" onerror="this.src='/images/icons/pill.svg'">
+      </div>
+      <div class="flex-center">
+        <p>{{body.medicinename}}</p>
+        <p>{{body.dosage}} mg / pill</p>
+      </div>
+
+    </div>
+
+
+
+
+
+    <div class="view-pill-detail-direction">
+      <div class="box-title"> Info </div>
+      <div class="view-pill-detail-direction flex-center">
+
+        <div class="med-duration-box">
+          <div class=""> Date </div>
+          <input id="date" class="border-black duration-input" type="date" value="{{body.date}}" disabled>
+        </div>
+
+        <br>
+
+        <div class="med-duration-box">
+          <div class=""> Time </div>
+          <input id="time" class="border-black duration-input" type="time" value="{{body.time}}" disabled>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="view-pill-detail-note">
+      <div class="box-title" style="display:none"> Taken </div>
+      <p id="isTaken">{{body.isTaken}}</p>
+
+      <div class="border-black view-pill-detail-text">
+        <!-- yes checkbox -->
+        <div class="gender-box">
+          <input id="taken-yes" type="checkbox" name="checkbox" onclick="check(this)" {{#if gender_male}}checked{{/if}} disabled /> Yes
+        </div>
+        <!-- no checkbox -->
+        <div class="gender-box">
+          <input id="taken-no" type="checkbox" name="checkbox" onclick="check(this)" {{#if gender_female}}checked{{/if}} disabled /> No
+        </div>
+      </div>
+    </div>
+
+
+
+    <div class="view-pill-detail-direction">
+      <div class="box-title">
+          Direction
+      </div>
+
+      <div class="border-black view-pill-detail-text">
+        {{medicine.num_pills}} pill(s)
+      </div>
+    </div>
+
+
+    <div class="view-pill-detail-note">
+      <div class="box-title">
+          Note
+      </div>
+
+      <div class="border-black view-pill-detail-text">
+        Take on an empty stomach
+      </div>
+    </div>
+
+
+
+    <!-- <a onclick='post("/viewPillHistory/{{medicine.profile_id}}/{{medicine.id}}")'>
+      <div class="flex-center btn view-pill-history-btn">
+        View Pill History
+      </div> 
+    </a> -->
+
+
+    <div id="btns-container" class="add-new-profile-btn">
+      <div class="btn flex-center border-right-black">
+        <div id="deleteHistory" onclick="showModal('{{body.id}}')" class="a-box flex-center">Delete</div>
+        <div id="cancelHistory" class="a-box flex-center cancelHistory-close ">Cancel</div>
+      </div>
+
+      <div class="btn flex-center">
+        <div id="editHistory" class="a-box flex-center">Edit</div>
+        <div id="saveHistory" onclick="save('{{body.id}}')" class="a-box flex-center saveHistory-close">Save</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/js/viewHistoryDetail.js"></script>
+

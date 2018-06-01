@@ -30,11 +30,22 @@ function sort(rows, callback)
 {	
   if (rows.length > 0)
   {
-    // sort medicine by date and time
+    // sort medicine by date and time in ascending order
     rows.sort((a, b) =>
     {
       const date1 = new Date(a.date+'T'+a.time+'Z').valueOf();
       const date2 = new Date(b.date+'T'+b.time+'Z').valueOf();
+
+      if (date1 < date2) return -1;
+      if (date1 > date2) return 1;
+      return 0;
+    });
+
+    // sort just date in desending order
+    rows.sort((a, b) =>
+    {
+      const date1 = new Date(a.date).valueOf();
+      const date2 = new Date(b.date).valueOf();
 
       if (date1 > date2) return -1;
       if (date1 < date2) return 1;
@@ -141,7 +152,7 @@ exports.newHistory = (req, res) =>
 exports.getProfileHistory = (req, res) =>
 {
 	console.log('---');
-	console.log('GET MEDICINE HISTORY');
+	console.log('GET PROFILE HISTORY');
 
 	const account_id = req.userData.account_id;
 	const profile_id = req.params.profile_id || req.profile.id;
@@ -217,6 +228,50 @@ exports.getMedHistory = (req, res) =>
     else
     {
     	sort(rows, (sorted) => res.status(200).json( sorted ) );
+    }
+  }); // end of db.all(...)
+
+} // end of getMedHistory()
+
+
+/**
+ * GET history of certain medicine.
+ *
+ * Route signature: GET api/history/:profile_id/:medicine_id
+ * Example call: localhost:3000/api/history/4/3
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while searching for profile. Otherwise
+ *            -> {keys -> error}
+ *         2) array of medicine history sorted by date if found
+ *            -> [ {keys -> date, values: [ {...}, {...}, ..] } ]
+ */
+exports.getHistory = (req, res) =>
+{
+  console.log('---');
+  console.log('GET A HISTORY');
+
+  const account_id = req.userData.account_id;
+  const history_id = req.params.history_id;
+
+  const query = `SELECT hist.id, med.medicinename, hist.date, hist.time, 
+                        hist.isTaken, med.med_type, med.med_color, hist.medicine_id
+                 FROM history hist, medicine med
+                 WHERE hist.id=? AND 
+                       med.id=hist.medicine_id AND 
+                       hist.account_id=?`;
+  db.get(query, [history_id, account_id], (err, row) => 
+  {
+    if (err) 
+    {
+      console.log(err);
+      res.status(500).json( {error: err} );
+    }
+    else
+    {
+      row.med_pic = row.med_type+'-'+row.med_color+'.png';
+      console.log(row);
+      res.status(200).json( row );
     }
   }); // end of db.all(...)
 

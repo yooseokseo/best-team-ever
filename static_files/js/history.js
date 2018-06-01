@@ -53,8 +53,8 @@ function showModal(medicinename, medicine_id, id)
 
 $('#moreInfo').click(() =>
 {
-  const medicine_id = $('#medicine_id-modal').text()
-  post('/viewPillDetail/'+medicine_id);
+  const history_id = $('#div_id-modal').text()
+  post('/viewHistoryDetail/'+history_id);
 });
 
 

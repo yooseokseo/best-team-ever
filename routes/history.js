@@ -66,7 +66,7 @@ exports.viewProfileHistory = (req, res) =>
   {
 
     const host = req.headers.origin;
-    const path = '/api/history/'+profile_id;
+    const path = '/api/profiles/'+profile_id+'/history';
     request.get(
     {
       headers: {
@@ -84,7 +84,6 @@ exports.viewProfileHistory = (req, res) =>
       }
       else
       {
-        console.log(body);
         res.render('viewProfileHistory', 
         {
           isHomePage: true,
@@ -119,6 +118,52 @@ exports.viewHistoryDateDetail = (req, res) =>
   });
 };
 
+
+/**
+ * View specific history/reminder
+ */
+exports.viewHistoryDetail = (req, res) =>
+{
+  const history_id = req.params.history_id;
+
+  // make call to database if post request
+  if (req.method == 'POST')
+  {
+
+    const host = req.headers.origin;
+    const path = '/api/history/'+history_id;
+    request.get(
+    {
+      headers: {
+        'content-type' : 'application/x-www-form-urlencoded',
+        'Authorization': 'Bearer '+req.body.token
+      },
+      url: host+path,
+      'json' : true
+    },
+    (error, response, body) =>
+    {
+      if (response.statusCode >= 400)
+      {
+        renderError('error', response, body, res);
+      }
+      else
+      {
+        res.render('viewHistoryDetail', 
+        {
+          body,
+          isHomePage: true,
+          pageTitle: "History Detail",
+        });
+      }
+    });
+  }
+  else // GET request; make POST call for user in front end
+  {
+    res.render('viewHistoryDetail', { url: '/viewHistoryDetail/'+history_id } );
+  }
+
+};
 
 /**
  * View all history for specific medicine

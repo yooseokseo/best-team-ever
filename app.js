@@ -144,6 +144,9 @@ app.get('/viewHistoryDate', history.viewHistoryDate);
 // Add new router for View History Date Detail page
 app.get('/viewHistoryDateDetail', history.viewHistoryDateDetail);
 
+// Add new router for View specific history
+app.use('/viewHistoryDetail/:history_id', history.viewHistoryDetail);
+
 // Add new router for View Pill History page
 app.use('/viewPillHistory/:profile_id/:medicine_id', history.viewPillHistory);
 

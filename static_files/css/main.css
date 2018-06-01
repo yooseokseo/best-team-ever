@@ -974,8 +974,10 @@ a:hover
 .pill-date-item-close,
 .saveProfile-close,
 .saveAccount-close,
+.saveHistory-close,
 .cancelProfile-close,
-.cancelAccount-close {
+.cancelAccount-close,
+.cancelHistory-close {
   display: none;
 }
 .pill-date-item-shown {

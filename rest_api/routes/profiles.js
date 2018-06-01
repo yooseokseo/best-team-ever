@@ -37,5 +37,8 @@ router.delete('/delete/:profile_id', checkAuth, ProfilesController.deleteProfile
 // Get all profile's medicine (ex. localhost:3000/medicine)
 router.get('/:profile_id/medicine', checkAuth, MedsController.getAllMedicine);
 
+// Get all profile's history 
+router.get('/:profile_id/history', checkAuth, HistoryController.getProfileHistory);
+
 
 module.exports = router;
