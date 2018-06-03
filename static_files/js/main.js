@@ -2,7 +2,7 @@ function backtopage() {
 
 	// splitting '/viewProfiles/1' returns ['', 'viewProfiles', '1']
   const path = window.location.pathname.split('/')[1];
-  
+
   if (path == 'viewProfile' || path == 'addNewProfile')
   {
   	post('/viewProfiles');
@@ -11,7 +11,7 @@ function backtopage() {
   {
   	window.history.back();
   }
-  
+
 }
 //Ajax Function 1
 //after loading page, based on current user, it should fetch
@@ -39,3 +39,4 @@ $('.pill-date-item-march').click(()=>{
 })
 
 
+//
