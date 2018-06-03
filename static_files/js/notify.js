@@ -99,27 +99,6 @@ var app = (function() {
 
   }
 
-  function initializeUI() {
-
-    // TODO 3.3b - add a click event listener to the "Enable Push" button
-    // and get the subscription object
-
-  }
-
-  // TODO 4.2a - add VAPID public key
-
-  function subscribeUser() {
-
-    // TODO 3.4 - subscribe to the push service
-
-  }
-
-  function unsubscribeUser() {
-
-    // TODO 3.5 - unsubscribe from the push service
-
-  }
-
   function updateSubscriptionOnServer(subscription) {
     // Here's where you would send the subscription to the application server
 
@@ -210,12 +189,14 @@ var app = (function() {
               //console.log(timeDuration);
               window.setTimeout(displayNotification, timeDuration);
 
+
             }
 
 
           }
         }
         alert('Notification Time Set');
+        window.location.replace("http://localhost:3000/home");
 
 
 
@@ -238,8 +219,6 @@ var app = (function() {
         console.log('Service Worker is registered', swReg);
 
         swRegistration = swReg;
-
-        // TODO 3.3a - call the initializeUI() function
 
       })
       .catch(function(error) {

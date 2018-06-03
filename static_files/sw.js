@@ -38,7 +38,7 @@
     if (action === 'close') {
       notification.close();
     } else {
-      clients.openWindow('samples/page' + primaryKey + '.html');
+      clients.openWindow('/home');
       notification.close();
     }
 
