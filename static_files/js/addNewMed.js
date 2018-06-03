@@ -63,6 +63,7 @@ function createMedicine(profile_id)
       },
       success: (data) => {
         console.log('You received some data!', data);
+
         post('/home')
 
 

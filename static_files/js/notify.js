@@ -1,8 +1,5 @@
 var app = (function() {
   'use strict';
-  // set timer
-  var currentDate = new Date();
-  var time = 2000;
 
   var isSubscribed = false;
   var swRegistration = null;
@@ -10,6 +7,48 @@ var app = (function() {
   var notifyButton = document.querySelector('.js-notify-btn');
   var pushButton = document.querySelector('.js-push-btn');
 
+  function checkMonth(month) {
+    switch (month) {
+      case 'Jan':
+        return 0;
+        break;
+      case 'Feb':
+        return 1;
+        break;
+      case 'Mar':
+        return 2;
+        break;
+      case 'Apr':
+        return 3;
+        break;
+      case 'May':
+        return 4;
+        break;
+      case 'Jun':
+        return 5;
+        break;
+      case 'Jul':
+        return 6;
+        break;
+      case 'Aug':
+        return 7;
+        break;
+      case 'Sep':
+        return 8;
+        break;
+      case 'Oct':
+        return 9;
+        break;
+      case 'Nov':
+        return 10;
+        break;
+      case 'Dec':
+        return 11;
+        break;
+      default:
+        0;
+    }
+  }
   // check for notification support
   if (!('Notification' in window)) {
     console.log('This browser does not support notifications!');
@@ -29,6 +68,7 @@ var app = (function() {
 
         // Add 'options' object to configure the notification
         var options = {
+          title: 'Notification',
           body: 'First notification!',
           icon: 'images/notification-flat.png',
           vibrate: [100, 50, 100],
@@ -50,10 +90,10 @@ var app = (function() {
             },
           ]
 
-          // TODO 5.1 - add a tag to the notification
 
-        };
-        reg.showNotification('Hello world!', options);
+        }
+
+        reg.showNotification(options.title, options);
       });
     }
 
@@ -129,8 +169,65 @@ var app = (function() {
   }
 
   notifyButton.addEventListener('click', function() {
-    window.setTimeout(displayNotification, time);
-    //displayNotification();
+
+    // need to call ajax here
+    $.ajax({
+      // need to change profile_id
+      // as "localStorage.profile_id"
+      // test value
+      url: '/api/profiles/' + localStorage.profile_id + '/history',
+      type: 'GET',
+      dataType: 'json', // this URL returns data in JSON format
+      beforeSend: (xhr) => { //Include the bearer token in header
+        xhr.setRequestHeader("Authorization", 'Bearer ' + window.localStorage.getItem("token"));
+      },
+      success: (data) => {
+        console.log('Notify', data);
+        for (var i = 0; i < data.length; i++) {
+          //console.log(data[i].date);
+          let day = data[i].date.substring(0, 2);
+          let month = data[i].date.substring(3, 6);
+          let year = data[i].date.substring(7, 11);
+          let numOfMonth = checkMonth(month);
+          for (var j = 0; j < data[i].values.length; j++) {
+            let hours = data[i].values[j].time.substring(0, 2);
+            let mins = data[i].values[j].time.substring(3, 5);
+            let notificationDate = new Date(year, numOfMonth, day);
+            notificationDate.setHours(hours, mins);
+            let currentDate = new Date();
+            //// TODO: need to change it "//let timeDuration = (notificationDate.getTime() - currentDate.getTime());"
+            // test value
+            //let timeDuration = (currentDate.getTime()- notificationDate.getTime());
+            let timeDuration = (notificationDate.getTime() - currentDate.getTime());
+            if (timeDuration > 0) { // notification time already passed
+              // do nothing
+              console.log('notification time already passed ');
+            } else {
+              //console.log(timeDuration); //in milliseconds
+              timeDuration = timeDuration * -1;
+              // test
+              // timeDuration = 5000; then it will show notification once
+              //console.log(timeDuration);
+              window.setTimeout(displayNotification, timeDuration);
+
+            }
+
+
+          }
+        }
+        alert('Notification Time Set');
+
+
+
+      },
+      error: (xhr, textStatus, error) => {
+        console.log(xhr.statusText + ': ' + xhr.responseJSON.error);
+      }
+    });
+
+
+
+
   });
 
   if ('serviceWorker' in navigator && 'PushManager' in window) {
