@@ -1,3 +1,15 @@
+/*
+ * REST API controller for dealing witha all requests related to account.
+ * Functions:
+ * - getToken - generates JWT token 
+ * - getAllAccounts - returns list of all accounts
+ * - signup - check valid info and create new user
+ * - login - check credentials and logs users in
+ * - getAccountInfo - account information (email, password)
+ * - editAccount - edit account info from db
+ * - deleteAccount - delete account from db
+ */
+
 const jwt = require("jsonwebtoken");
 const sqlite3 = require('sqlite3');
 const bcrypt = require('bcrypt');     
