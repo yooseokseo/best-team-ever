@@ -7,23 +7,23 @@
 # Contributions
 
 **Lindy**:
-	-
+-
 
 
 **Mayreni**:
-	- implemented account settings page in settings.handlebars
-	- implemented edit account info page in editAccountInfo.handlebars (file revoked)
-	- implemented changePassword.handlebars
-	- implemented functionality in addNewMed.js and addNewMed.handlebars to autofill Medicine name with data API
-	- implemented UI skeleton
+- implemented account settings page in settings.handlebars
+- implemented edit account info page in editAccountInfo.handlebars (file revoked)
+- implemented changePassword.handlebars
+- implemented functionality in addNewMed.js and addNewMed.handlebars to autofill Medicine name with data API
+- implemented UI skeleton
 
-  **Peem**:
-    - Created entire backend
-    - Linked backend w/ frontend
-    - All files in rest_api folder
-    - All files in routes folder
-    - Most of the files in static_files/js folder
-    - A few files in views folder
+**Peem**:
+  - Created entire backend
+  - Linked backend w/ frontend
+  - All files in rest_api folder
+  - All files in routes folder
+  - Most of the files in static_files/js folder
+  - A few files in views folder
 
 **Yooseok**:
   - Most of the files in views folder
