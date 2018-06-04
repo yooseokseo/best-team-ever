@@ -1,11 +1,13 @@
+<!-- Page for user to view and manage profiles -->
+
 <title>Manage Profiles</title>
 </head>
 <body>
   {{>navigation}}
   {{>nonscript}}
   <div class="view-profile-container">
-    
-    
+
+
     <!-- NEED TO REMOVE DIV WITHOUT WEIRD BUG THING -->
     <div> </div>
     <!-- __________________________________________ -->
@@ -13,7 +15,7 @@
 
     <!-- make POST request if user access page with GET request (via url) -->
     {{>post}}
-      
+
       <!-- loop through all profile array and list them all -->
       <div class="view-profile-box-list">
         <div class="flex-center box-title">
@@ -30,11 +32,11 @@
             </div>
           </div>
         </a>
-        
+
         <br> <hr> <br>
 
         <!-- other profiles -->
-        {{#each profileList}}  
+        {{#each profileList}}
           <a onclick='post("/viewProfile/{{id}}")'>
             <div class="view-profile-box border-black">
               <div class="flex-center">
@@ -48,15 +50,12 @@
         {{/each}}
 
       </div>
-      
-    
+
+
     <a onclick="post('/addNewProfile')">
       <div class="flex-center btn edit-account-info-btn">
         Add Profile
       </div>
     </a>
-    
+
   </div>
-
-
-

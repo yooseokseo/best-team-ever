@@ -1,3 +1,5 @@
+<!-- Page where users can edit information for their medication -->
+
 <title>Add New Medication</title>
 </head>
 <body onload="check('{{med_type}}', '{{med_color}}')">
@@ -13,7 +15,7 @@
       </div>
       <div class="flex-center"> <p>{{medicinename}}</p> </div>
     </div>
-    
+
     <!-- medicine name -->
     <div class="add-new-med-box">
       <div class="box-title"> Medicine name </div>
@@ -26,7 +28,7 @@
     <!-- dosage -->
     <div class="add-new-med-box">
       <div class="box-title"> Dosage per pill </div>
-      
+
       <div class="box-content flex-center">
         <div class="med-dosage-container">
           <input id="dosage" class="med-dosage-input" type="text" value="{{dosage}}">
@@ -42,7 +44,7 @@
     <!-- frequency -->
     <div class="add-new-med-box">
       <div class="box-title"> Frequency </div>
-      
+
       <div class="box-content-frequency flex-center">
         <div class="med-frequency-container">
           <input id="num_pills" class="med-frequency-input" type="text" value="{{num_pills}}"> Pills
@@ -62,12 +64,12 @@
 
 
     <!-- duration -->
-    <div class="add-new-med-box">     
+    <div class="add-new-med-box">
       <div class="box-title"> Duration </div>
 
       <div class="box-content-duration flex-center">
         <div class="med-duration-container">
-          
+
           <div class="med-duration-box">
             <div class=""> Start Date </div>
             <input id="start_date" class="border-black duration-input" type="date" value="{{start_date}}">
@@ -78,7 +80,7 @@
             <input id="start_time" class="border-black duration-input" type="time" value="{{start_time}}">
           </div>
           <hr id="divider-hr">
-          
+
           <div class="med-duration-box">
             <div class=""> End Date </div>
             <input id="end_date" class="border-black duration-input" type="date" value="{{end_date}}">
@@ -114,7 +116,7 @@
                 </div>
               {{/each}}
             </div>
-            
+
             <!-- med color div -->
             <div class="med-color">
               {{#each colorList}}
@@ -135,7 +137,7 @@
     <!-- note -->
     <div class="add-new-med-box">
       <div class="box-title"> Note </div>
-      
+
       <div class="box-content-note flex-center">
         <div class="med-note-container">
           <textarea id="note" class="med-note-text"></textarea>
@@ -155,6 +157,6 @@
       Save
     </div>
   </div>
-  
+
   <script src="/js/editMedicine.js"/>
   {{>script}}

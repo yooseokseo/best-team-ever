@@ -1,9 +1,12 @@
+<!-- Page for users to add information and create new profile -->
+
 <title>Add a New Profile</title>
 </head>
 <body>
   {{>navigation}}
   {{>nonscript}}
   <div class="add-new-profile-container">
+    <!-- Data fields for new profile -->
     <div class="add-new-profile-name-box profile-image-box">
       <div id="add-new-profile-image" class="border-black flex-center">
         <img class="profile-image" src="/images/icons/user.svg" alt="">
@@ -44,6 +47,7 @@
     </div>
 
   </div>
+  <!-- Cancel or create new profile -->
   <div id="btns-container" class="add-new-profile-btn">
     <div class="btn flex-center border-right-black" onclick="backtopage();">
       Cancel

@@ -1,3 +1,5 @@
+<!-- Page that prompts users to choose which profile history to view -->
+
 <title>History</title>
 </head>
 <body>
@@ -7,16 +9,16 @@
   <div class="view-profile-container">
 
     <div class="flex-center">
-      
+
     </div>
 
 
     <!-- make POST request if user access page with GET request (via url) -->
     {{>post}}
-      
+
       <!-- loop through all profile array and list them all -->
       <div class="view-profile-box-list">
-        
+
         <div class="flex-center box-title">
           <p>Default Profile</p>
         </div>
@@ -31,11 +33,11 @@
             </div>
           </div>
         </a>
-        
+
         <br> <hr> <br>
 
         <!-- other profiles -->
-        {{#each profileList}}  
+        {{#each profileList}}
           <a onclick='post("/viewProfileHistory/{{id}}")'>
             <div class="view-profile-box border-black">
               <div class="flex-center">
@@ -49,9 +51,9 @@
         {{/each}}
 
       </div>
-      
 
-    
+
+
   </div>
 
 
