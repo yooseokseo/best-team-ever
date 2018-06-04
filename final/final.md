@@ -79,8 +79,8 @@
   	|   |-- notification.html 			: Page for notification settings
     	|   |-- sw.js                   		: adding event handler into service worker
 	|   |-- css
-	|   |   |-- main.css   : css style for entire project
-	|   |   |-- modal.css  : css style for only modal
+	|   |   |-- main.css   				: css style for entire project
+	|   |   |-- modal.css  				: css style for only modal
 	|   |-- js
 	|       |-- addNewMed.js 			: User adds new medication by filling in several fields in the form, New med is added database.
 	|       |-- addNewProfile.js 			: Adding a new profile functionality
