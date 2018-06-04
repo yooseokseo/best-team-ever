@@ -54,7 +54,7 @@ var app = (function() {
     console.log('Notification permission status:', status);
   });
 
-  function displayNotification(medicinename, date) {
+  function displayNotification(medicinename, id) {
     // display a Notification
     if (Notification.permission == 'granted') {
       navigator.serviceWorker.getRegistration().then(function(reg) {
@@ -67,7 +67,8 @@ var app = (function() {
           vibrate: [100, 50, 100],
           data: {
             dateOfArrival: Date.now(),
-            primaryKey: 1
+            primaryKey: 1,
+            id: id
           },
 
           // add actions to the notification
@@ -167,7 +168,7 @@ var app = (function() {
               const id = data[i].values[j].id;
               console.log('notification for '+name+' at '+notificationDate);
               window.setTimeout(
-                () => {displayNotification(name, id)},
+                () => { displayNotification(name, id) },
                 timeDuration
               );
             }

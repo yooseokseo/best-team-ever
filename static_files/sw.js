@@ -23,11 +23,12 @@
     var notification = e.notification;
     var primaryKey = notification.data.primaryKey;
     var action = e.action;
+    console.log('id = '+notification.data.id);
 
     if (action === 'close') {
       notification.close();
     } else {
-      clients.openWindow('/home');
+      clients.openWindow('/viewHistoryDetail/'+id);
       notification.close();
     }
 
