@@ -1,3 +1,17 @@
+/*
+ * REST API controller for dealing witha all requests related to history.
+ * Functions:
+ * - newHistory - create new history from medicine info 
+ * - login - check credentials and logs users in
+ * - getAccountHistory - get history info for entire account
+ * - getProfileHistory - get history info for entire profile
+ * - getMedHistory - get all history info for a medication
+ * - getHistory - get a specific history
+ * - editHistory - edit history info from db
+ * - deleteHistory - delete history from db
+ */
+
+
 const sqlite3 = require('sqlite3');
 const moment = require('moment');
 

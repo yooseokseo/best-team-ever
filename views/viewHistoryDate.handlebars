@@ -1,16 +1,26 @@
-<title>View History Date</title>
+<title>History</title>
 </head>
 <body>
   {{>navigation}}
   {{>nonscript}}
-  <div class="view-history-container">
+
+  <div class="view-profile-container">
+      
     <div class="flex-center">
       <div class="pill-date-box border-black">
-        <a class="flex-center border-right" href="/viewHistory">Pill</a>
-        <a class="flex-center gray" href="/viewHistoryDate">Date</a>
+        <a class="flex-center gray border-right" href="/viewHistory">Pill</a>
+        <a class="flex-center" href="/viewHistoryDate">Date</a>
       </div>
     </div>
-    <div class="pill-date-box-bottom-2">
+
+
+    <!-- make POST request if user access page with GET request (via url) -->
+    {{>post}}
+      
+
+
+      
+     <div class="pill-date-box-bottom-2">
       <div class="box-title flex-center">
         <div class="pill-date-item-march border-black">
           March - 2018
@@ -123,10 +133,14 @@
       </div>
 
     </div>
+
+
+
+      
+    
+
+    
   </div>
 
+{{>script}}
 
-
-
-
-</body>
