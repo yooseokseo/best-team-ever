@@ -136,6 +136,48 @@ exports.newHistory = (req, res) =>
 }
 
 
+/**
+ * GET history of all medicine for specified account.
+ *
+ * Route signature: GET api/history/:profile_id
+ * Example call: localhost:3000/api/history/4
+ * Expected: token
+ *
+ * @return 1) error 500 if error occured while searching for profile. Otherwise
+ *            -> {keys -> error}
+ *         2) array of medicine history sorted by date if found
+ *            -> [ {keys -> date, values: [ {...}, {...}, ..] } ]
+ */
+exports.getAccountHistory = (req, res) =>
+{
+  console.log('---');
+  console.log('GET ACCOUNT HISTORY');
+
+  const account_id = req.userData.account_id;
+
+  const query = `SELECT hist.id, med.medicinename, hist.date, hist.time, 
+                        hist.isTaken, med.med_type, med.med_color, hist.medicine_id
+                 FROM history hist, medicine med
+                 WHERE hist.medicine_id=med.id AND
+                       hist.account_id=?`;
+  db.all(query, [account_id], (err, rows) => 
+  {
+    if (err) 
+    {
+      console.log(err);
+      res.status(500).json( {error: err} );
+    }
+    else
+    {
+
+      sort(rows, (sorted) =>
+      {
+        res.status(200).json( sorted );
+        
+      }); 
+    }
+  }); // end of db.all(...)
+}
 
 /**
  * GET history of all medicine for specified profile.

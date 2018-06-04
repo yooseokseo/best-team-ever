@@ -2,27 +2,30 @@ const express = require("express");
 const router = express.Router();
 
 const AccountsController = require("../controllers/accounts");
+const HistoryController = require('../controllers/history');
 const checkAuth = require('../middleware/check-auth');
 
 
-// Get list of all usernames (ex. localhost:3000/accounts)
+// Get list of all usernames
 router.get('/', AccountsController.getAllAccounts);
 
-// Signup (ex. localhost:3000/accounts/signup)
+// Signup
 router.post('/signup', AccountsController.signup);
 
-// Login (ex. localhost:3000/accounts/login)
+// Login
 router.post('/login', AccountsController.login);
 
-// Get user's account info (ex. localhost:3000/accounts/info)
+// Get user's account info
 router.get('/info', checkAuth, AccountsController.getAccountInfo);
 
-// Edit specific account (ex. localhost:3000/accounts/edit)
+// Edit specific account
 router.patch('/edit/', checkAuth, AccountsController.editAccount);
 
-// Delete specific account (ex. localhost:3000/profiles/delete)
+// Delete specific account
 router.delete('/delete/', checkAuth, AccountsController.deleteAccount);
 
+// Get an account's entire medicine history 
+router.get('/history', checkAuth, HistoryController.getAccountHistory);
 
 
 

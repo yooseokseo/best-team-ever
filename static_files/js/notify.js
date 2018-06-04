@@ -1,9 +1,6 @@
 /*
   FileName : notify.js
   Brief Description :
-    Converting Month(literal) to Month(number)
-      - using switch function to return the number of Month (0-11)
-
     Checking for notification support
 
     Requesting permission to show notifications
@@ -24,18 +21,14 @@
 */
 
 
-$(document).ready(() => {
+var app = (function() {
+  'use strict';
 
   // clear existing timeouts so we dont get duplicates
   let id = window.setTimeout(function() {}, 0);
   while (id--) {
     window.clearTimeout(id);
   }
-
-});
-
-var app = (function() {
-  'use strict';
 
   var isSubscribed = false;
   var swRegistration = null;
@@ -54,7 +47,7 @@ var app = (function() {
     console.log('Notification permission status:', status);
   });
 
-  function displayNotification(medicinename, id) {
+  function displayNotification(medicinename, id, med_pic) {
     // display a Notification
     if (Notification.permission == 'granted') {
       navigator.serviceWorker.getRegistration().then(function(reg) {
@@ -63,7 +56,7 @@ var app = (function() {
         var options = {
           title: 'Reminder',
           body: 'Take '+medicinename,
-          icon: 'images/notification-flat.png',
+          icon: 'images/icons/pills/'+med_pic,
           vibrate: [100, 50, 100],
           data: {
             dateOfArrival: Date.now(),
@@ -138,18 +131,17 @@ var app = (function() {
     return outputArray;
   }
 
-  notifyButton.addEventListener('click', function() {
 
-
+    // set notification for entire account
     $.ajax({
-      url: '/api/profiles/4/history',
+      url: '/api/accounts/history',
       type: 'GET',
       dataType : 'json', // this URL returns data in JSON format
       beforeSend: (xhr) => {   //Include the bearer token in header
           xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
       },
       success: (data) =>
-      {
+      {  
         console.log(data);
         for (var i = 0; i < data.length; i++) {
           for (var j = 0; j < data[i].values.length; j++) {
@@ -166,18 +158,16 @@ var app = (function() {
             if (timeDuration > 0) { // notification time has not passed yet
               const name = data[i].values[j].medicinename;
               const id = data[i].values[j].id;
+              const med_pic = data[i].values[j].med_pic;
               console.log('notification for '+name+' at '+notificationDate);
               window.setTimeout(
-                () => { displayNotification(name, id) },
+                () => { displayNotification(name, id, med_pic) },
                 timeDuration
               );
             }
-
-
           }
         }
-        //window.location.replace("http://localhost:3000/home");
-
+        
       },
       error: (err) =>
       {
@@ -185,14 +175,13 @@ var app = (function() {
       }
     });
 
-  });
 
   if ('serviceWorker' in navigator && 'PushManager' in window) {
     console.log('Service Worker and Push is supported');
 
     navigator.serviceWorker.register('sw.js')
       .then(function(swReg) {
-        console.log('Service Worker is registered', swReg);
+        console.log('Service Worker is registered');
 
         swRegistration = swReg;
 

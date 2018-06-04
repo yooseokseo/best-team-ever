@@ -7,7 +7,7 @@ const checkAuth = require('../middleware/check-auth');
 // Get medicine's history 
 router.get('/:profile_id/:medicine_id', checkAuth, HistoryController.getMedHistory);
 
-// Get specific history data (ex. localhost:3000/history/2)
+// Get specific history data
 router.get('/:history_id', checkAuth, HistoryController.getHistory);
 
 

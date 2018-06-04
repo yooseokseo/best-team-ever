@@ -8,17 +8,17 @@ const checkAuth = require('../middleware/check-auth');
 
 
 
-// Create new medicine (ex. localhost:3000/medicine/new)
+// Create new medicine
 router.post('/new/:profile_id', checkAuth, 
 			MedsController.newMedicine, HistoryController.newHistory);
 
-// Get specific medicine data (ex. localhost:3000/medicine/2)
+// Get specific medicine data
 router.get('/:medicine_id', checkAuth, MedsController.getMedicine);
 
-// Edit specific medicine (ex. localhost:3000/medicine/edit/2)
+// Edit specific medicine
 router.patch('/edit/:medicine_id', checkAuth, MedsController.editMedicine);
 
-// Delete specific medicine (ex. localhost:3000/medicine/delete/2)
+// Delete specific medicine
 router.delete('/delete/:medicine_id', checkAuth, MedsController.deleteMedicine);
 
 
