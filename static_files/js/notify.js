@@ -1,3 +1,13 @@
+$(document).ready(() => {
+  
+  // clear existing timeouts so we dont get duplicates
+  let id = window.setTimeout(function() {}, 0);
+  while (id--) {
+    window.clearTimeout(id);
+  }
+
+});
+
 var app = (function() {
   'use strict';
 
@@ -7,48 +17,6 @@ var app = (function() {
   var notifyButton = document.querySelector('.js-notify-btn');
   var pushButton = document.querySelector('.js-push-btn');
 
-  function checkMonth(month) {
-    switch (month) {
-      case 'Jan':
-        return 0;
-        break;
-      case 'Feb':
-        return 1;
-        break;
-      case 'Mar':
-        return 2;
-        break;
-      case 'Apr':
-        return 3;
-        break;
-      case 'May':
-        return 4;
-        break;
-      case 'Jun':
-        return 5;
-        break;
-      case 'Jul':
-        return 6;
-        break;
-      case 'Aug':
-        return 7;
-        break;
-      case 'Sep':
-        return 8;
-        break;
-      case 'Oct':
-        return 9;
-        break;
-      case 'Nov':
-        return 10;
-        break;
-      case 'Dec':
-        return 11;
-        break;
-      default:
-        0;
-    }
-  }
   // check for notification support
   if (!('Notification' in window)) {
     console.log('This browser does not support notifications!');
@@ -60,16 +28,15 @@ var app = (function() {
     console.log('Notification permission status:', status);
   });
 
-  function displayNotification() {
-
+  function displayNotification(medicinename, date) {
     // display a Notification
     if (Notification.permission == 'granted') {
       navigator.serviceWorker.getRegistration().then(function(reg) {
 
         // Add 'options' object to configure the notification
         var options = {
-          title: 'Notification',
-          body: 'First notification!',
+          title: 'Reminder',
+          body: 'Take '+medicinename,
           icon: 'images/notification-flat.png',
           vibrate: [100, 50, 100],
           data: {
@@ -89,10 +56,7 @@ var app = (function() {
               icon: 'images/xmark.png'
             },
           ]
-
-
         }
-
         reg.showNotification(options.title, options);
       });
     }
@@ -149,65 +113,50 @@ var app = (function() {
 
   notifyButton.addEventListener('click', function() {
 
-    // need to call ajax here
+
     $.ajax({
-      // need to change profile_id
-      // as "localStorage.profile_id"
-      // test value
-      url: '/api/profiles/' + localStorage.profile_id + '/history',
+      url: '/api/profiles/4/history',
       type: 'GET',
-      dataType: 'json', // this URL returns data in JSON format
-      beforeSend: (xhr) => { //Include the bearer token in header
-        xhr.setRequestHeader("Authorization", 'Bearer ' + window.localStorage.getItem("token"));
+      dataType : 'json', // this URL returns data in JSON format
+      beforeSend: (xhr) => {   //Include the bearer token in header
+          xhr.setRequestHeader("Authorization", 'Bearer '+window.localStorage.getItem("token"));
       },
-      success: (data) => {
-        console.log('Notify', data);
+      success: (data) =>
+      {
+        console.log(data);
         for (var i = 0; i < data.length; i++) {
-          //console.log(data[i].date);
-          let day = data[i].date.substring(0, 2);
-          let month = data[i].date.substring(3, 6);
-          let year = data[i].date.substring(7, 11);
-          let numOfMonth = checkMonth(month);
           for (var j = 0; j < data[i].values.length; j++) {
             let hours = data[i].values[j].time.substring(0, 2);
             let mins = data[i].values[j].time.substring(3, 5);
-            let notificationDate = new Date(year, numOfMonth, day);
+            
+            let notificationDate = new Date(data[i].date);
             notificationDate.setHours(hours, mins);
+            
             let currentDate = new Date();
-            //// TODO: need to change it "//let timeDuration = (notificationDate.getTime() - currentDate.getTime());"
-            // test value
-            //let timeDuration = (currentDate.getTime()- notificationDate.getTime());
             let timeDuration = (notificationDate.getTime() - currentDate.getTime());
-            if (timeDuration > 0) { // notification time already passed
-              // do nothing
-              console.log('notification time already passed ');
-            } else {
-              //console.log(timeDuration); //in milliseconds
-              timeDuration = timeDuration * -1;
-              // test
-              // timeDuration = 5000; then it will show notification once
-              //console.log(timeDuration);
-              window.setTimeout(displayNotification, timeDuration);
 
 
+            if (timeDuration > 0) { // notification time has not passed yet
+              const name = data[i].values[j].medicinename;
+              const id = data[i].values[j].id;
+              console.log('notification for '+name+' at '+notificationDate);
+              window.setTimeout( 
+                () => {displayNotification(name, id)}, 
+                timeDuration
+              );
             }
 
 
           }
         }
-        alert('Notification Time Set');
-        window.location.replace("http://localhost:3000/home");
-
-
+        //window.location.replace("http://localhost:3000/home");
 
       },
-      error: (xhr, textStatus, error) => {
-        console.log(xhr.statusText + ': ' + xhr.responseJSON.error);
+      error: (err) =>
+      {
+        console.log(err);
       }
     });
-
-
-
 
   });
 

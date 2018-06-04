@@ -172,8 +172,10 @@ exports.getProfileHistory = (req, res) =>
     }
     else
     {
+
     	sort(rows, (sorted) =>
       {
+        console.log(sorted);
         if (req.profile) // request came from find profile
         {
           req.profile.medicine = sorted;
