@@ -11,6 +11,7 @@
   'use strict';
 
 
+
   // Handle the notificationclose event
   self.addEventListener('notificationclose', function(e) {
     var notification = e.notification;
@@ -24,8 +25,6 @@
     var notification = e.notification;
     var primaryKey = notification.data.primaryKey;
     var action = e.action;
-    console.log('id = '+notification.data.id);
-    console.log('dick');
 
     if (action === 'close') {
       notification.close();
