@@ -81,12 +81,6 @@
 	|       |-- history.js                          : REST API route to handle history related requests
 	|       |-- medicine.js                         : REST API route to handle medicine related requests
 	|       |-- profiles.js                         : REST API route to handle profile related requests
-	|-- routes
-	|   |-- accounts.js                             : Route to render all accounts related pages
-	|   |-- extra.js                                : Route to render all extra front end pages
-	|   |-- history.js                              : Route to render all history related frontend pages
-	|   |-- medicine.js                             : Route to render all medicine related frontend pages
-	|   |-- profiles.js                             : Route to render all profile related frontend pages
 	|-- static_files
   	|   |-- notification.html 			: Page for notification settings
     	|   |-- sw.js                   		: adding event handler into service worker
