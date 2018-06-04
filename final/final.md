@@ -7,8 +7,10 @@
 # Contributions
 
 **Lindy**:
--
-
+- created paper UX/UI version of initial app
+- explained UX/UI developments in milestone markdown files
+- implemented help.handlebars page
+- edited and recorded voice-over for demo video
 
 **Mayreni**:
 - implemented account settings page in settings.handlebars
