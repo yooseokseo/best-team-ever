@@ -56,21 +56,17 @@
 	|-- server.js                                   : Hosts and runs the server
 	|-- rest_api
 	|   |-- controllers
-<<<<<<< HEAD
-	|   |   |-- accounts.js  : REST API controller for dealing witha all requests related to account
-	|   |   |-- history.js : REST API controller for dealing witha all requests related to history
-	|   |   |-- medicine.js : REST API controller for dealing witha all requests related to medicine
-	|   |   |-- profiles.js : REST API controller for dealing witha all requests related to profile
-=======
+	|   |   |-- accounts.js  : REST API controller for dealing with all requests related to account
+	|   |   |-- history.js : REST API controller for dealing with all requests related to history
+	|   |   |-- medicine.js : REST API controller for dealing with all requests related to medicine
+	|   |   |-- profiles.js : REST API controller for dealing with all requests related to profile
 	|   |   |-- accounts.js                         : REST API controller for handling accounts related requests
 	|   |   |-- history.js                          : REST API controller for handling history related requests
 	|   |   |-- medicine.js                         : REST API controller for handling medicine related requests
 	|   |   |-- profiles.js                         : REST API controller for handling profile related requests
->>>>>>> 85ada5a4a67430398eb11160abf61757366027ef
 	|   |-- database
 	|   |   |-- create_database.js : create the initial database as the users.db file
 	|   |-- middleware
-<<<<<<< HEAD
 	|   |   |-- check-auth.js : Middleware file for checking user authentication
 	|   |-- routes
 	|       |-- accounts.js : list all of routes for all requests related to account
@@ -83,7 +79,6 @@
 	|   |-- history.js: contains all functionality for all requests related to medicine
 	|   |-- medicine.js: contains all functionality for all requests related to medicine
 	|   |-- profiles.js: contains all functionality for all requests related to profile
-=======
 	|   |   |-- check-auth.js                       : Check user's JWT for authentication
 	|   |-- routes
 	|       |-- accounts.js                         : REST API route to handle accounts related requests
@@ -96,7 +91,6 @@
 	|   |-- history.js                              : Route to render all history related frontend pages
 	|   |-- medicine.js                             : Route to render all medicine related frontend pages
 	|   |-- profiles.js                             : Route to render all profile related frontend pages
->>>>>>> 85ada5a4a67430398eb11160abf61757366027ef
 	|-- static_files
   	|   |-- notification.html 			: Page for notification settings
     	|   |-- sw.js                   		: adding event handler into service worker
