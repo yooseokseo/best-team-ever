@@ -75,12 +75,6 @@
 	|   |-- history.js				: contains all functionality for all requests related to medicine
 	|   |-- medicine.js				: contains all functionality for all requests related to medicine
 	|   |-- profiles.js				: contains all functionality for all requests related to profile
-	|   |   |-- check-auth.js                       : Check user's JWT for authentication
-	|   |-- routes
-	|       |-- accounts.js                         : REST API route to handle accounts related requests
-	|       |-- history.js                          : REST API route to handle history related requests
-	|       |-- medicine.js                         : REST API route to handle medicine related requests
-	|       |-- profiles.js                         : REST API route to handle profile related requests
 	|-- static_files
   	|   |-- notification.html 			: Page for notification settings
     	|   |-- sw.js                   		: adding event handler into service worker
