@@ -21,7 +21,6 @@
 	-	viewHistory Page layout(HTML/CSS)
 	-	viewPillDetail Page layout(HTML/CSS)
 	-	viewProfile Page layout(HTML/CSS)
-
 	-	Implemented Add new profile functionality
 	-	Implemented display functionality that shows all medicines for a specific profile user
 	-	Implemented profile Selection functionality
