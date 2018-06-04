@@ -423,9 +423,7 @@ nav {
 .view-pill-history-container{
   display: grid;
   grid-template-columns:  1fr;
-  grid-template-rows: 2fr 8fr;
   height: 90vh;
-  grid-row-gap:5vh;
 }
 
 .view-pill-history-box{
