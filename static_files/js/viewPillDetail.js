@@ -1,3 +1,9 @@
+/*
+  FileName : viewPillDetail.js
+  Brief Description :
+    Option to delete the pill on pill detail page
+*/
+
 function deleteMedicine (medicine_id) 
 {    
   $.ajax({
