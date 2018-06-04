@@ -77,6 +77,7 @@
 	|   |-- profiles.js
 	|-- static_files
   	|   |-- notification.html 			: Page for notification settings
+    |   |-- sw.js                   : adding event handler into service worker
 	|   |-- css
 	|   |   |-- main.css
 	|   |   |-- modal.css
