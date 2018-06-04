@@ -52,7 +52,7 @@
 # Source code tree
 <pre>
 |-- COGS 121 - HCI Programming Studio
-	|-- app.js 			: something here
+	|-- app.js 			
 	|-- server.js
 	|-- rest_api
 	|   |-- controllers
@@ -96,26 +96,26 @@
 	|       |-- viewProfile.js
 	|       |-- viewProfiles.js
 	|-- views
-		|-- addNewMed.handlebars
-		|-- addNewProfile.handlebars
-		|-- changePassword.handlebars
-		|-- editMedicine.handlebars
-		|-- error.handlebars
-		|-- help.handlebars
-		|-- home.handlebars
-		|-- login.handlebars
-		|-- noUserProfile.handlebars
-		|-- settings.handlebars
-		|-- viewAllMed.handlebars
-		|-- viewHistory.handlebars
-		|-- viewHistoryDate.handlebars
-		|-- viewHistoryDateDetail.handlebars
-		|-- viewHistoryDetail.handlebars
-		|-- viewPillDetail.handlebars
-		|-- viewPillHistory.handlebars
-		|-- viewProfile.handlebars
-		|-- viewProfileHistory.handlebars
-		|-- viewProfiles.handlebars
+		|-- addNewMed.handlebars		: Page where users can add information for new medication
+		|-- addNewProfile.handlebars		: Page for users to add information and create new profile 
+		|-- changePassword.handlebars		: Page where user can change their password	
+		|-- editMedicine.handlebars		: Page where users can edit information for their medication	
+		|-- error.handlebars			: Page that displays errors
+		|-- help.handlebars			: Page with some questions and answers to help users 
+		|-- home.handlebars			: Home page that displays upcoming medication for default profile
+		|-- login.handlebars			: Page where users can login or sign up
+		|-- noUserProfile.handlebars		: Page that shows users they have no profiles
+		|-- settings.handlebars			: Page where user can view/edit account info or change password
+		|-- viewAllMed.handlebars		: Page display selected profile's current medications
+		|-- viewHistory.handlebars		: Page that prompts users to choose which profile history to view
+		|-- viewHistoryDate.handlebars		: Page that displays profile's medication history by date
+		|-- viewHistoryDateDetail.handlebars	: Page that displays profile's medication history by day in more detail
+		|-- viewHistoryDetail.handlebars	: Page that displays profile's medication history with pill details
+		|-- viewPillDetail.handlebars		: Page that displays selected pill information 
+		|-- viewPillHistory.handlebars		: Page that show selected pill's history of intake
+		|-- viewProfile.handlebars		: Page for user to view a selected profile
+		|-- viewProfileHistory.handlebars	: Page for user to the medication history of a profile
+		|-- viewProfiles.handlebars		: Page for user to view and manage profiles
 		|-- layouts
 		|   |-- main.handlebars
 		|-- partials
