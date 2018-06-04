@@ -1,3 +1,13 @@
+/*
+ * Files for serving and renderign all frontend pages related to accounts.
+ * Makes HTTP request to the rest_api folder gets information. Renders the
+ * page with fetched information, where the page will be rendered using handlebars
+ * Functions:
+ * - login - renders login page
+ * - chagePassword - renders change password page
+ * - [insertname] - renders [insertname] page
+ */
+
 const request = require('request');
 
 exports.login = (req, res) => 

@@ -1,3 +1,10 @@
+/*
+ * Files for serving and renderign all frontend pages related to medicine.
+ * Makes HTTP request to the rest_api folder gets information. Renders the
+ * page with fetched information, where the page will be rendered using handlebars
+ */
+
+
 const request = require('request');
 
 
