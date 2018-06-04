@@ -56,10 +56,6 @@
 	|-- server.js                                   : Hosts and runs the server
 	|-- rest_api
 	|   |-- controllers
-	|   |   |-- accounts.js  			: REST API controller for dealing with all requests related to account
-	|   |   |-- history.js 				: REST API controller for dealing with all requests related to history
-	|   |   |-- medicine.js 			: REST API controller for dealing with all requests related to medicine
-	|   |   |-- profiles.js 			: REST API controller for dealing with all requests related to profile
 	|   |   |-- accounts.js                         : REST API controller for handling accounts related requests
 	|   |   |-- history.js                          : REST API controller for handling history related requests
 	|   |   |-- medicine.js                         : REST API controller for handling medicine related requests
