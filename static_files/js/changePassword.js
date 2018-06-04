@@ -1,3 +1,8 @@
+/*
+  FileName : changePassword.js
+  Brief Description :
+    Given user's old password, user's password is changed to a new one.
+*/
 function save()
 {
 	const currentPassword = $('#currentPassword').val();
