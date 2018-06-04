@@ -76,26 +76,26 @@
 	|   |-- medicine.js
 	|   |-- profiles.js
 	|-- static_files
+  	|   |-- notification.html 			: Page for notification settings
+    	|   |-- sw.js                   		: adding event handler into service worker
 	|   |-- css
 	|   |   |-- main.css
 	|   |   |-- modal.css
 	|   |-- js
-	|       |-- addNewMed.js    : User adds new medication by filling in several fields in the form.
-  New med is added database.
-	|       |-- addNewProfile.js     : 
-	|       |-- changePassword.js
-	|       |-- editMedicine.js
-	|       |-- history.js
-	|       |-- home.js
-	|       |-- login-signup.js
-	|       |-- main.js
-	|       |-- render.js
-	|       |-- settings.js
-	|       |-- viewAllMed.js
-	|       |-- viewHistoryDetail.js
-	|       |-- viewPillDetail.js
-	|       |-- viewProfile.js
-	|       |-- viewProfiles.js
+	|       |-- addNewMed.js 			: User adds new medication by filling in several fields in the form, New med is added database.
+	|       |-- addNewProfile.js 			: Adding a new profile functionality
+	|       |-- changePassword.js 			: Given user's old password, user's password is changed to a new one.
+	|       |-- editMedicine.js 			: Medicine's info is edited by user with updated data
+	|       |-- history.js 				: Shows list of current medications
+	|       |-- home.js  				: Switching home view between yesterday, today and tomorrow
+	|       |-- login-signup.js 			: User's login credidentials are checked for authorization before entry to the app
+	|       |-- main.js 				: Going to previous page a user visited, Dropdown navigation
+	|       |-- notify.js 				: Requesting permission to show notifications
+  	|       |-- render.js 				: function to allow rendering page with post request
+  	|       |-- settings.js 			: Account settings page
+	|       |-- viewHistoryDetail.js 		: View pill history for a single medication
+	|       |-- viewPillDetail.js 			: Option to delete the pill on pill detail page
+	|       |-- viewProfile.js 			:View a user profile, option to edit info or delete the profile
 	|-- views
 		|-- addNewMed.handlebars		: Page where users can add information for new medication
 		|-- addNewProfile.handlebars		: Page for users to add information and create new profile
