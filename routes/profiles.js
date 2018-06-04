@@ -1,3 +1,10 @@
+/*
+ * Files for serving and renderign all frontend pages related to profiles.
+ * Makes HTTP request to the rest_api folder gets information. Renders the
+ * page with fetched information, where the page will be rendered using handlebars
+ */
+
+
 const sqlite3 = require('sqlite3');
 const db = new sqlite3.Database('rest_api/database/users.db');
 const request = require('request');
