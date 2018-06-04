@@ -12,6 +12,24 @@
 **Peem**:
 
 **Yooseok**:
+	- addNewMed Page layout(HTML/CSS)
+	-	addNewProfile Page layout(HTML/CSS)
+	-	home Page layout(HTML/CSS)
+	-	login Page layout(HTML/CSS)
+	-	noUserProfile Page layout(HTML/CSS)
+	-	viewAllMed Page layout(HTML/CSS)
+	-	viewHistory Page layout(HTML/CSS)
+	-	viewPillDetail Page layout(HTML/CSS)
+	-	viewProfile Page layout(HTML/CSS)
+
+	-	Implemented Add new profile functionality
+	-	Implemented display functionality that shows all medicines for a specific profile user
+	-	Implemented profile Selection functionality
+	-	Implemented display functionality that shows whether a user takes assigned pills or not
+	-	Implemented notification functionality
+	-	Implemented Service worker
+	-	Making Database Schema (Users, Profiles, Medicine, History)
+
 
 # Source code tree
 <pre>

@@ -1,3 +1,12 @@
+/*
+  FileName : addNewProfile.js
+  Brief Description :
+	   Adding a new profile functionality
+	    - It will check whether a user fills all necessary informations or not.
+	    - It will call Ajax with the URL, “/api/profiles/new” to add a new profile.
+*/
+
+
 $(document).ready(() => {
   $('#createProfile').click(()=>
   {

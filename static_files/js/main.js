@@ -1,3 +1,18 @@
+/*
+  FileName : main.js
+  Brief Description :
+    Going to previous page a user visited
+      - using window.history to go back a previous page a user visited already.
+
+      Dropdown navigation
+      - Displaying a element that contains all profile names whenever a page is fully loaded
+
+*/
+
+
+
+
+
 function backtopage() {
 
 	// splitting '/viewProfiles/1' returns ['', 'viewProfiles', '1']

@@ -1,5 +1,31 @@
+/*
+  FileName : notify.js
+  Brief Description :
+    Converting Month(literal) to Month(number)
+      - using switch function to return the number of Month (0-11)
+
+    Checking for notification support
+
+    Requesting permission to show notifications
+
+    Display Notification
+      - if a user has a permission ,”granted”, it will show a notification
+
+    Updating button to disable when a user permission is denied
+
+    Adding ‘click’ event to a “notify” button
+      - it will call Ajax with URL, '/api/profiles/' + localStorage.profile_id + '/history' to gel all medicine history.
+      - it will calculate time difference in milliseconds between a current date and a desired date.
+      - it will assign notification time by calling setTimeout function.
+
+    Registering a service worker
+      - it will register a file called “sw.js” as a service worker.
+
+*/
+
+
 $(document).ready(() => {
-  
+
   // clear existing timeouts so we dont get duplicates
   let id = window.setTimeout(function() {}, 0);
   while (id--) {
@@ -128,10 +154,10 @@ var app = (function() {
           for (var j = 0; j < data[i].values.length; j++) {
             let hours = data[i].values[j].time.substring(0, 2);
             let mins = data[i].values[j].time.substring(3, 5);
-            
+
             let notificationDate = new Date(data[i].date);
             notificationDate.setHours(hours, mins);
-            
+
             let currentDate = new Date();
             let timeDuration = (notificationDate.getTime() - currentDate.getTime());
 
@@ -140,8 +166,8 @@ var app = (function() {
               const name = data[i].values[j].medicinename;
               const id = data[i].values[j].id;
               console.log('notification for '+name+' at '+notificationDate);
-              window.setTimeout( 
-                () => {displayNotification(name, id)}, 
+              window.setTimeout(
+                () => {displayNotification(name, id)},
                 timeDuration
               );
             }

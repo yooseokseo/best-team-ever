@@ -1,3 +1,29 @@
+/*
+  FileName : home.js
+  Brief Description :
+    Switching home view between yesterday, today and tomorrow
+    - It will add/remove a class name, ‘current-day’ into a proper element
+
+    Appending medicine history
+    - It will check whether a pill is taken or not.
+    - It will create a element with a medicine history.
+    - It will display medicine history with proper background color.
+    - It will append a current medicine history.
+
+    Displaying all medicine history
+    - It will call Ajax with the URL,”'/api/profiles/'+ profile_id to show all medicine history
+    - It will determine all medicine history based on time difference(only yesterday, today, and tomorrow)
+    - It will append medicine histories to a proper day element.
+
+    Displaying all profile names whenever a page is fully loaded for dropdown navigation.
+    - It will call Ajax with the URL, 'api/profiles’, to show all profile names.
+
+    Going to “addNewMed page”
+
+    Going to “viewAllmed page”
+
+*/
+
 $(document).ready(() => {
 
 
@@ -93,13 +119,13 @@ $(document).ready(() => {
       success: (data) =>
       {
         $('#profile_id').text(data.id);
-        
+
         // determine if date has any medication
         let medYesterday = false, medToday = false, medTomorrow = false;
 
         // create yesterday, today, and tomorrow's date
         const d = new Date();
-        const day = (offset) => new Date(d.getTime() + 
+        const day = (offset) => new Date(d.getTime() +
                                 offset*(24*60*60*1000)).setHours(0,0,0,0);
         let yesterday = day(-1), today = day(0), tomorrow = day(+1);
 
@@ -107,7 +133,7 @@ $(document).ready(() => {
         $('#med-list-container-today').html('');
         $('#med-list-container-tomorrow').html('');
 
-        for (const el of data.medicine) 
+        for (const el of data.medicine)
         {
           const date = new Date(el.date).setHours(0,0,0,0); //medication date
 
@@ -149,7 +175,7 @@ $(document).ready(() => {
 
 
   /**
-   * when a home page is fully loaded, make ajax call to fetch a list of 
+   * when a home page is fully loaded, make ajax call to fetch a list of
    * profile names from database and display it in dropdown menu
    */
   $.ajax({
@@ -200,5 +226,3 @@ function viewAllMed()
 {
   post('/viewAllMed/'+$('#profile_id').text());
 }
-
-
