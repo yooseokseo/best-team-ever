@@ -1,7 +1,10 @@
 $(document).ready(() => {
 
   //----Autocomplete Functionality
-
+  //  Offers real-time list of spelling suggestions for medications based on
+  //  user's input into text field. 
+  //  Uses RxNorm API for data
+  //  
   $( "#medicinename" ).autocomplete({
     minLength: 2,
     source: function(request,response) {
