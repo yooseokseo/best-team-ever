@@ -1,3 +1,11 @@
+/*
+  FileName : history.js
+  Brief Description :
+    Shows list of current medications
+    User can select a medication to mark as taken or for more info.
+    On each medication's info page, the user can view the pill history
+*/
+
 $(document).ready(() => 
 {
   // close popup modal
