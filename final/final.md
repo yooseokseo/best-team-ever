@@ -56,25 +56,25 @@
 	|-- server.js
 	|-- rest_api
 	|   |-- controllers
-	|   |   |-- accounts.js
-	|   |   |-- history.js
-	|   |   |-- medicine.js
-	|   |   |-- profiles.js
+	|   |   |-- accounts.js  : REST API controller for dealing witha all requests related to account
+	|   |   |-- history.js : REST API controller for dealing witha all requests related to history
+	|   |   |-- medicine.js : REST API controller for dealing witha all requests related to medicine
+	|   |   |-- profiles.js : REST API controller for dealing witha all requests related to profile
 	|   |-- database
-	|   |   |-- create_database.js
+	|   |   |-- create_database.js : create the initial database as the users.db file
 	|   |-- middleware
-	|   |   |-- check-auth.js
+	|   |   |-- check-auth.js : Middleware file for checking user authentication
 	|   |-- routes
-	|       |-- accounts.js
-	|       |-- history.js
-	|       |-- medicine.js
-	|       |-- profiles.js
+	|       |-- accounts.js : list all of routes for all requests related to account
+	|       |-- history.js : list all of routes for all requests related to history
+	|       |-- medicine.js : list all of routes for all requests related to medicine
+	|       |-- profiles.js : list all of routes for all requests related to profile
 	|-- routes
-	|   |-- accounts.js
-	|   |-- extra.js
-	|   |-- history.js
-	|   |-- medicine.js
-	|   |-- profiles.js
+	|   |-- accounts.js : contains all functionality for all requests related to account
+	|   |-- extra.js: contains all functionality for extra stuff
+	|   |-- history.js: contains all functionality for all requests related to medicine
+	|   |-- medicine.js: contains all functionality for all requests related to medicine
+	|   |-- profiles.js: contains all functionality for all requests related to profile
 	|-- static_files
   	|   |-- notification.html 			: Page for notification settings
     	|   |-- sw.js                   		: adding event handler into service worker

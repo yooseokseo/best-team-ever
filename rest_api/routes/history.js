@@ -1,10 +1,11 @@
+/*list all of routes for all requests related to history*/
 const express = require("express");
 const router = express.Router();
 
 const HistoryController = require('../controllers/history');
 const checkAuth = require('../middleware/check-auth');
 
-// Get medicine's history 
+// Get medicine's history
 router.get('/:profile_id/:medicine_id', checkAuth, HistoryController.getMedHistory);
 
 // Get specific history data

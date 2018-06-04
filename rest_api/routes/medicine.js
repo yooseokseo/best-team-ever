@@ -1,3 +1,4 @@
+/*list all of routes for all requests related to medicine*/
 const express = require("express");
 const router = express.Router();
 
@@ -9,7 +10,7 @@ const checkAuth = require('../middleware/check-auth');
 
 
 // Create new medicine
-router.post('/new/:profile_id', checkAuth, 
+router.post('/new/:profile_id', checkAuth,
 			MedsController.newMedicine, HistoryController.newHistory);
 
 // Get specific medicine data

@@ -1,3 +1,4 @@
+/*list all of routes for all requests related to account*/
 const express = require("express");
 const router = express.Router();
 
@@ -24,7 +25,7 @@ router.patch('/edit/', checkAuth, AccountsController.editAccount);
 // Delete specific account
 router.delete('/delete/', checkAuth, AccountsController.deleteAccount);
 
-// Get an account's entire medicine history 
+// Get an account's entire medicine history
 router.get('/history', checkAuth, HistoryController.getAccountHistory);
 
 

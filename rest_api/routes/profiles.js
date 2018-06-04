@@ -1,3 +1,4 @@
+/*list all of routes for all requests related to profile*/
 const express = require("express");
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.get('/current', checkAuth,
 			ProfilesController.getCurrent, HistoryController.getProfileHistory);
 
 // Get specific profile data
-router.get('/:profile_id', checkAuth, 
+router.get('/:profile_id', checkAuth,
 	        ProfilesController.getProfile, HistoryController.getProfileHistory);
 
 
@@ -37,7 +38,7 @@ router.delete('/delete/:profile_id', checkAuth, ProfilesController.deleteProfile
 // Get all profile's medicine
 router.get('/:profile_id/medicine', checkAuth, MedsController.getAllMedicine);
 
-// Get a profile's medicine history 
+// Get a profile's medicine history
 router.get('/:profile_id/history', checkAuth, HistoryController.getProfileHistory);
 
 
