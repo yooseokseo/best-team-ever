@@ -117,15 +117,15 @@
 		|-- viewProfileHistory.handlebars	: Page for user to the medication history of a profile
 		|-- viewProfiles.handlebars		: Page for user to view and manage profiles
 		|-- layouts
-		|   |-- main.handlebars
+		|   |-- main.handlebars			: Page for a general layout
 		|-- partials
-			|-- delete_modal.handlebars
-			|-- header.handlebars
-			|-- history_modal.handlebars
-			|-- navigation.handlebars
-			|-- nonscript.handlebars
-			|-- post.handlebars
-			|-- script.handlebars
+			|-- delete_modal.handlebars	: Page for deleting a modal
+			|-- header.handlebars		: Page for header section
+			|-- history_modal.handlebars	: Page for history modal
+			|-- navigation.handlebars	: Page for navigation section
+			|-- nonscript.handlebars	: Display a message if JS has been disabled on the browser
+			|-- post.handlebars		: Page for posting
+			|-- script.handlebars		: Page for script section
 </pre>
 
 # Video
