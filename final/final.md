@@ -1,6 +1,6 @@
 # Team Members:
 - Lindy Wong
-- Mayreni Abanjian
+- Mayreni Abajian
 - Peem Takoonsawat
 - Yooseok Seo
 
@@ -8,6 +8,11 @@
 **Lindy**:
 
 **Mayreni**:
+	- implemented account settings page in settings.handlebars
+	- implemented edit account info page in editAccountInfo.handlebars (file revoked)
+	- implemented changePassword.handlebars
+	- implemented functionality in addNewMed.js and addNewMed.handlebars to autofill Medicine name with data API
+	- implemented UI skeleton
 
 **Peem**:
 
