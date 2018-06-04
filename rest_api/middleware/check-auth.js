@@ -1,3 +1,7 @@
+/* 
+ * Middleware file for checking user authentication
+ */
+
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) =>
