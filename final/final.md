@@ -53,28 +53,28 @@
 <pre>
 |-- COGS 121 - HCI Programming Studio
 	|-- app.js 			
-	|-- server.js
+	|-- server.js                                   : Hosts and runs the server
 	|-- rest_api
 	|   |-- controllers
-	|   |   |-- accounts.js
-	|   |   |-- history.js
-	|   |   |-- medicine.js
-	|   |   |-- profiles.js
+	|   |   |-- accounts.js                         : REST API controller for handling accounts related requests
+	|   |   |-- history.js                          : REST API controller for handling history related requests
+	|   |   |-- medicine.js                         : REST API controller for handling medicine related requests
+	|   |   |-- profiles.js                         : REST API controller for handling profile related requests
 	|   |-- database
 	|   |   |-- create_database.js
 	|   |-- middleware
-	|   |   |-- check-auth.js
+	|   |   |-- check-auth.js                       : Check user's JWT for authentication
 	|   |-- routes
-	|       |-- accounts.js
-	|       |-- history.js
-	|       |-- medicine.js
-	|       |-- profiles.js
+	|       |-- accounts.js                         : REST API route to handle accounts related requests
+	|       |-- history.js                          : REST API route to handle history related requests
+	|       |-- medicine.js                         : REST API route to handle medicine related requests
+	|       |-- profiles.js                         : REST API route to handle profile related requests
 	|-- routes
-	|   |-- accounts.js
-	|   |-- extra.js
-	|   |-- history.js
-	|   |-- medicine.js
-	|   |-- profiles.js
+	|   |-- accounts.js                             : Route to render all accounts related pages
+	|   |-- extra.js                                : Route to render all extra front end pages
+	|   |-- history.js                              : Route to render all history related frontend pages
+	|   |-- medicine.js                             : Route to render all medicine related frontend pages
+	|   |-- profiles.js                             : Route to render all profile related frontend pages
 	|-- static_files
   	|   |-- notification.html 			: Page for notification settings
     	|   |-- sw.js                   		: adding event handler into service worker
@@ -95,7 +95,7 @@
   	|       |-- settings.js 			: Account settings page
 	|       |-- viewHistoryDetail.js 		: View pill history for a single medication
 	|       |-- viewPillDetail.js 			: Option to delete the pill on pill detail page
-	|       |-- viewProfile.js 			:View a user profile, option to edit info or delete the profile
+	|       |-- viewProfile.js 			: View a user profile, option to edit info or delete the profile
 	|-- views
 		|-- addNewMed.handlebars		: Page where users can add information for new medication
 		|-- addNewProfile.handlebars		: Page for users to add information and create new profile
