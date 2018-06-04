@@ -1,4 +1,4 @@
-
+/* css style for only modal*/
 /* The Modal (background) */
 .modal {
     display: none; /* Hidden by default */
@@ -76,6 +76,6 @@
   background-image: none;
   border: 1px solid transparent;
   border-radius: 4px;
-  
+
   }
 }
