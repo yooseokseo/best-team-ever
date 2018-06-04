@@ -5,7 +5,10 @@
 - Yooseok Seo
 
 # Contributions
+
 **Lindy**:
+	-
+
 
 **Mayreni**:
 	- implemented account settings page in settings.handlebars
@@ -14,25 +17,33 @@
 	- implemented functionality in addNewMed.js and addNewMed.handlebars to autofill Medicine name with data API
 	- implemented UI skeleton
 
-**Peem**:
+  **Peem**:
+    - Created entire backend
+    - Linked backend w/ frontend
+    - All files in rest_api folder
+    - All files in routes folder
+    - Most of the files in static_files/js folder
+    - A few files in views folder
 
 **Yooseok**:
-	- addNewMed Page layout(HTML/CSS)
-	-	addNewProfile Page layout(HTML/CSS)
-	-	home Page layout(HTML/CSS)
-	-	login Page layout(HTML/CSS)
-	-	noUserProfile Page layout(HTML/CSS)
-	-	viewAllMed Page layout(HTML/CSS)
-	-	viewHistory Page layout(HTML/CSS)
-	-	viewPillDetail Page layout(HTML/CSS)
-	-	viewProfile Page layout(HTML/CSS)
-	-	Implemented Add new profile functionality
-	-	Implemented display functionality that shows all medicines for a specific profile user
-	-	Implemented profile Selection functionality
-	-	Implemented display functionality that shows whether a user takes assigned pills or not
-	-	Implemented notification functionality
-	-	Implemented Service worker
-	-	Making Database Schema (Users, Profiles, Medicine, History)
+  - Most of the files in views folder
+  - addNewMed Page layout(HTML/CSS)
+  -	addNewProfile Page layout(HTML/CSS)
+  -	home Page layout(HTML/CSS)
+  -	login Page layout(HTML/CSS)
+  -	noUserProfile Page layout(HTML/CSS)
+  -	viewAllMed Page layout(HTML/CSS)
+  -	viewHistory Page layout(HTML/CSS)
+  -	viewPillDetail Page layout(HTML/CSS)
+  -	viewProfile Page layout(HTML/CSS)
+  -	Implemented Add new profile functionality
+  -	Implemented display functionality that shows all medicines for a specific profile user
+  -	Implemented profile Selection functionality
+  -	Implemented display functionality that shows whether a user takes assigned pills or not
+  -	Implemented notification functionality
+  -	Implemented Service worker
+  -	Making Database Schema (Users, Profiles, Medicine, History)
+
 
 
 # Source code tree
