@@ -80,8 +80,9 @@
 	|   |   |-- main.css
 	|   |   |-- modal.css
 	|   |-- js
-	|       |-- addNewMed.js
-	|       |-- addNewProfile.js
+	|       |-- addNewMed.js    : User adds new medication by filling in several fields in the form.
+  New med is added database.
+	|       |-- addNewProfile.js     : 
 	|       |-- changePassword.js
 	|       |-- editMedicine.js
 	|       |-- history.js
@@ -97,11 +98,11 @@
 	|       |-- viewProfiles.js
 	|-- views
 		|-- addNewMed.handlebars		: Page where users can add information for new medication
-		|-- addNewProfile.handlebars		: Page for users to add information and create new profile 
-		|-- changePassword.handlebars		: Page where user can change their password	
-		|-- editMedicine.handlebars		: Page where users can edit information for their medication	
+		|-- addNewProfile.handlebars		: Page for users to add information and create new profile
+		|-- changePassword.handlebars		: Page where user can change their password
+		|-- editMedicine.handlebars		: Page where users can edit information for their medication
 		|-- error.handlebars			: Page that displays errors
-		|-- help.handlebars			: Page with some questions and answers to help users 
+		|-- help.handlebars			: Page with some questions and answers to help users
 		|-- home.handlebars			: Home page that displays upcoming medication for default profile
 		|-- login.handlebars			: Page where users can login or sign up
 		|-- noUserProfile.handlebars		: Page that shows users they have no profiles
@@ -111,7 +112,7 @@
 		|-- viewHistoryDate.handlebars		: Page that displays profile's medication history by date
 		|-- viewHistoryDateDetail.handlebars	: Page that displays profile's medication history by day in more detail
 		|-- viewHistoryDetail.handlebars	: Page that displays profile's medication history with pill details
-		|-- viewPillDetail.handlebars		: Page that displays selected pill information 
+		|-- viewPillDetail.handlebars		: Page that displays selected pill information
 		|-- viewPillHistory.handlebars		: Page that show selected pill's history of intake
 		|-- viewProfile.handlebars		: Page for user to view a selected profile
 		|-- viewProfileHistory.handlebars	: Page for user to the medication history of a profile
