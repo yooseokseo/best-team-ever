@@ -53,16 +53,24 @@
 <pre>
 |-- COGS 121 - HCI Programming Studio
 	|-- app.js 			
-	|-- server.js
+	|-- server.js                                   : Hosts and runs the server
 	|-- rest_api
 	|   |-- controllers
+<<<<<<< HEAD
 	|   |   |-- accounts.js  : REST API controller for dealing witha all requests related to account
 	|   |   |-- history.js : REST API controller for dealing witha all requests related to history
 	|   |   |-- medicine.js : REST API controller for dealing witha all requests related to medicine
 	|   |   |-- profiles.js : REST API controller for dealing witha all requests related to profile
+=======
+	|   |   |-- accounts.js                         : REST API controller for handling accounts related requests
+	|   |   |-- history.js                          : REST API controller for handling history related requests
+	|   |   |-- medicine.js                         : REST API controller for handling medicine related requests
+	|   |   |-- profiles.js                         : REST API controller for handling profile related requests
+>>>>>>> 85ada5a4a67430398eb11160abf61757366027ef
 	|   |-- database
 	|   |   |-- create_database.js : create the initial database as the users.db file
 	|   |-- middleware
+<<<<<<< HEAD
 	|   |   |-- check-auth.js : Middleware file for checking user authentication
 	|   |-- routes
 	|       |-- accounts.js : list all of routes for all requests related to account
@@ -75,12 +83,26 @@
 	|   |-- history.js: contains all functionality for all requests related to medicine
 	|   |-- medicine.js: contains all functionality for all requests related to medicine
 	|   |-- profiles.js: contains all functionality for all requests related to profile
+=======
+	|   |   |-- check-auth.js                       : Check user's JWT for authentication
+	|   |-- routes
+	|       |-- accounts.js                         : REST API route to handle accounts related requests
+	|       |-- history.js                          : REST API route to handle history related requests
+	|       |-- medicine.js                         : REST API route to handle medicine related requests
+	|       |-- profiles.js                         : REST API route to handle profile related requests
+	|-- routes
+	|   |-- accounts.js                             : Route to render all accounts related pages
+	|   |-- extra.js                                : Route to render all extra front end pages
+	|   |-- history.js                              : Route to render all history related frontend pages
+	|   |-- medicine.js                             : Route to render all medicine related frontend pages
+	|   |-- profiles.js                             : Route to render all profile related frontend pages
+>>>>>>> 85ada5a4a67430398eb11160abf61757366027ef
 	|-- static_files
   	|   |-- notification.html 			: Page for notification settings
     	|   |-- sw.js                   		: adding event handler into service worker
 	|   |-- css
-	|   |   |-- main.css   : css style for entire project
-	|   |   |-- modal.css  : css style for only modal
+	|   |   |-- main.css   				: css style for entire project
+	|   |   |-- modal.css  				: css style for only modal
 	|   |-- js
 	|       |-- addNewMed.js 			: User adds new medication by filling in several fields in the form, New med is added database.
 	|       |-- addNewProfile.js 			: Adding a new profile functionality
@@ -95,7 +117,7 @@
   	|       |-- settings.js 			: Account settings page
 	|       |-- viewHistoryDetail.js 		: View pill history for a single medication
 	|       |-- viewPillDetail.js 			: Option to delete the pill on pill detail page
-	|       |-- viewProfile.js 			:View a user profile, option to edit info or delete the profile
+	|       |-- viewProfile.js 			: View a user profile, option to edit info or delete the profile
 	|-- views
 		|-- addNewMed.handlebars		: Page where users can add information for new medication
 		|-- addNewProfile.handlebars		: Page for users to add information and create new profile
