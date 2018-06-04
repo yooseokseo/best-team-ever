@@ -1,3 +1,11 @@
+/*
+  FileName : settings.js
+  Brief Description :
+    Account settings page
+    User can edit info for account or delete account
+    Also link to change password page
+*/
+
 $(document).ready(() => {
 
   const email = $('#email').val();
