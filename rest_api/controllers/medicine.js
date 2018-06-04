@@ -1,3 +1,14 @@
+/*
+ * REST API controller for dealing witha all requests related to medicine.
+ * Functions:
+ * - getAllMedicine - returns list of all medicine for given profile
+ * - newMedicine - create new medicine for given profile
+ * - getMedicine - get medicien info for specific preofile
+ * - editMedicine - edit medicine from db
+ * - deleteMedicine - delete medicine from db
+ */
+
+
 const jwt = require("jsonwebtoken");
 const sqlite3 = require('sqlite3');
 const bcrypt = require('bcrypt');     
