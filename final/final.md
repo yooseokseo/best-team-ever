@@ -52,7 +52,7 @@
 # Source code tree
 <pre>
 |-- COGS 121 - HCI Programming Studio
-	|-- app.js 			
+	|-- app.js 					: General Settings for this project 
 	|-- server.js                                   : Hosts and runs the server
 	|-- rest_api
 	|   |-- controllers
