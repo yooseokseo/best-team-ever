@@ -4,6 +4,9 @@
 - Peem Takoonsawat
 - Yooseok Seo
 
+# Video:
+https://drive.google.com/file/d/1BTeb4bEJY064--tOgyklb8U6ye-nUhtU/view?usp=sharing
+
 # Contributions
 
 **Lindy**:
@@ -128,5 +131,3 @@
 			|-- post.handlebars		: Page for posting
 			|-- script.handlebars		: Page for script section
 </pre>
-
-# Video
