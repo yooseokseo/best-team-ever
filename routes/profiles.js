@@ -41,37 +41,57 @@ exports.home = (req, res) =>
 
         // find medication for yesterday, today, and tomorrow
         const yesterdayMed = [], todayMed = [], tomorrowMed = [];
-        body.medicine.forEach( (e, i, arr) =>
+        if (body.medicine.length > 0) // found at least one medicine
         {
-          const date = new Date(e.date).setHours(0,0,0,0);
-          if ( date == yesterday.setHours(0,0,0,0) ) yesterdayMed.push(e);
-          if ( date == today.setHours(0,0,0,0) )     todayMed.push(e);
-          if ( date == tomorrow.setHours(0,0,0,0) )  tomorrowMed.push(e);
-
-          if (i == arr.length - 1) // essentially callback function
+          body.medicine.forEach( (e, i, arr) =>
           {
-            // format date    
-            yesterday = yesterday.toString().split(' ');
-            today     = today.toString().split(' ');
-            tomorrow  = tomorrow.toString().split(' ');
+            const date = new Date(e.date).setHours(0,0,0,0);
+            if ( date == yesterday.setHours(0,0,0,0) ) yesterdayMed.push(e);
+            if ( date == today.setHours(0,0,0,0) )     todayMed.push(e);
+            if ( date == tomorrow.setHours(0,0,0,0) )  tomorrowMed.push(e);
 
-
-            console.log(todayMed[0]);
-            res.render('home', 
+            if (i == arr.length - 1) // essentially callback function
             {
-              isHomePage: true,
-              pageTitle: body.firstName+' '+body.lastName,
-              yesterdayMed, yesterdayMed,
-              todayMed: todayMed,
-              tomorrowMed: tomorrowMed,
-              id: body.id,
-              yesterday: yesterday[2] + ' ' + yesterday[1],
-              today:     today[2]     + ' ' + today[1],
-              tomorrow:  tomorrow[2]  + ' ' + tomorrow[1],
-            });
-          } // end of "callback"
-        }); // end of forEach
-        
+              // format date    
+              yesterday = yesterday.toString().split(' ');
+              today     = today.toString().split(' ');
+              tomorrow  = tomorrow.toString().split(' ');
+
+              res.render('home', 
+              {
+                isHomePage: true,
+                pageTitle: body.firstName+' '+body.lastName,
+                yesterdayMed, yesterdayMed,
+                todayMed: todayMed,
+                tomorrowMed: tomorrowMed,
+                id: body.id,
+                yesterday: yesterday[2] + ' ' + yesterday[1],
+                today:     today[2]     + ' ' + today[1],
+                tomorrow:  tomorrow[2]  + ' ' + tomorrow[1],
+              });
+            } // end of "callback"
+          }); // end of forEach
+        }
+        else // no history found
+        {
+          yesterday = yesterday.toString().split(' ');
+          today     = today.toString().split(' ');
+          tomorrow  = tomorrow.toString().split(' ');
+          
+          res.render('home', 
+          {
+            isHomePage: true,
+            pageTitle: body.firstName+' '+body.lastName,
+            yesterdayMed, yesterdayMed,
+            todayMed: todayMed,
+            tomorrowMed: tomorrowMed,
+            id: body.id,
+            yesterday: yesterday[2] + ' ' + yesterday[1],
+            today:     today[2]     + ' ' + today[1],
+            tomorrow:  tomorrow[2]  + ' ' + tomorrow[1],
+          });
+        }
+           
       }
     });
   }
