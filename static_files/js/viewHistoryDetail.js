@@ -1,3 +1,10 @@
+/*
+  FileName : viewHistoryDetail.js
+  Brief Description :
+    View pill history for a single medication
+    Displays when pill was taken in the past
+*/
+
 $(document).ready(() => {
 	
   // check taken box
