@@ -1,3 +1,10 @@
+/*
+  FileName : viewProfile.js
+  Brief Description :
+     View a user profile, option to edit info or delete the profile
+*/
+
+
 $(document).ready(() => {
 
   const firstName = $('#firstname').val();
