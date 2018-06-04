@@ -28,7 +28,7 @@
     if (action === 'close') {
       notification.close();
     } else {
-      clients.openWindow('/viewHistoryDetail/'+id);
+      clients.openWindow('/viewHistoryDetail/'+notification.data.id);
       notification.close();
     }
 
