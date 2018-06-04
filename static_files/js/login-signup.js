@@ -1,3 +1,10 @@
+/*
+  FileName : login-signup.js
+  Brief Description :
+    Login page
+    User's login credidentials are checked for authorization before entry to the app
+*/
+
 // if user is already logged in, go straight to home page
 $(document).ready(() => {
 
