@@ -1,3 +1,11 @@
+/*
+  FileName : addNewMed.js
+  Brief Description :
+    User adds new medication by filling in several fields in the form.
+    New med is added database.
+    Utilizes autocomplete functionality for medicine name when typing in the field
+*/
+
 $(document).ready(() => {
 
   //----Autocomplete Functionality
