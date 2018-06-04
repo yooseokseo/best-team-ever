@@ -1,3 +1,10 @@
+/*
+  FileName : editMedicine.js
+  Brief Description :
+    Medicine's info is edited by user with updated data
+    New data is saved
+*/
+
 $(document).ready(() => {
   
   const oldValues = 
